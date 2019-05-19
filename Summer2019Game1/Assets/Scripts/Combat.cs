@@ -5,25 +5,43 @@ using TMPro;
 
 public class Combat : MonoBehaviour
 {
-    public TextMeshProUGUI playerHealthText;
+    [Header("TextObjects")]
+    public TextMeshProUGUI heroProtagHealthText;
     public TextMeshProUGUI glassCannonHealthText;
+    public TextMeshProUGUI supportMainHealthText;
     public TextMeshProUGUI enemy1HealthText;
-    private int playerHealthMAX = 50;
-    private int glassCannonHealthMAX = 30;
-    private int enemy1HealthMAX = 50;
+    public TextMeshProUGUI enemy2HealthText;
+    public TextMeshProUGUI enemy3HealthText;
 
-    private int playerHealth = 50;
-    private int glassCannonHealth = 30;
-    private int enemy1Health = 50;
-
-    private bool playerDead = false;
-    private bool glassCannonDead = false;
-    private bool enemy1Dead = false;
-
-    public GameObject player;
+    [Space]
+    [Header("GameObjects")]
+    public GameObject heroProtagonist;
     public GameObject glassCannon;
+    public GameObject supportMain;
     public GameObject enemy1;
+    public GameObject enemy2;
+    public GameObject enemy3;
 
+    private int heroProtagHealthMAX = 50;
+    private int glassCannonHealthMAX = 25;
+    private int supportMainHealthMAX = 40;
+    private int enemy1HealthMAX = 30;
+    private int enemy2HealthMAX = 30;
+    private int enemy3HealthMAX = 30;
+
+    private int heroProtagHealth = 50;
+    private int glassCannonHealth = 25;
+    private int supportMainHealth = 40;
+    private int enemy1Health = 30;
+    private int enemy2Health = 30;
+    private int enemy3Health = 30;
+
+    private bool heroProtagDead = false;
+    private bool glassCannonDead = false;
+    private bool supportMainDead = false;
+    private bool enemy1Dead = false;
+    private bool enemy2Dead = false;
+    private bool enemy3Dead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,23 +56,36 @@ public class Combat : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (playerHealth >= 1)
+            if (enemy1Health >= 1)
             {
-                playerHealth -= 10;
+                enemy1Health -= 10;
             }
         }
 
-        if (enemy1Health <= 0)
+
+        if (heroProtagHealth <= 0)
         {
-            CharacterDeath(enemy1, enemy1Dead, enemy1HealthText);
-        }
-        if (playerHealth <= 0)
-        {
-            CharacterDeath(player, playerDead, playerHealthText);
+            CharacterDeath(heroProtagonist, heroProtagDead, heroProtagHealthText);
         }
         if (glassCannonHealth <= 0)
         {
             CharacterDeath(glassCannon, glassCannonDead, glassCannonHealthText);
+        }
+        if (supportMainHealth <= 0)
+        {
+            CharacterDeath(supportMain, supportMainDead, supportMainHealthText);
+        }
+        if (enemy1Health <= 0)
+        {
+            CharacterDeath(enemy1, enemy1Dead, enemy1HealthText);
+        }
+        if (enemy2Health <= 0)
+        {
+            CharacterDeath(enemy2, enemy2Dead, enemy2HealthText);
+        }
+        if (enemy3Health <= 0)
+        {
+            CharacterDeath(enemy3, enemy3Dead, enemy3HealthText);
         }
     }
 
@@ -67,17 +98,29 @@ public class Combat : MonoBehaviour
 
     void RefreshHealthText() //Refreshes health text each frame
     {
-        if (playerDead != true)
+        if (heroProtagDead != true)
         {
-            playerHealthText.text = "HP: " + playerHealth.ToString() + " / " + playerHealthMAX.ToString();
+            heroProtagHealthText.text = "HP: " + heroProtagHealth.ToString() + " / " + heroProtagHealthMAX.ToString();
         }
         if (glassCannonDead != true)
         {
             glassCannonHealthText.text = "HP: " + glassCannonHealth.ToString() + " / " + glassCannonHealthMAX.ToString();
         }
+        if (supportMainDead != true)
+        {
+            supportMainHealthText.text = "HP: " + supportMainHealth.ToString() + " / " + supportMainHealthMAX.ToString();
+        }
         if (enemy1Dead != true)
         {
             enemy1HealthText.text = "HP: " + enemy1Health.ToString() + " / " + enemy1HealthMAX.ToString();
+        }
+        if (enemy2Dead != true)
+        {
+            enemy2HealthText.text = "HP: " + enemy2Health.ToString() + " / " + enemy2HealthMAX.ToString();
+        }
+        if (enemy3Dead != true)
+        {
+            enemy3HealthText.text = "HP: " + enemy3Health.ToString() + " / " + enemy3HealthMAX.ToString();
         }
     }
 }
