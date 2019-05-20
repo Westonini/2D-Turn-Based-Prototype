@@ -5,7 +5,7 @@ using TMPro;
 
 public class Combat : MonoBehaviour
 {
-    [Header("TextObjects")]
+    [Header("Text Objects")]
     public TextMeshProUGUI ally1HealthText;
     public TextMeshProUGUI ally2HealthText;
     public TextMeshProUGUI ally3HealthText;
@@ -14,6 +14,11 @@ public class Combat : MonoBehaviour
     public TextMeshProUGUI enemy3HealthText;
     public TextMeshProUGUI charactersTurnText;
     public GameObject selectATargetText;
+    public GameObject cMLeftSprite;
+    public Animator cMLeftSpriteAnim;
+    public TextMeshProUGUI cMLeftCharacterName;
+    public TextMeshProUGUI cMLeftCharacterHealthText;
+    public TextMeshProUGUI cMMoveInfo;
 
     [Space]
     [Header("GameObjects")]
@@ -25,7 +30,7 @@ public class Combat : MonoBehaviour
     public GameObject enemy3;
 
     [Space]
-    [Header("CharacterInfo")]
+    [Header("Character Info")]
     public int ally1MaxHealth;  
     public int ally2MaxHealth;   
     public int ally3MaxHealth;   
@@ -41,6 +46,12 @@ public class Combat : MonoBehaviour
 
     [Space]
     [Header("Buttons")]
+    public GameObject Move1Button;
+    public GameObject Move2Button;
+    public GameObject Move3Button;
+    public GameObject Move4Button;
+    public GameObject DefendButton;
+    [Space]
     public GameObject ally1Move1;
     public GameObject ally1Move2;
     public GameObject ally1Move3;
@@ -85,7 +96,20 @@ public class Combat : MonoBehaviour
     private string enemy2TargetSelected = "";
     private string enemy3TargetSelected = "";
 
-    private string characterTurn = "";
+    private bool ally1IsCharging = false;
+    private bool ally2IsCharging = false;
+    private bool ally3IsCharging = false;
+    private bool enemy1IsCharging = false;
+    private bool enemy2IsCharging = false;
+    private bool enemy3IsCharging = false;
+
+    [HideInInspector]
+    public string characterTurn = "";
+
+    void Awake()
+    {
+        cMLeftSpriteAnim = cMLeftSprite.GetComponent<Animator>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -105,6 +129,20 @@ public class Combat : MonoBehaviour
         enemy3Name = enemy3.name.ToString();
 
         characterTurn = ally1Name;
+
+        Move1Button.SetActive(true);
+        Move2Button.SetActive(true);
+        Move3Button.SetActive(true);
+        Move4Button.SetActive(true);
+        DefendButton.SetActive(true);
+        ally1Move1.SetActive(true);
+        ally1Move2.SetActive(true);
+        ally1Move3.SetActive(true);
+        ally1Move4.SetActive(true);
+        defendMove.SetActive(true);
+
+        characterTurn = ally1Name;
+        charactersTurnText.text = characterTurn + "'s Turn";
     }
 
     // Update is called once per frame
@@ -267,6 +305,183 @@ public class Combat : MonoBehaviour
         }
     }
 
+    public void Move2Selected() //Called when the Move2 Button is clicked.
+    {
+        if (characterTurn == "HeroProtagonist") //If the character's name is HeroProtagonist and they choose Move2...
+        {
+            if (ally1Name == "HeroProtagonist")
+            {
+                ally1MoveSelected = "War Cry";
+                selectAnAlly = true;
+            }
+            else if (ally2Name == "HeroProtagonist")
+            {
+                ally2MoveSelected = "War Cry";
+                selectAnAlly = true;
+            }
+            else if (ally3Name == "HeroProtagonist")
+            {
+                ally3MoveSelected = "War Cry";
+                selectAnAlly = true;
+            }
+        }
+        else if (characterTurn == "GlassCannon") //If the character's name is GlassCannon and they choose Move2...
+        {
+            if (ally1Name == "GlassCannon")
+            {
+                ally1MoveSelected = "Shatter";
+                TargetAllEnemies();
+            }
+            else if (ally2Name == "GlassCannon")
+            {
+                ally2MoveSelected = "Shatter";
+                TargetAllEnemies();
+            }
+            else if (ally3Name == "GlassCannon")
+            {
+                ally3MoveSelected = "Shatter";
+                TargetAllEnemies();
+            }
+        }
+        else if (characterTurn == "SupportMain") //If the character's name is SupportMain and they choose Move2...
+        {
+            if (ally1Name == "SupportMain")
+            {
+                ally1MoveSelected = "Buckle Down";
+                TargetAllAllies();
+            }
+            else if (ally2Name == "SupportMain")
+            {
+                ally2MoveSelected = "Buckle Down";
+                TargetAllAllies();
+            }
+            else if (ally3Name == "SupportMain")
+            {
+                ally3MoveSelected = "Buckle Down";
+                TargetAllAllies();
+            }
+        }
+    }
+
+    public void Move3Selected() //Called when the Move3 Button is clicked.
+    {
+        if (characterTurn == "HeroProtagonist") //If the character's name is HeroProtagonist and they choose Move3...
+        {
+            if (ally1Name == "HeroProtagonist")
+            {
+                ally1MoveSelected = "Windmill";
+                TargetAllEnemies();
+            }
+            else if (ally2Name == "HeroProtagonist")
+            {
+                ally2MoveSelected = "Windmill";
+                TargetAllEnemies();
+            }
+            else if (ally3Name == "HeroProtagonist")
+            {
+                ally3MoveSelected = "Windmill";
+                TargetAllEnemies();
+            }
+        }
+        else if (characterTurn == "GlassCannon") //If the character's name is GlassCannon and they choose Move3...
+        {
+            if (ally1Name == "GlassCannon")
+            {
+                ally1MoveSelected = "Focus Shot";
+                ChargeMove();
+                selectAnEnemy = true;
+            }
+            else if (ally2Name == "GlassCannon")
+            {
+                ally2MoveSelected = "Focus Shot";
+                ChargeMove();
+                selectAnEnemy = true;
+            }
+            else if (ally3Name == "GlassCannon")
+            {
+                ally3MoveSelected = "Focus Shot";
+                ChargeMove();
+                selectAnEnemy = true;
+            }
+        }
+        else if (characterTurn == "SupportMain") //If the character's name is SupportMain and they choose Move3...
+        {
+            if (ally1Name == "SupportMain")
+            {
+                ally1MoveSelected = "Leech";
+                selectAnEnemy = true;
+            }
+            else if (ally2Name == "SupportMain")
+            {
+                ally2MoveSelected = "Leech";
+                selectAnEnemy = true;
+            }
+            else if (ally3Name == "SupportMain")
+            {
+                ally3MoveSelected = "Leech";
+                selectAnEnemy = true;
+            }
+        }
+    }
+
+    public void Move4Selected() //Called when the Move4 Button is clicked.
+    {
+        if (characterTurn == "HeroProtagonist") //If the character's name is HeroProtagonist and they choose Move4...
+        {
+            if (ally1Name == "HeroProtagonist")
+            {
+                ally1MoveSelected = "Bandage-Up";
+                selectAnAlly = true;
+            }
+            else if (ally2Name == "HeroProtagonist")
+            {
+                ally2MoveSelected = "Bandage-Up";
+                selectAnAlly = true;
+            }
+            else if (ally3Name == "HeroProtagonist")
+            {
+                ally3MoveSelected = "Bandage-Up";
+                selectAnAlly = true;
+            }
+        }
+        else if (characterTurn == "GlassCannon") //If the character's name is GlassCannon and they choose Move4...
+        {
+            if (ally1Name == "GlassCannon")
+            {
+                ally1MoveSelected = "Smoke Bomb";
+                selectAnAlly = true;
+            }
+            else if (ally2Name == "GlassCannon")
+            {
+                ally2MoveSelected = "Smoke Bomb";
+                selectAnAlly = true;
+            }
+            else if (ally3Name == "GlassCannon")
+            {
+                ally3MoveSelected = "Smoke Bomb";
+                selectAnAlly = true;
+            }
+        }
+        else if (characterTurn == "SupportMain") //If the character's name is SupportMain and they choose Move4...
+        {
+            if (ally1Name == "SupportMain")
+            {
+                ally1MoveSelected = "Mend-All";
+                TargetAllAllies();
+            }
+            else if (ally2Name == "SupportMain")
+            {
+                ally2MoveSelected = "Mend-All";
+                TargetAllAllies();
+            }
+            else if (ally3Name == "SupportMain")
+            {
+                ally3MoveSelected = "Mend-All";
+                TargetAllAllies();
+            }
+        }
+    }
+
     public void DefendSelected() //Called when the Defend Button is clicked
     {
         if (characterTurn == ally1Name)
@@ -319,6 +534,91 @@ public class Combat : MonoBehaviour
         {
             enemy3HealthText.text = "HP: " + enemy3Health.ToString() + " / " + enemy3MaxHealth.ToString();
         }
+
+        //Updates the CombatMenu LeftSprite, LeftCharacterName, and LeftHealth
+        if (characterTurn == "HeroProtagonist")
+        {
+            cMLeftSpriteAnim.SetBool("LSGlassCannon", false);
+            cMLeftSpriteAnim.SetBool("LSSupportMain", false);
+
+            if (ally1Name == "HeroProtagonist")
+            {
+                cMLeftCharacterHealthText.text = "HP: \n" + ally1Health.ToString() + " / " + ally1MaxHealth.ToString();
+                cMLeftCharacterName.text = "HeroProtagonist";
+                cMLeftSpriteAnim.SetBool("LSHeroProtagonist", true);
+            }
+            else if (ally2Name == "HeroProtagonist")
+            {
+                cMLeftCharacterHealthText.text = "HP: \n" + ally2Health.ToString() + " / " + ally2MaxHealth.ToString();
+                cMLeftCharacterName.text = "HeroProtagonist";
+                cMLeftSpriteAnim.SetBool("LSHeroProtagonist", true);
+            }
+            else if (ally3Name == "HeroProtagonist")
+            {
+                cMLeftCharacterHealthText.text = "HP: \n" + ally3Health.ToString() + " / " + ally3MaxHealth.ToString();
+                cMLeftCharacterName.text = "HeroProtagonist";
+                cMLeftSpriteAnim.SetBool("LSHeroProtagonist", true);
+            }
+        }
+        else if (characterTurn == "GlassCannon")
+        {
+            cMLeftSpriteAnim.SetBool("LSHeroProtagonist", false);
+            cMLeftSpriteAnim.SetBool("LSSupportMain", false);
+
+            if (ally1Name == "GlassCannon")
+            {
+                cMLeftCharacterHealthText.text = "HP: \n" + ally1Health.ToString() + " / " + ally1MaxHealth.ToString();
+                cMLeftCharacterName.text = "GlassCannon";
+                cMLeftSpriteAnim.SetBool("LSGlassCannon", true);
+            }
+            else if (ally2Name == "GlassCannon")
+            {
+                cMLeftCharacterHealthText.text = "HP: \n" + ally2Health.ToString() + " / " + ally2MaxHealth.ToString();
+                cMLeftCharacterName.text = "GlassCannon";
+                cMLeftSpriteAnim.SetBool("LSGlassCannon", true);
+            }
+            else if (ally3Name == "GlassCannon")
+            {
+                cMLeftCharacterHealthText.text = "HP: \n" + ally3Health.ToString() + " / " + ally3MaxHealth.ToString();
+                cMLeftCharacterName.text = "GlassCannon";
+                cMLeftSpriteAnim.SetBool("LSGlassCannon", true);
+            }
+        }
+        else if (characterTurn == "SupportMain")
+        {
+            cMLeftSpriteAnim.SetBool("LSHeroProtagonist", false);
+            cMLeftSpriteAnim.SetBool("LSGlassCannon", false);
+
+            if (ally1Name == "SupportMain")
+            {
+                cMLeftCharacterHealthText.text = "HP: \n" + ally1Health.ToString() + " / " + ally1MaxHealth.ToString();
+                cMLeftCharacterName.text = "SupportMain";
+                cMLeftSpriteAnim.SetBool("LSSupportMain", true);
+            }
+            else if (ally2Name == "SupportMain")
+            {
+                cMLeftCharacterHealthText.text = "HP: \n" + ally2Health.ToString() + " / " + ally2MaxHealth.ToString();
+                cMLeftCharacterName.text = "SupportMain";
+                cMLeftSpriteAnim.SetBool("LSSupportMain", true);
+            }
+            else if (ally3Name == "SupportMain")
+            {
+                cMLeftCharacterHealthText.text = "HP: \n" + ally3Health.ToString() + " / " + ally3MaxHealth.ToString();
+                cMLeftCharacterName.text = "SupportMain";
+                cMLeftSpriteAnim.SetBool("LSSupportMain", true);
+            }
+        }
+        else if (characterTurn == "")
+        {
+            { 
+                cMLeftSpriteAnim.SetBool("LSHeroProtagonist", false);
+                cMLeftSpriteAnim.SetBool("LSGlassCannon", false);
+                cMLeftSpriteAnim.SetBool("LSSupportMain", false);
+
+                cMLeftCharacterHealthText.text = "";
+                cMLeftCharacterName.text = "";
+            }
+        }
     }
 
     void Ally1MoveChosen() //Called once the first ally's turn is over.
@@ -359,7 +659,67 @@ public class Combat : MonoBehaviour
         ally3Move4.SetActive(false);
         defendMove.SetActive(false);
 
+        Move1Button.SetActive(false);
+        Move2Button.SetActive(false);
+        Move3Button.SetActive(false);
+        Move4Button.SetActive(false);
+        DefendButton.SetActive(false);
+
         characterTurn = "";
         charactersTurnText.text = "";
+    }
+
+    void TargetAllEnemies()
+    {
+        if (characterTurn == ally1Name)
+        {
+            ally1TargetSelected = "All Enemies";
+            Ally1MoveChosen();
+        }
+        else if (characterTurn == ally2Name)
+        {
+            ally2TargetSelected = "All Enemies";
+            Ally2MoveChosen();
+        }
+        else if (characterTurn == ally3Name)
+        {
+            ally3TargetSelected = "All Enemies";
+            Ally3MoveChosen();
+        }
+    }
+
+    void TargetAllAllies()
+    {
+        if (characterTurn == ally1Name)
+        {
+            ally1TargetSelected = "All Allies";
+            Ally1MoveChosen();
+        }
+        else if (characterTurn == ally2Name)
+        {
+            ally2TargetSelected = "All Allies";
+            Ally2MoveChosen();
+        }
+        else if (characterTurn == ally3Name)
+        {
+            ally3TargetSelected = "All Allies";
+            Ally3MoveChosen();
+        }
+    }
+
+    void ChargeMove()
+    {
+        if (characterTurn == ally1Name)
+        {
+            ally1IsCharging = true;
+        }
+        else if (characterTurn == ally2Name)
+        {
+            ally2IsCharging = true;
+        }
+        else if (characterTurn == ally3Name)
+        {
+            ally3IsCharging = true;
+        }
     }
 }
