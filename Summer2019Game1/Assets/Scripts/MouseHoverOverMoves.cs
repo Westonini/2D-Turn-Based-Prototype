@@ -20,7 +20,7 @@ public class MouseHoverOverMoves : MonoBehaviour
     private string move4HeroProtagonistInfo = "Small heal for 1 ally.";
 
     private string move1GlassCannonInfo = "Single-target shot from his glass cannon. Low chance to cause bleed.";
-    private string move2GlassCannonInfo = "Unloads glass shards onto all enemies. Very low chance to cause bleed.";
+    private string move2GlassCannonInfo = "Unloads barrage of glass shards which damages all enemies. Very low chance to cause bleed.";
     private string move3GlassCannonInfo = "Heavy-hitting single-target shot that requires 1 turn to charge. Average chance to cause bleed.";
     private string move4GlassCannonInfo = "Can smoke bomb 1 ally; all incoming attacks on that ally have a lower accuracy.";
 
@@ -33,6 +33,7 @@ public class MouseHoverOverMoves : MonoBehaviour
     {
         combatScript = GameObject.FindWithTag("CombatControl").GetComponent<Combat>();
     }
+
     public void OnMouseOver()
     {
         if (combatScript.characterTurn == "HeroProtagonist")

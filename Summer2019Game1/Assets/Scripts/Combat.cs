@@ -18,6 +18,10 @@ public class Combat : MonoBehaviour
     public Animator cMLeftSpriteAnim;
     public TextMeshProUGUI cMLeftCharacterName;
     public TextMeshProUGUI cMLeftCharacterHealthText;
+    public GameObject cMRightSprite;
+    public Animator cMRightSpriteAnim;
+    public TextMeshProUGUI cMRightCharacterName;
+    public TextMeshProUGUI cMRightCharacterHealthText;
     public TextMeshProUGUI cMMoveInfo;
 
     [Space]
@@ -66,12 +70,8 @@ public class Combat : MonoBehaviour
     public GameObject ally3Move4;
     public GameObject defendMove;
 
-    private int ally1Health = 0;
-    private int ally2Health = 0;
-    private int ally3Health = 0;
-    private int enemy1Health = 0;
-    private int enemy2Health = 0;
-    private int enemy3Health = 0;
+    [HideInInspector]
+    public int ally1Health = 0, ally2Health = 0, ally3Health = 0, enemy1Health = 0, enemy2Health = 0, enemy3Health = 0;
 
     private bool ally1Dead = false;
     private bool ally2Dead = false;
@@ -87,8 +87,10 @@ public class Combat : MonoBehaviour
     private string enemy2MoveSelected = "";
     private string enemy3MoveSelected = "";
 
-    private bool selectAnEnemy = false;
-    private bool selectAnAlly = false;
+    [HideInInspector]
+    public bool selectAnEnemy = false;
+    [HideInInspector]
+    public bool selectAnAlly = false;
     private string ally1TargetSelected = "";
     private string ally2TargetSelected = "";
     private string ally3TargetSelected = "";
@@ -151,7 +153,7 @@ public class Combat : MonoBehaviour
 
         RefreshHealthText(); //Calls RefreshHealthText every frame in order to update the health text
 
-        if (selectAnEnemy == true) //If the player is required to select an enemy the player will be able to click on one of the enemy colliders.
+        if (selectAnEnemy == true || selectAnAlly == true) //If the player is required to select an enemy or ally, the player will be able to click on one of the enemy or ally colliders.
         {
             selectATargetText.SetActive(true);
 
@@ -161,60 +163,63 @@ public class Combat : MonoBehaviour
                 Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
                 RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-                if (hit.collider.gameObject.name == enemy1Name || hit.collider.gameObject.name == enemy2Name || hit.collider.gameObject.name == enemy3Name)
+                try
                 {
-                    if (characterTurn == ally1Name)
+                    if (selectAnEnemy == true) //Used for when the player needs to select an enemy.
                     {
-                        ally1TargetSelected = hit.collider.gameObject.name.ToString();
-                        Ally1MoveChosen();
-                    }
-                    else if (characterTurn == ally2Name)
-                    {
-                        ally2TargetSelected = hit.collider.gameObject.name.ToString();
-                        Ally2MoveChosen();
-                    }
-                    else if (characterTurn == ally3Name)
-                    {
-                        ally3TargetSelected = hit.collider.gameObject.name.ToString();
-                        Ally3MoveChosen();
+                        if (hit.collider.gameObject.name == enemy1Name || hit.collider.gameObject.name == enemy2Name || hit.collider.gameObject.name == enemy3Name)
+                        {
+                            if (characterTurn == ally1Name)
+                            {
+                                ally1TargetSelected = hit.collider.gameObject.name.ToString();
+                                Ally1MoveChosen();
+                            }
+                            else if (characterTurn == ally2Name)
+                            {
+                                ally2TargetSelected = hit.collider.gameObject.name.ToString();
+                                Ally2MoveChosen();
+                            }
+                            else if (characterTurn == ally3Name)
+                            {
+                                ally3TargetSelected = hit.collider.gameObject.name.ToString();
+                                Ally3MoveChosen();
+                            }
+
+                            selectATargetText.SetActive(false);
+                            selectAnEnemy = false;
+                        }
                     }
 
-                    selectATargetText.SetActive(false);
-                    selectAnEnemy = false;
+                    else if (selectAnAlly == true) //Used for when the player needs to select an ally.
+                    {
+                        if (hit.collider.gameObject.name == ally1Name || hit.collider.gameObject.name == ally2Name || hit.collider.gameObject.name == ally3Name)
+                        {
+                            if (characterTurn == ally1Name)
+                            {
+                                ally1TargetSelected = hit.collider.gameObject.name.ToString();
+                                Ally1MoveChosen();
+                            }
+                            else if (characterTurn == ally2Name)
+                            {
+                                ally2TargetSelected = hit.collider.gameObject.name.ToString();
+                                Ally2MoveChosen();
+                            }
+                            else if (characterTurn == ally3Name)
+                            {
+                                ally3TargetSelected = hit.collider.gameObject.name.ToString();
+                                Ally3MoveChosen();
+                            }
+
+                            selectATargetText.SetActive(false);
+                            selectAnAlly = false;
+                        }
+                    }
                 }
-            }
-        }
-
-        if (selectAnAlly == true) //If the player is required to select an ally the player will be able to click on one of the ally colliders.
-        {
-            selectATargetText.SetActive(true);
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-
-                RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-                if (hit.collider.gameObject.name == ally1Name || hit.collider.gameObject.name == ally2Name || hit.collider.gameObject.name == ally3Name)
-                {                  
-                    if (characterTurn == ally1Name)
-                    {
-                        ally1TargetSelected = hit.collider.gameObject.name.ToString();
-                        Ally1MoveChosen();
-                    }
-                    else if (characterTurn == ally2Name)
-                    {
-                        ally2TargetSelected = hit.collider.gameObject.name.ToString();
-                        Ally2MoveChosen();
-                    }
-                    else if (characterTurn == ally3Name)
-                    {
-                        ally3TargetSelected = hit.collider.gameObject.name.ToString();
-                        Ally3MoveChosen();
-                    }
-
-                    selectATargetText.SetActive(false);
+                catch
+                {
                     selectAnAlly = false;
+                    selectAnEnemy = false;
+                    selectATargetText.SetActive(false);
                 }
             }
         }
@@ -634,6 +639,7 @@ public class Combat : MonoBehaviour
 
         characterTurn = ally2Name;
         charactersTurnText.text = characterTurn + "'s Turn";
+        cMMoveInfo.text = "";
     }
 
     void Ally2MoveChosen() //Called once the second ally's turn is over.
@@ -649,6 +655,7 @@ public class Combat : MonoBehaviour
 
         characterTurn = ally3Name;
         charactersTurnText.text = characterTurn + "'s Turn";
+        cMMoveInfo.text = "";
     }
 
     void Ally3MoveChosen() //Called once the third ally's turn is over.
@@ -667,9 +674,10 @@ public class Combat : MonoBehaviour
 
         characterTurn = "";
         charactersTurnText.text = "";
+        cMMoveInfo.text = "";
     }
 
-    void TargetAllEnemies()
+    void TargetAllEnemies() //Called when an attack targets all enemies.
     {
         if (characterTurn == ally1Name)
         {
@@ -688,7 +696,7 @@ public class Combat : MonoBehaviour
         }
     }
 
-    void TargetAllAllies()
+    void TargetAllAllies() //Called when a move targets all allies.
     {
         if (characterTurn == ally1Name)
         {
@@ -707,7 +715,7 @@ public class Combat : MonoBehaviour
         }
     }
 
-    void ChargeMove()
+    void ChargeMove() //Called when a move requires a round to charge.
     {
         if (characterTurn == ally1Name)
         {
