@@ -21,13 +21,14 @@ public class MouseHoverOverCharacter : MonoBehaviour
     {
         animator = gameObject.GetComponent<Animator>();
         combatScript = GameObject.FindWithTag("CombatControl").GetComponent<Combat>();
+
         cMRightSprite = combatScript.cMRightSprite;
         cMRightSpriteAnim = combatScript.cMRightSpriteAnim;
         cMRightCharacterName = combatScript.cMRightCharacterName;
         cMRightCharacterHealthText = combatScript.cMRightCharacterHealthText;
     }
 
-    void Update()
+    void Update() //Always keep the health and maxHealth updated.
     {
         if (ally1 == true)
         {
@@ -62,17 +63,29 @@ public class MouseHoverOverCharacter : MonoBehaviour
     }
     public void OnMouseOver()
     {
-        if (enemy1 == true || enemy2 == true || enemy3 == true)
+        if (enemy1 == true || enemy2 == true || enemy3 == true) //If the mouse is hovering over enemy1, enemy2, or enemy3...
         {
-            if (combatScript.selectAnEnemy == true)
+            if (combatScript.selectAnEnemy == true && combatScript.selectAllTargets == false) //and if selectAnEnemy is true while selectAllTargets is false, highlight the character when the mouse is hovering over them and show their info in the bottom right corner.
             {
                 animator.SetBool("HighlightCharacter", true);
                 cMRightCharacterName.text = name;
                 cMRightCharacterHealthText.text = "HP: \n" + health.ToString() + " / " + maxHealth.ToString();
                 UpdateSprite();
             }
-            else
+            else if (combatScript.selectAnEnemy == true && combatScript.selectAllTargets == true) //and if selectAnEnemy and selectAllTargets are true, highlight all the characters when the mouse is hovering over them and show their info in the bottom right corner.
             {
+                combatScript.enemy1Anim.SetBool("HighlightCharacter", true);
+                combatScript.enemy2Anim.SetBool("HighlightCharacter", true);
+                combatScript.enemy3Anim.SetBool("HighlightCharacter", true);
+                cMRightCharacterName.text = "All Enemies";
+                cMRightCharacterHealthText.text = "HP: \n" + (combatScript.enemy1Health + combatScript.enemy2Health + combatScript.enemy3Health).ToString() + " / " + (combatScript.enemy1MaxHealth + combatScript.enemy2MaxHealth + combatScript.enemy3MaxHealth).ToString();
+                UpdateSprite();
+            }
+            else //else reset everything
+            {
+                combatScript.enemy1Anim.SetBool("HighlightCharacter", false);
+                combatScript.enemy2Anim.SetBool("HighlightCharacter", false);
+                combatScript.enemy3Anim.SetBool("HighlightCharacter", false);
                 animator.SetBool("HighlightCharacter", false);
                 cMRightCharacterName.text = "";
                 cMRightCharacterHealthText.text = "";
@@ -80,17 +93,29 @@ public class MouseHoverOverCharacter : MonoBehaviour
             }
         }
 
-        if (ally1 == true || ally2 == true || ally3 == true)
+        if (ally1 == true || ally2 == true || ally3 == true) //If the mouse is hovering over ally1, ally2, or ally3...
         {
-            if (combatScript.selectAnAlly == true)
+            if (combatScript.selectAnAlly == true && combatScript.selectAllTargets == false) //and if selectAnAlly is true while selectAllTargets is false, highlight the character when the mouse is hovering over them and show their info in the bottom right corner.
             {
                 animator.SetBool("HighlightCharacter", true);
                 cMRightCharacterName.text = name;
                 cMRightCharacterHealthText.text = "HP: \n" + health.ToString() + " / " + maxHealth.ToString();
                 UpdateSprite();
             }
-            else
+            else if (combatScript.selectAnAlly == true && combatScript.selectAllTargets == true) //and if selectAnAlly and selectAllTargets are true, highlight all the characters when the mouse is hovering over them and show their info in the bottom right corner.
             {
+                combatScript.ally1Anim.SetBool("HighlightCharacter", true);
+                combatScript.ally2Anim.SetBool("HighlightCharacter", true);
+                combatScript.ally3Anim.SetBool("HighlightCharacter", true);
+                cMRightCharacterName.text = "All Allies";
+                cMRightCharacterHealthText.text = "HP: \n" + (combatScript.ally1Health + combatScript.ally2Health + combatScript.ally3Health).ToString() + " / " + (combatScript.ally1MaxHealth + combatScript.ally2MaxHealth + combatScript.ally3MaxHealth).ToString();
+                UpdateSprite();
+            }
+            else //else reset everything
+            {
+                combatScript.ally1Anim.SetBool("HighlightCharacter", false);
+                combatScript.ally2Anim.SetBool("HighlightCharacter", false);
+                combatScript.ally3Anim.SetBool("HighlightCharacter", false);
                 animator.SetBool("HighlightCharacter", false);
                 cMRightCharacterName.text = "";
                 cMRightCharacterHealthText.text = "";
@@ -99,15 +124,21 @@ public class MouseHoverOverCharacter : MonoBehaviour
         }
     }
 
-    public void OnMouseExit()
+    public void OnMouseExit() //When the mouse stops hovering over the characters, reset everything.
     {
+        combatScript.ally1Anim.SetBool("HighlightCharacter", false);
+        combatScript.ally2Anim.SetBool("HighlightCharacter", false);
+        combatScript.ally3Anim.SetBool("HighlightCharacter", false);
+        combatScript.enemy1Anim.SetBool("HighlightCharacter", false);
+        combatScript.enemy2Anim.SetBool("HighlightCharacter", false);
+        combatScript.enemy3Anim.SetBool("HighlightCharacter", false);
         animator.SetBool("HighlightCharacter", false);
         cMRightCharacterName.text = "";
         cMRightCharacterHealthText.text = "";
         RemoveSprite();
     }
 
-    private void UpdateSprite()
+    private void UpdateSprite() //Updates which sprite is shown on the bottom left corner.
     {
         if (name == "Slime1" || name == "Slime2" || name == "Slime3")
         {

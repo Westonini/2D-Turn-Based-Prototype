@@ -34,9 +34,9 @@ public class MouseHoverOverMoves : MonoBehaviour
         combatScript = GameObject.FindWithTag("CombatControl").GetComponent<Combat>();
     }
 
-    public void OnMouseOver()
+    public void OnMouseHover()
     {
-        if (combatScript.characterTurn == "HeroProtagonist")
+        if (combatScript.characterTurn == "HeroProtagonist") //If it's HeroProtagonist's turn, show all of his move info when hovering over each move with the mouse.
         {
             if (buttonIsMove1 == true)
             {
@@ -55,7 +55,7 @@ public class MouseHoverOverMoves : MonoBehaviour
                 combatScript.cMMoveInfo.text = move4HeroProtagonistInfo;
             }
         }
-        else if (combatScript.characterTurn == "GlassCannon")
+        else if (combatScript.characterTurn == "GlassCannon") //If it's GlassCannon's turn, show all of his move info when hovering over each move with the mouse.
         {
             if (buttonIsMove1 == true)
             {
@@ -74,7 +74,7 @@ public class MouseHoverOverMoves : MonoBehaviour
                 combatScript.cMMoveInfo.text = move4GlassCannonInfo;
             }
         }
-        else if (combatScript.characterTurn == "SupportMain")
+        else if (combatScript.characterTurn == "SupportMain") //If it's SupportMain's turn, show all of their move info when hovering over each move with the mouse.
         {
             if (buttonIsMove1 == true)
             {
@@ -94,12 +94,12 @@ public class MouseHoverOverMoves : MonoBehaviour
             }
         }
 
-        if (buttonIsDefend == true)
+        if (buttonIsDefend == true) //All characters have the defend move so show the defend move info when hovering over it with the mouse.
         {
             combatScript.cMMoveInfo.text = defendInfo;
         }
     }
-    public void OnMouseExit()
+    public void OnMouseExit() //If the mouse stops hoving over the move, make the string empty.
     {
         combatScript.cMMoveInfo.text = "";
     }

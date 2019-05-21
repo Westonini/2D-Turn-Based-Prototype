@@ -434,7 +434,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 72503315}
-          m_MethodName: OnMouseOver
+          m_MethodName: OnMouseHover
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2101,7 +2101,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 626699630}
-          m_MethodName: OnMouseOver
+          m_MethodName: OnMouseHover
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2484,8 +2484,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 279.7, y: -181.6}
-  m_SizeDelta: {x: 81.64, y: 52.197}
+  m_AnchoredPosition: {x: 277.8, y: -181.6}
+  m_SizeDelta: {x: 85.44, y: 52.197}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &730701922
 MonoBehaviour:
@@ -4441,7 +4441,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1260990867}
-          m_MethodName: OnMouseOver
+          m_MethodName: OnMouseHover
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4539,6 +4539,12 @@ MonoBehaviour:
   enemy1: {fileID: 261603456}
   enemy2: {fileID: 785607017}
   enemy3: {fileID: 378680672}
+  ally1Anim: {fileID: 1822733967}
+  ally2Anim: {fileID: 1797711743}
+  ally3Anim: {fileID: 1113930260}
+  enemy1Anim: {fileID: 261603461}
+  enemy2Anim: {fileID: 785607022}
+  enemy3Anim: {fileID: 378680677}
   ally1MaxHealth: 50
   ally2MaxHealth: 25
   ally3MaxHealth: 40
@@ -4571,6 +4577,7 @@ MonoBehaviour:
   enemy3Health: 0
   selectAnEnemy: 0
   selectAnAlly: 0
+  selectAllTargets: 0
   characterTurn: 
 --- !u!4 &1276723281
 Transform:
@@ -4940,7 +4947,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1454657596}
-          m_MethodName: OnMouseOver
+          m_MethodName: OnMouseHover
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -6585,7 +6592,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1825675284}
-          m_MethodName: OnMouseOver
+          m_MethodName: OnMouseHover
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
