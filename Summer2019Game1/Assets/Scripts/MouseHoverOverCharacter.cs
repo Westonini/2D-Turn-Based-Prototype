@@ -6,7 +6,7 @@ using TMPro;
 public class MouseHoverOverCharacter : MonoBehaviour
 {
     private Animator animator;
-    private Combat combatScript;
+    private DecisionPhase dP;
 
     private GameObject cMRightSprite;
     private Animator cMRightSpriteAnim;
@@ -20,72 +20,72 @@ public class MouseHoverOverCharacter : MonoBehaviour
     void Awake()
     {
         animator = gameObject.GetComponent<Animator>();
-        combatScript = GameObject.FindWithTag("CombatControl").GetComponent<Combat>();
+        dP = GameObject.FindWithTag("CombatControl").GetComponent<DecisionPhase>();
 
-        cMRightSprite = combatScript.cMRightSprite;
-        cMRightSpriteAnim = combatScript.cMRightSpriteAnim;
-        cMRightCharacterName = combatScript.cMRightCharacterName;
-        cMRightCharacterHealthText = combatScript.cMRightCharacterHealthText;
+        cMRightSprite = dP.cMRightSprite;
+        cMRightSpriteAnim = dP.cMRightSpriteAnim;
+        cMRightCharacterName = dP.cMRightCharacterName;
+        cMRightCharacterHealthText = dP.cMRightCharacterHealthText;
     }
 
     void Update() //Always keep the health and maxHealth updated.
     {
         if (ally1 == true)
         {
-            health = combatScript.ally1Health;
-            maxHealth = combatScript.ally1MaxHealth;
+            health = dP.ally1Health;
+            maxHealth = dP.ally1MaxHealth;
         }
         if (ally2 == true)
         {
-            health = combatScript.ally2Health;
-            maxHealth = combatScript.ally2MaxHealth;
+            health = dP.ally2Health;
+            maxHealth = dP.ally2MaxHealth;
         }
         if (ally3 == true)
         {
-            health = combatScript.ally3Health;
-            maxHealth = combatScript.ally3MaxHealth;
+            health = dP.ally3Health;
+            maxHealth = dP.ally3MaxHealth;
         }
         if (enemy1 == true)
         {
-            health = combatScript.enemy1Health;
-            maxHealth = combatScript.enemy1MaxHealth;
+            health = dP.enemy1Health;
+            maxHealth = dP.enemy1MaxHealth;
         }
         if (enemy2 == true)
         {
-            health = combatScript.enemy2Health;
-            maxHealth = combatScript.enemy2MaxHealth;
+            health = dP.enemy2Health;
+            maxHealth = dP.enemy2MaxHealth;
         }
         if (enemy3 == true)
         {
-            health = combatScript.enemy3Health;
-            maxHealth = combatScript.enemy3MaxHealth;
+            health = dP.enemy3Health;
+            maxHealth = dP.enemy3MaxHealth;
         }
     }
     public void OnMouseOver()
     {
         if (enemy1 == true || enemy2 == true || enemy3 == true) //If the mouse is hovering over enemy1, enemy2, or enemy3...
         {
-            if (combatScript.selectAnEnemy == true && combatScript.selectAllTargets == false) //and if selectAnEnemy is true while selectAllTargets is false, highlight the character when the mouse is hovering over them and show their info in the bottom right corner.
+            if (dP.selectAnEnemy == true && dP.selectAllTargets == false) //and if selectAnEnemy is true while selectAllTargets is false, highlight the character when the mouse is hovering over them and show their info in the bottom right corner.
             {
                 animator.SetBool("HighlightCharacter", true);
                 cMRightCharacterName.text = name;
                 cMRightCharacterHealthText.text = "HP: \n" + health.ToString() + " / " + maxHealth.ToString();
                 UpdateSprite();
             }
-            else if (combatScript.selectAnEnemy == true && combatScript.selectAllTargets == true) //and if selectAnEnemy and selectAllTargets are true, highlight all the characters when the mouse is hovering over them and show their info in the bottom right corner.
+            else if (dP.selectAnEnemy == true && dP.selectAllTargets == true) //and if selectAnEnemy and selectAllTargets are true, highlight all the characters when the mouse is hovering over them and show their info in the bottom right corner.
             {
-                combatScript.enemy1Anim.SetBool("HighlightCharacter", true);
-                combatScript.enemy2Anim.SetBool("HighlightCharacter", true);
-                combatScript.enemy3Anim.SetBool("HighlightCharacter", true);
+                dP.enemy1Anim.SetBool("HighlightCharacter", true);
+                dP.enemy2Anim.SetBool("HighlightCharacter", true);
+                dP.enemy3Anim.SetBool("HighlightCharacter", true);
                 cMRightCharacterName.text = "All Enemies";
-                cMRightCharacterHealthText.text = "HP: \n" + (combatScript.enemy1Health + combatScript.enemy2Health + combatScript.enemy3Health).ToString() + " / " + (combatScript.enemy1MaxHealth + combatScript.enemy2MaxHealth + combatScript.enemy3MaxHealth).ToString();
+                cMRightCharacterHealthText.text = "HP: \n" + (dP.enemy1Health + dP.enemy2Health + dP.enemy3Health).ToString() + " / " + (dP.enemy1MaxHealth + dP.enemy2MaxHealth + dP.enemy3MaxHealth).ToString();
                 UpdateSprite();
             }
             else //else reset everything
             {
-                combatScript.enemy1Anim.SetBool("HighlightCharacter", false);
-                combatScript.enemy2Anim.SetBool("HighlightCharacter", false);
-                combatScript.enemy3Anim.SetBool("HighlightCharacter", false);
+                dP.enemy1Anim.SetBool("HighlightCharacter", false);
+                dP.enemy2Anim.SetBool("HighlightCharacter", false);
+                dP.enemy3Anim.SetBool("HighlightCharacter", false);
                 animator.SetBool("HighlightCharacter", false);
                 cMRightCharacterName.text = "";
                 cMRightCharacterHealthText.text = "";
@@ -95,27 +95,27 @@ public class MouseHoverOverCharacter : MonoBehaviour
 
         if (ally1 == true || ally2 == true || ally3 == true) //If the mouse is hovering over ally1, ally2, or ally3...
         {
-            if (combatScript.selectAnAlly == true && combatScript.selectAllTargets == false) //and if selectAnAlly is true while selectAllTargets is false, highlight the character when the mouse is hovering over them and show their info in the bottom right corner.
+            if (dP.selectAnAlly == true && dP.selectAllTargets == false) //and if selectAnAlly is true while selectAllTargets is false, highlight the character when the mouse is hovering over them and show their info in the bottom right corner.
             {
                 animator.SetBool("HighlightCharacter", true);
                 cMRightCharacterName.text = name;
                 cMRightCharacterHealthText.text = "HP: \n" + health.ToString() + " / " + maxHealth.ToString();
                 UpdateSprite();
             }
-            else if (combatScript.selectAnAlly == true && combatScript.selectAllTargets == true) //and if selectAnAlly and selectAllTargets are true, highlight all the characters when the mouse is hovering over them and show their info in the bottom right corner.
+            else if (dP.selectAnAlly == true && dP.selectAllTargets == true) //and if selectAnAlly and selectAllTargets are true, highlight all the characters when the mouse is hovering over them and show their info in the bottom right corner.
             {
-                combatScript.ally1Anim.SetBool("HighlightCharacter", true);
-                combatScript.ally2Anim.SetBool("HighlightCharacter", true);
-                combatScript.ally3Anim.SetBool("HighlightCharacter", true);
+                dP.ally1Anim.SetBool("HighlightCharacter", true);
+                dP.ally2Anim.SetBool("HighlightCharacter", true);
+                dP.ally3Anim.SetBool("HighlightCharacter", true);
                 cMRightCharacterName.text = "All Allies";
-                cMRightCharacterHealthText.text = "HP: \n" + (combatScript.ally1Health + combatScript.ally2Health + combatScript.ally3Health).ToString() + " / " + (combatScript.ally1MaxHealth + combatScript.ally2MaxHealth + combatScript.ally3MaxHealth).ToString();
+                cMRightCharacterHealthText.text = "HP: \n" + (dP.ally1Health + dP.ally2Health + dP.ally3Health).ToString() + " / " + (dP.ally1MaxHealth + dP.ally2MaxHealth + dP.ally3MaxHealth).ToString();
                 UpdateSprite();
             }
             else //else reset everything
             {
-                combatScript.ally1Anim.SetBool("HighlightCharacter", false);
-                combatScript.ally2Anim.SetBool("HighlightCharacter", false);
-                combatScript.ally3Anim.SetBool("HighlightCharacter", false);
+                dP.ally1Anim.SetBool("HighlightCharacter", false);
+                dP.ally2Anim.SetBool("HighlightCharacter", false);
+                dP.ally3Anim.SetBool("HighlightCharacter", false);
                 animator.SetBool("HighlightCharacter", false);
                 cMRightCharacterName.text = "";
                 cMRightCharacterHealthText.text = "";
@@ -126,12 +126,12 @@ public class MouseHoverOverCharacter : MonoBehaviour
 
     public void OnMouseExit() //When the mouse stops hovering over the characters, reset everything.
     {
-        combatScript.ally1Anim.SetBool("HighlightCharacter", false);
-        combatScript.ally2Anim.SetBool("HighlightCharacter", false);
-        combatScript.ally3Anim.SetBool("HighlightCharacter", false);
-        combatScript.enemy1Anim.SetBool("HighlightCharacter", false);
-        combatScript.enemy2Anim.SetBool("HighlightCharacter", false);
-        combatScript.enemy3Anim.SetBool("HighlightCharacter", false);
+        dP.ally1Anim.SetBool("HighlightCharacter", false);
+        dP.ally2Anim.SetBool("HighlightCharacter", false);
+        dP.ally3Anim.SetBool("HighlightCharacter", false);
+        dP.enemy1Anim.SetBool("HighlightCharacter", false);
+        dP.enemy2Anim.SetBool("HighlightCharacter", false);
+        dP.enemy3Anim.SetBool("HighlightCharacter", false);
         animator.SetBool("HighlightCharacter", false);
         cMRightCharacterName.text = "";
         cMRightCharacterHealthText.text = "";

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Combat : MonoBehaviour
+public class DecisionPhase : MonoBehaviour
 {
     [Header("Text Objects")]
     public TextMeshProUGUI ally1HealthText;
@@ -50,12 +50,8 @@ public class Combat : MonoBehaviour
     public int enemy1MaxHealth;   
     public int enemy2MaxHealth;   
     public int enemy3MaxHealth;
-    private string ally1Name;
-    private string ally2Name;
-    private string ally3Name;
-    private string enemy1Name;
-    private string enemy2Name;
-    private string enemy3Name;
+    [HideInInspector]
+    public string ally1Name, ally2Name, ally3Name, enemy1Name, enemy2Name, enemy3Name;
 
     [Space]
     [Header("Buttons")]
@@ -89,12 +85,8 @@ public class Combat : MonoBehaviour
     private bool enemy2Dead = false;
     private bool enemy3Dead = false;
 
-    private string ally1MoveSelected = "";
-    private string ally2MoveSelected = "";
-    private string ally3MoveSelected = "";
-    private string enemy1MoveSelected = "";
-    private string enemy2MoveSelected = "";
-    private string enemy3MoveSelected = "";
+    [HideInInspector] 
+    public string ally1MoveSelected = "", ally2MoveSelected = "", ally3MoveSelected = "", enemy1MoveSelected = "", enemy2MoveSelected = "", enemy3MoveSelected = "";
     private int enemyMoveSelectNumber;
 
     [HideInInspector]
@@ -103,12 +95,8 @@ public class Combat : MonoBehaviour
     public bool selectAnAlly = false;
     [HideInInspector]
     public bool selectAllTargets = false;
-    private string ally1TargetSelected = "";
-    private string ally2TargetSelected = "";
-    private string ally3TargetSelected = "";
-    private string enemy1TargetSelected = "";
-    private string enemy2TargetSelected = "";
-    private string enemy3TargetSelected = "";
+    [HideInInspector]
+    public string ally1TargetSelected = "", ally2TargetSelected = "", ally3TargetSelected = "", enemy1TargetSelected = "", enemy2TargetSelected = "", enemy3TargetSelected = "";
     private int enemyTargetSelectNumber;
 
     private bool ally1IsCharging = false;
@@ -120,6 +108,9 @@ public class Combat : MonoBehaviour
     
     [HideInInspector]
     public string characterTurn = "";
+
+    [HideInInspector]
+    public bool actionPhase = false;
 
     void Awake()
     {
@@ -813,7 +804,7 @@ public class Combat : MonoBehaviour
             enemy1MoveSelected = EnemyMoves();
             while ((enemy1TargetSelected == ally1Name && ally1Dead == true) || (enemy1TargetSelected == ally2Name && ally2Dead == true) || (enemy1TargetSelected == ally3Name && ally3Dead == true) || enemy1TargetSelected == "")
             {
-                enemy1TargetSelected = EnemyTargetSelect(enemy1MoveSelected);
+                enemy1TargetSelected = EnemyTargetSelect(enemy1MoveSelected, enemy1Name);
             }
             characterTurn = enemy2Name;
         }
@@ -823,7 +814,7 @@ public class Combat : MonoBehaviour
             enemy2MoveSelected = EnemyMoves();
             while ((enemy2TargetSelected == ally1Name && ally1Dead == true) || (enemy2TargetSelected == ally2Name && ally2Dead == true) || (enemy2TargetSelected == ally3Name && ally3Dead == true) || enemy2TargetSelected == "")
             {
-                enemy2TargetSelected = EnemyTargetSelect(enemy2MoveSelected);
+                enemy2TargetSelected = EnemyTargetSelect(enemy2MoveSelected, enemy2Name);
             }
             characterTurn = enemy3Name;
         }
@@ -833,9 +824,10 @@ public class Combat : MonoBehaviour
             enemy3MoveSelected = EnemyMoves();
             while ((enemy3TargetSelected == ally1Name && ally1Dead == true) || (enemy3TargetSelected == ally2Name && ally2Dead == true) || (enemy3TargetSelected == ally3Name && ally3Dead == true) || enemy3TargetSelected == "")
             {
-                enemy3TargetSelected = EnemyTargetSelect(enemy3MoveSelected);
+                enemy3TargetSelected = EnemyTargetSelect(enemy3MoveSelected, enemy3Name);
             }
             characterTurn = "";
+            actionPhase = true; //After the last character chooses their move, set the actionPhase bool to true which starts the Action Phase.
         }
     }
 
@@ -860,7 +852,7 @@ public class Combat : MonoBehaviour
         }
     }
 
-    private string EnemyTargetSelect(string enemyMoveSelected) //Called to choose which target(s) the enemies select. Returns the enemy's target.
+    private string EnemyTargetSelect(string enemyMoveSelected, string enemyName) //Called to choose which target(s) the enemies select. Returns the enemy's target.
     {
         enemyTargetSelectNumber = Random.Range(1, 4); //Choose a random number between 1-3.
 
@@ -871,6 +863,10 @@ public class Combat : MonoBehaviour
         else if (enemyMoveSelected == "Heal-All" || enemyMoveSelected == "Buff-All")
         {
             return "All Enemy's Allies";
+        }
+        else if (enemyMoveSelected == "Power-Up")
+        {
+            return enemyName;
         }
         else if (enemyTargetSelectNumber == 1)
         {

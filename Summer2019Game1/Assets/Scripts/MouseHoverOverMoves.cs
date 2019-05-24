@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MouseHoverOverMoves : MonoBehaviour
 {
-    private Combat combatScript;
+    private DecisionPhase dP;
 
     public bool buttonIsMove1 = false;
     public bool buttonIsMove2 = false;
@@ -31,76 +31,76 @@ public class MouseHoverOverMoves : MonoBehaviour
 
     void Awake()
     {
-        combatScript = GameObject.FindWithTag("CombatControl").GetComponent<Combat>();
+        dP = GameObject.FindWithTag("CombatControl").GetComponent<DecisionPhase>();
     }
 
     public void OnMouseHover()
     {
-        if (combatScript.characterTurn == "HeroProtagonist") //If it's HeroProtagonist's turn, show all of his move info when hovering over each move with the mouse.
+        if (dP.characterTurn == "HeroProtagonist") //If it's HeroProtagonist's turn, show all of his move info when hovering over each move with the mouse.
         {
             if (buttonIsMove1 == true)
             {
-                combatScript.cMMoveInfo.text = move1HeroProtagonistInfo;
+                dP.cMMoveInfo.text = move1HeroProtagonistInfo;
             }
             else if (buttonIsMove2 == true)
             {
-                combatScript.cMMoveInfo.text = move2HeroProtagonistInfo;
+                dP.cMMoveInfo.text = move2HeroProtagonistInfo;
             }
             else if (buttonIsMove3 == true)
             {
-                combatScript.cMMoveInfo.text = move3HeroProtagonistInfo;
+                dP.cMMoveInfo.text = move3HeroProtagonistInfo;
             }
             else if (buttonIsMove4 == true)
             {
-                combatScript.cMMoveInfo.text = move4HeroProtagonistInfo;
+                dP.cMMoveInfo.text = move4HeroProtagonistInfo;
             }
         }
-        else if (combatScript.characterTurn == "GlassCannon") //If it's GlassCannon's turn, show all of his move info when hovering over each move with the mouse.
+        else if (dP.characterTurn == "GlassCannon") //If it's GlassCannon's turn, show all of his move info when hovering over each move with the mouse.
         {
             if (buttonIsMove1 == true)
             {
-                combatScript.cMMoveInfo.text = move1GlassCannonInfo;
+                dP.cMMoveInfo.text = move1GlassCannonInfo;
             }
             else if (buttonIsMove2 == true)
             {
-                combatScript.cMMoveInfo.text = move2GlassCannonInfo;
+                dP.cMMoveInfo.text = move2GlassCannonInfo;
             }
             else if (buttonIsMove3 == true)
             {
-                combatScript.cMMoveInfo.text = move3GlassCannonInfo;
+                dP.cMMoveInfo.text = move3GlassCannonInfo;
             }
             else if (buttonIsMove4 == true)
             {
-                combatScript.cMMoveInfo.text = move4GlassCannonInfo;
+                dP.cMMoveInfo.text = move4GlassCannonInfo;
             }
         }
-        else if (combatScript.characterTurn == "SupportMain") //If it's SupportMain's turn, show all of their move info when hovering over each move with the mouse.
+        else if (dP.characterTurn == "SupportMain") //If it's SupportMain's turn, show all of their move info when hovering over each move with the mouse.
         {
             if (buttonIsMove1 == true)
             {
-                combatScript.cMMoveInfo.text = move1SupportMainInfo;
+                dP.cMMoveInfo.text = move1SupportMainInfo;
             }
             else if (buttonIsMove2 == true)
             {
-                combatScript.cMMoveInfo.text = move2SupportMainInfo;
+                dP.cMMoveInfo.text = move2SupportMainInfo;
             }
             else if (buttonIsMove3 == true)
             {
-                combatScript.cMMoveInfo.text = move3SupportMainInfo;
+                dP.cMMoveInfo.text = move3SupportMainInfo;
             }
             else if (buttonIsMove4 == true)
             {
-                combatScript.cMMoveInfo.text = move4SupportMainInfo;
+                dP.cMMoveInfo.text = move4SupportMainInfo;
             }
         }
 
         if (buttonIsDefend == true) //All characters have the defend move so show the defend move info when hovering over it with the mouse.
         {
-            combatScript.cMMoveInfo.text = defendInfo;
+            dP.cMMoveInfo.text = defendInfo;
         }
     }
     public void OnMouseExit() //If the mouse stops hoving over the move, make the string empty.
     {
-        combatScript.cMMoveInfo.text = "";
+        dP.cMMoveInfo.text = "";
     }
 }

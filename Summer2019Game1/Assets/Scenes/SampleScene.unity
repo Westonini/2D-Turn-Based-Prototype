@@ -2142,7 +2142,7 @@ GameObject:
   - component: {fileID: 689071340}
   - component: {fileID: 689071339}
   m_Layer: 5
-  m_Name: GlassCannonHealthText
+  m_Name: Ally2HealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3979,7 +3979,7 @@ GameObject:
   - component: {fileID: 1171895981}
   - component: {fileID: 1171895980}
   m_Layer: 5
-  m_Name: HeroProtagonistHealthText
+  m_Name: Ally1HealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4497,6 +4497,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1276723281}
   - component: {fileID: 1276723280}
+  - component: {fileID: 1276723282}
   m_Layer: 0
   m_Name: CombatControl
   m_TagString: CombatControl
@@ -4551,6 +4552,12 @@ MonoBehaviour:
   enemy1MaxHealth: 50
   enemy2MaxHealth: 50
   enemy3MaxHealth: 50
+  ally1Name: 
+  ally2Name: 
+  ally3Name: 
+  enemy1Name: 
+  enemy2Name: 
+  enemy3Name: 
   Move1Button: {fileID: 1825675278}
   Move2Button: {fileID: 1260990861}
   Move3Button: {fileID: 1454657590}
@@ -4575,10 +4582,23 @@ MonoBehaviour:
   enemy1Health: 0
   enemy2Health: 0
   enemy3Health: 0
+  ally1MoveSelected: 
+  ally2MoveSelected: 
+  ally3MoveSelected: 
+  enemy1MoveSelected: 
+  enemy2MoveSelected: 
+  enemy3MoveSelected: 
   selectAnEnemy: 0
   selectAnAlly: 0
   selectAllTargets: 0
+  ally1TargetSelected: 
+  ally2TargetSelected: 
+  ally3TargetSelected: 
+  enemy1TargetSelected: 
+  enemy2TargetSelected: 
+  enemy3TargetSelected: 
   characterTurn: 
+  actionPhase: 0
 --- !u!4 &1276723281
 Transform:
   m_ObjectHideFlags: 0
@@ -4593,6 +4613,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1276723282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276723279}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1de477c7a90dd594eb31dcc6d1118fb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1318149520
 GameObject:
   m_ObjectHideFlags: 0
@@ -7007,7 +7039,7 @@ GameObject:
   - component: {fileID: 2075850451}
   - component: {fileID: 2075850450}
   m_Layer: 5
-  m_Name: SupportMainCannonHealthText
+  m_Name: Ally3HealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
