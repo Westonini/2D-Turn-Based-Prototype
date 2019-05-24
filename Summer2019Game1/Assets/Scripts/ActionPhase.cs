@@ -21,7 +21,7 @@ public class ActionPhase : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (dP.actionPhase == true) //if the Action Phase is active, call
+        if (dP.actionPhase == true) //if the Action Phase is active, call the character functions.
         {
             HeroProtagonist();
             //GlassCannon();
@@ -30,7 +30,7 @@ public class ActionPhase : MonoBehaviour
         }
     }
 
-    void HeroProtagonist()
+    void HeroProtagonist() //Called when the characterTurn == "HeroProtagonist"; plays his actions.
     {
         if (characterTurn == "HeroProtagonist")
         {
@@ -39,7 +39,7 @@ public class ActionPhase : MonoBehaviour
         }
     }
 
-    void ChangeCharacterTurn()
+    void ChangeCharacterTurn() //Called when it's needed to change characterTurn. After enemy3's turn is finished it'll  turn off ActionPhase and set up variables for DecisionPhase.
     {
         if (characterTurn == dP.ally1Name)
         {
