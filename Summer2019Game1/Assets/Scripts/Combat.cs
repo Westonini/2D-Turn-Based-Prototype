@@ -95,6 +95,7 @@ public class Combat : MonoBehaviour
     private string enemy1MoveSelected = "";
     private string enemy2MoveSelected = "";
     private string enemy3MoveSelected = "";
+    private int enemyMoveSelectNumber;
 
     [HideInInspector]
     public bool selectAnEnemy = false;
@@ -108,6 +109,7 @@ public class Combat : MonoBehaviour
     private string enemy1TargetSelected = "";
     private string enemy2TargetSelected = "";
     private string enemy3TargetSelected = "";
+    private int enemyTargetSelectNumber;
 
     private bool ally1IsCharging = false;
     private bool ally2IsCharging = false;
@@ -115,7 +117,7 @@ public class Combat : MonoBehaviour
     private bool enemy1IsCharging = false;
     private bool enemy2IsCharging = false;
     private bool enemy3IsCharging = false;
-
+    
     [HideInInspector]
     public string characterTurn = "";
 
@@ -166,6 +168,8 @@ public class Combat : MonoBehaviour
         TargetSelection(); //Calls TargetSelection every frame in order to select a target when needed.
 
         CheckIfDead(); //Calls CheckIfDead every frame to check if a character's HP is 0 or lower.
+
+        EnemyTurn(); //Calls EnemyTurn every frame to check if it's one of the enemy's turns.
     }
 
     public void Move1Selected() //Called when the Move1 Button is clicked.
@@ -435,13 +439,6 @@ public class Combat : MonoBehaviour
         }
     }
 
-    void CharacterDeath(GameObject character, bool isDead, TextMeshProUGUI healthText) //Called when a character dies; Takes the character's gameObject, their isDead bool, and their healthtext.
-    {
-        character.SetActive(false);
-        isDead = true;
-        healthText.text = "";
-    }
-
     void RefreshHealthText() //Called in Update(); Refreshes health text each frame
     {
         if (ally1Dead != true)
@@ -601,7 +598,7 @@ public class Combat : MonoBehaviour
         Move4Button.SetActive(false);
         DefendButton.SetActive(false);
 
-        characterTurn = "";
+        characterTurn = enemy1Name;
         charactersTurnText.text = "";
         cMMoveInfo.text = "";
     }
@@ -799,6 +796,93 @@ public class Combat : MonoBehaviour
         if (enemy3Health <= 0)
         {
             CharacterDeath(enemy3, enemy3Dead, enemy3HealthText);
+        }
+    }
+
+    void CharacterDeath(GameObject character, bool isDead, TextMeshProUGUI healthText) //Called when a character dies; Takes the character's gameObject, their isDead bool, and their healthtext.
+    {
+        //character.SetActive(false);
+        isDead = true; //Currently doesn't work
+        healthText.text = "";
+    }
+
+    private void EnemyTurn() //Called in Update(); If it's one of the enemy's turns, call EnemyMoves() to select which move they choose and call EnemyTargetSelect() to select which target(s) they'll select. If their target is dead they'll need to reselect a target.
+    {
+        if (characterTurn == enemy1Name) //If it's the first enemy's turn...
+        {
+            enemy1MoveSelected = EnemyMoves();
+            while ((enemy1TargetSelected == ally1Name && ally1Dead == true) || (enemy1TargetSelected == ally2Name && ally2Dead == true) || (enemy1TargetSelected == ally3Name && ally3Dead == true) || enemy1TargetSelected == "")
+            {
+                enemy1TargetSelected = EnemyTargetSelect(enemy1MoveSelected);
+            }
+            characterTurn = enemy2Name;
+        }
+
+        if (characterTurn == enemy2Name) //If it's the second enemy's turn...
+        {
+            enemy2MoveSelected = EnemyMoves();
+            while ((enemy2TargetSelected == ally1Name && ally1Dead == true) || (enemy2TargetSelected == ally2Name && ally2Dead == true) || (enemy2TargetSelected == ally3Name && ally3Dead == true) || enemy2TargetSelected == "")
+            {
+                enemy2TargetSelected = EnemyTargetSelect(enemy2MoveSelected);
+            }
+            characterTurn = enemy3Name;
+        }
+
+        if (characterTurn == enemy3Name) //If it's the third enemy's turn...
+        {
+            enemy3MoveSelected = EnemyMoves();
+            while ((enemy3TargetSelected == ally1Name && ally1Dead == true) || (enemy3TargetSelected == ally2Name && ally2Dead == true) || (enemy3TargetSelected == ally3Name && ally3Dead == true) || enemy3TargetSelected == "")
+            {
+                enemy3TargetSelected = EnemyTargetSelect(enemy3MoveSelected);
+            }
+            characterTurn = "";
+        }
+    }
+
+    private string EnemyMoves() //Called to choose which moves the enemies make.
+    {
+        if (characterTurn == "Slime1" || characterTurn == "Slime2" || characterTurn == "Slime3") //If it's a Slime enemy's turn...
+        {
+            enemyMoveSelectNumber = Random.Range(1, 5); //Choose a random number between 1-4.
+
+            if (enemyMoveSelectNumber == 1 || enemyMoveSelectNumber == 2)
+            {
+                return "Attack";
+            }
+            else
+            {
+                return "Power-Up";
+            }
+        }
+        else //If the correct characterTurn name wasn't found, return "Error".
+        {
+            return "Error";
+        }
+    }
+
+    private string EnemyTargetSelect(string enemyMoveSelected) //Called to choose which target(s) the enemies select. Returns the enemy's target.
+    {
+        enemyTargetSelectNumber = Random.Range(1, 4); //Choose a random number between 1-3.
+
+        if (enemyMoveSelected == "Attack-All")
+        {
+            return "All Allies";
+        }
+        else if (enemyMoveSelected == "Heal-All" || enemyMoveSelected == "Buff-All")
+        {
+            return "All Enemy's Allies";
+        }
+        else if (enemyTargetSelectNumber == 1)
+        {
+            return ally1Name;
+        }
+        else if (enemyTargetSelectNumber == 2)
+        {
+            return ally2Name;
+        }
+        else
+        {
+            return ally3Name;
         }
     }
 }
