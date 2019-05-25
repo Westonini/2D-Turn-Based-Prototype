@@ -108,8 +108,12 @@ public class DecisionPhase : MonoBehaviour
     [HideInInspector]
     public bool actionPhase = false;
 
+    private ActionPhase aP;
+
     void Awake()
     {
+        aP = GameObject.FindWithTag("CombatControl").GetComponent<ActionPhase>();
+
         cMLeftSpriteAnim = cMLeftSprite.GetComponent<Animator>();
     }
 
@@ -759,35 +763,40 @@ public class DecisionPhase : MonoBehaviour
     {       
         if (ally1Health <= 0)
         {
-            CharacterDeath(ally1, ally1Dead, ally1HealthText);
+            ally1Dead = true;
+            ally1HealthText.text = "";
+            ally1Health = 0;
         }
         if (ally2Health <= 0)
         {
-            CharacterDeath(ally2, ally2Dead, ally2HealthText);
+            ally2Dead = true;
+            ally2HealthText.text = "";
+            ally2Health = 0;
         }
         if (ally3Health <= 0)
         {
-            CharacterDeath(ally3, ally3Dead, ally3HealthText);
+            ally3Dead = true;
+            ally3HealthText.text = "";
+            ally3Health = 0;
         }
         if (enemy1Health <= 0)
         {
-            CharacterDeath(enemy1, enemy1Dead, enemy1HealthText);
+            enemy1Dead = true;
+            enemy1HealthText.text = "";
+            enemy1Health = 0;
         }
         if (enemy2Health <= 0)
         {
-            CharacterDeath(enemy2, enemy2Dead, enemy2HealthText);
+            enemy2Dead = true;
+            enemy2HealthText.text = "";
+            enemy2Health = 0;
         }
         if (enemy3Health <= 0)
         {
-            CharacterDeath(enemy3, enemy3Dead, enemy3HealthText);
+            enemy3Dead = true;
+            enemy3HealthText.text = "";
+            enemy3Health = 0;
         }
-    }
-
-    void CharacterDeath(GameObject character, bool isDead, TextMeshProUGUI healthText) //Called when a character dies; Takes the character's gameObject, their isDead bool, and their healthtext.
-    {
-        //character.SetActive(false);
-        isDead = true; //Currently doesn't work
-        healthText.text = "";
     }
 
     private void EnemyTurn() //Called in Update(); If it's one of the enemy's turns, call EnemyMoves() to select which move they choose and call EnemyTargetSelect() to select which target(s) they'll select. If their target is dead they'll need to reselect a target.
@@ -821,6 +830,8 @@ public class DecisionPhase : MonoBehaviour
             }
             characterTurn = "";
             actionPhase = true; //After the last character chooses their move, set the actionPhase bool to true which starts the Action Phase.
+            aP.defensivePhase = true;
+            aP.characterTurn = ally1Name;
         }
     }
 
