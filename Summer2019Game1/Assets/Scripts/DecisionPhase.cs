@@ -99,12 +99,8 @@ public class DecisionPhase : MonoBehaviour
     public string ally1TargetSelected = "", ally2TargetSelected = "", ally3TargetSelected = "", enemy1TargetSelected = "", enemy2TargetSelected = "", enemy3TargetSelected = "";
     private int enemyTargetSelectNumber;
 
-    private bool ally1IsCharging = false;
-    private bool ally2IsCharging = false;
-    private bool ally3IsCharging = false;
-    private bool enemy1IsCharging = false;
-    private bool enemy2IsCharging = false;
-    private bool enemy3IsCharging = false;
+    [HideInInspector]
+    public bool ally1IsCharging = false, ally2IsCharging = false, ally3IsCharging = false, enemy1IsCharging = false, enemy2IsCharging = false, enemy3IsCharging = false;
     
     [HideInInspector]
     public string characterTurn = "";
