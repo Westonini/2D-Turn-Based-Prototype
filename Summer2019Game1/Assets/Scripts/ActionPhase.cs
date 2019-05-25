@@ -23,7 +23,7 @@ public class ActionPhase : MonoBehaviour
 
     private bool defensivePhase = true;
 
-    private float currCountdownValue;
+    private int accuracy;
 
     void Awake()
     {
@@ -55,6 +55,12 @@ public class ActionPhase : MonoBehaviour
                 //SupportMainOffensive();
                 //SlimeOffensive();
             }
+
+            /*if (Input.GetKeyDown("space"))
+            {
+                defensivePhase = false;
+                characterTurn = "HeroProtagonist";
+            }*/
         }
     }
 
@@ -66,59 +72,16 @@ public class ActionPhase : MonoBehaviour
             //If HeroProtagonist is ally1...
             if (dP.ally1Name == "HeroProtagonist")
             {
-                if (dP.ally1MoveSelected == "War Cry") //If the move selected is War Cry...
-                {
-                    if (dP.ally1TargetSelected == dP.ally1Name) //If the target selected is ally1...
-                    {
-                        ally1STRbuff = 5;
-                    }
-                    else if (dP.ally1TargetSelected == dP.ally2Name) //If the target selected is ally2...
-                    {
-                        ally2STRbuff = 5;
-                    }
-                    else if (dP.ally1TargetSelected == dP.ally3Name) //If the target selected is ally3...
-                    {
-                        ally3STRbuff = 5;
-                    }
+                HeroProtagonistDefensiveAllyBranching(dP.ally1MoveSelected, dP.ally1TargetSelected);
 
-                    dP.ally1MoveSelected = "";
-                    dP.ally1TargetSelected = "";
+                if (dP.ally1MoveSelected == "Defend")
+                {
+                    {
+                        ally1DEFbuff += 5;
+                    }
                 }
-
-                else if (dP.ally1MoveSelected == "Bandage-Up") //If the move selected is Bandage-Up...
+                if (dP.ally1MoveSelected == "War Cry" || dP.ally1MoveSelected == "Bandage-Up" || dP.ally1MoveSelected == "Defend")
                 {
-                    if (dP.ally1TargetSelected == dP.ally1Name) //If the target selected is ally1...
-                    {
-                        dP.ally1Health += 6;
-                        if (dP.ally1Health > dP.ally1MaxHealth)
-                        {
-                            dP.ally1Health = dP.ally1MaxHealth;
-                        }
-                    }
-                    else if (dP.ally1TargetSelected == dP.ally2Name) //If the target selected is ally2...
-                    {
-                        dP.ally2Health += 6;
-                        if (dP.ally2Health > dP.ally2MaxHealth)
-                        {
-                            dP.ally2Health = dP.ally2MaxHealth;
-                        }
-                    }
-                    else if (dP.ally1TargetSelected == dP.ally3Name) //If the target selected is ally3...
-                    {
-                        dP.ally3Health += 6;
-                        if (dP.ally3Health > dP.ally3MaxHealth)
-                        {
-                            dP.ally3Health = dP.ally3MaxHealth;
-                        }
-                    }
-
-                    dP.ally1MoveSelected = "";
-                    dP.ally1TargetSelected = "";
-                }
-
-                else if (dP.ally1MoveSelected == "Defend") //If the move selected is Defend...
-                {
-                    ally1DEFbuff += 5;
                     dP.ally1MoveSelected = "";
                     dP.ally1TargetSelected = "";
                 }
@@ -127,59 +90,16 @@ public class ActionPhase : MonoBehaviour
             //If HeroProtagonist is ally2...
             if (dP.ally2Name == "HeroProtagonist")
             {
-                if (dP.ally2MoveSelected == "War Cry") //If the move selected is War Cry...
-                {
-                    if (dP.ally2TargetSelected == dP.ally1Name) //If the target selected is ally1...
-                    {
-                        ally1STRbuff = 5;
-                    }
-                    else if (dP.ally2TargetSelected == dP.ally2Name) //If the target selected is ally2...
-                    {
-                        ally2STRbuff = 5;
-                    }
-                    else if (dP.ally2TargetSelected == dP.ally3Name) //If the target selected is ally3...
-                    {
-                        ally3STRbuff = 5;
-                    }
+                HeroProtagonistDefensiveAllyBranching(dP.ally2MoveSelected, dP.ally2TargetSelected);
 
-                    dP.ally2MoveSelected = "";
-                    dP.ally2TargetSelected = "";
+                if (dP.ally2MoveSelected == "Defend")
+                {
+                    {
+                        ally2DEFbuff += 5;
+                    }
                 }
-
-                else if (dP.ally2MoveSelected == "Bandage-Up") //If the move selected is Bandage-Up...
+                if (dP.ally2MoveSelected == "War Cry" || dP.ally2MoveSelected == "Bandage-Up" || dP.ally2MoveSelected == "Defend")
                 {
-                    if (dP.ally2TargetSelected == dP.ally1Name) //If the target selected is ally1...
-                    {
-                        dP.ally1Health += 6;
-                        if (dP.ally1Health > dP.ally1MaxHealth)
-                        {
-                            dP.ally1Health = dP.ally1MaxHealth;
-                        }
-                    }
-                    else if (dP.ally2TargetSelected == dP.ally2Name) //If the target selected is ally2...
-                    {
-                        dP.ally2Health += 6;
-                        if (dP.ally2Health > dP.ally2MaxHealth)
-                        {
-                            dP.ally2Health = dP.ally2MaxHealth;
-                        }
-                    }
-                    else if (dP.ally2TargetSelected == dP.ally3Name) //If the target selected is ally3...
-                    {
-                        dP.ally3Health += 6;
-                        if (dP.ally3Health > dP.ally3MaxHealth)
-                        {
-                            dP.ally3Health = dP.ally3MaxHealth;
-                        }
-                    }
-
-                    dP.ally2MoveSelected = "";
-                    dP.ally2TargetSelected = "";
-                }
-
-                else if (dP.ally2MoveSelected == "Defend") //If the move selected is Defend...
-                {
-                    ally2DEFbuff += 5;
                     dP.ally2MoveSelected = "";
                     dP.ally2TargetSelected = "";
                 }
@@ -188,65 +108,22 @@ public class ActionPhase : MonoBehaviour
             //If HeroProtagonist is ally3...
             if (dP.ally3Name == "HeroProtagonist")
             {
-                if (dP.ally3MoveSelected == "War Cry") //If the move selected is War Cry...
-                {
-                    if (dP.ally3TargetSelected == dP.ally1Name) //If the target selected is ally1...
-                    {
-                        ally1STRbuff = 5;
-                    }
-                    else if (dP.ally3TargetSelected == dP.ally2Name) //If the target selected is ally2...
-                    {
-                        ally2STRbuff = 5;
-                    }
-                    else if (dP.ally3TargetSelected == dP.ally3Name) //If the target selected is ally3...
-                    {
-                        ally3STRbuff = 5;
-                    }
+                HeroProtagonistDefensiveAllyBranching(dP.ally3MoveSelected, dP.ally3TargetSelected);
 
-                    dP.ally3MoveSelected = "";
-                    dP.ally3TargetSelected = "";
+                if (dP.ally3MoveSelected == "Defend")
+                {
+                    {
+                        ally3DEFbuff += 5;
+                    }
                 }
-
-                else if (dP.ally3MoveSelected == "Bandage-Up") //If the move selected is Bandage-Up...
+                if (dP.ally3MoveSelected == "War Cry" || dP.ally3MoveSelected == "Bandage-Up" || dP.ally3MoveSelected == "Defend")
                 {
-                    if (dP.ally3TargetSelected == dP.ally1Name) //If the target selected is ally1...
-                    {
-                        dP.ally1Health += 6;
-                        if (dP.ally1Health > dP.ally1MaxHealth)
-                        {
-                            dP.ally1Health = dP.ally1MaxHealth;
-                        }
-                    }
-                    else if (dP.ally3TargetSelected == dP.ally2Name) //If the target selected is ally2...
-                    {
-                        dP.ally2Health += 6;
-                        if (dP.ally2Health > dP.ally2MaxHealth)
-                        {
-                            dP.ally2Health = dP.ally2MaxHealth;
-                        }
-                    }
-                    else if (dP.ally3TargetSelected == dP.ally3Name) //If the target selected is ally3...
-                    {
-                        dP.ally3Health += 6;
-                        if (dP.ally3Health > dP.ally3MaxHealth)
-                        {
-                            dP.ally3Health = dP.ally3MaxHealth;
-                        }
-                    }
-
-                    dP.ally3MoveSelected = "";
-                    dP.ally3TargetSelected = "";
-                }
-
-                else if (dP.ally3MoveSelected == "Defend") //If the move selected is Defend...
-                {
-                    ally3DEFbuff += 5;
                     dP.ally3MoveSelected = "";
                     dP.ally3TargetSelected = "";
                 }
             }
 
-            ChangeCharacterTurnDefensivePhase();
+            ChangeCharacterTurnDefensivePhase(); //If the characterTurn was "HeroProtagonist", call the function.
         }
     }
 
@@ -258,29 +135,7 @@ public class ActionPhase : MonoBehaviour
             //If HeroProtagonist is ally1...
             if (dP.ally1Name == "HeroProtagonist")
             {
-                if (dP.ally1MoveSelected == "Sword Slash") //If the move selected is Sword Slash...
-                {
-                    if (dP.ally1TargetSelected == dP.enemy1Name) //If the target selected is enemy1...
-                    {
-                        dP.enemy1Health -= (10 + ally1STRbuff) - enemy1DEFbuff;
-                    }
-                    else if (dP.ally1TargetSelected == dP.enemy2Name) //If the target selected is enemy2...
-                    {
-                        dP.enemy2Health -= (10 + ally1STRbuff) - enemy2DEFbuff;
-                    }
-                    else if (dP.ally1TargetSelected == dP.enemy3Name) //If the target selected is enemy3...
-                    {
-                        dP.enemy3Health -= (10 + ally1STRbuff) - enemy3DEFbuff;
-                    }
-                }
-
-                else if (dP.ally1MoveSelected == "Windmill") //If the move selected is Windmill...
-                {
-                    dP.enemy1Health -= (5 + ally1STRbuff) - enemy1DEFbuff;
-                    dP.enemy2Health -= (5 + ally1STRbuff) - enemy2DEFbuff;
-                    dP.enemy3Health -= (5 + ally1STRbuff) - enemy3DEFbuff;
-                }
-
+                HeroProtagonistOffensiveAllyBranching(dP.ally1MoveSelected, dP.ally1TargetSelected, ally1STRbuff);
                 dP.ally1MoveSelected = "";
                 dP.ally1TargetSelected = "";
             }
@@ -288,29 +143,7 @@ public class ActionPhase : MonoBehaviour
             //If HeroProtagonist is ally2...
             else if (dP.ally2Name == "HeroProtagonist")
             {
-                if (dP.ally2MoveSelected == "Sword Slash") //If the move selected is Sword Slash...
-                {
-                    if (dP.ally2TargetSelected == dP.enemy1Name) //If the target selected is enemy1...
-                    {
-                        dP.enemy1Health -= (10 + ally2STRbuff) - enemy1DEFbuff;
-                    }
-                    else if (dP.ally2TargetSelected == dP.enemy2Name) //If the target selected is enemy2...
-                    {
-                        dP.enemy2Health -= (10 + ally2STRbuff) - enemy2DEFbuff;
-                    }
-                    else if (dP.ally2TargetSelected == dP.enemy3Name) //If the target selected is enemy3...
-                    {
-                        dP.enemy3Health -= (10 + ally2STRbuff) - enemy3DEFbuff;
-                    }
-                }
-
-                else if (dP.ally2MoveSelected == "Windmill") //If the move selected is Windmill...
-                {
-                    dP.enemy1Health -= (5 + ally2STRbuff) - enemy1DEFbuff;
-                    dP.enemy2Health -= (5 + ally2STRbuff) - enemy2DEFbuff;
-                    dP.enemy3Health -= (5 + ally2STRbuff) - enemy3DEFbuff;
-                }
-
+                HeroProtagonistOffensiveAllyBranching(dP.ally2MoveSelected, dP.ally2TargetSelected, ally2STRbuff);
                 dP.ally2MoveSelected = "";
                 dP.ally2TargetSelected = "";
             }
@@ -318,34 +151,115 @@ public class ActionPhase : MonoBehaviour
             //If HeroProtagonist is ally3...
             else if (dP.ally3Name == "HeroProtagonist")
             {
-                if (dP.ally3MoveSelected == "Sword Slash") //If the move selected is Sword Slash...
-                {
-                    if (dP.ally3TargetSelected == dP.enemy1Name) //If the target selected is enemy1...
-                    {
-                        dP.enemy1Health -= (10 + ally3STRbuff) - enemy1DEFbuff;
-                    }
-                    else if (dP.ally3TargetSelected == dP.enemy2Name) //If the target selected is enemy2...
-                    {
-                        dP.enemy2Health -= (10 + ally3STRbuff) - enemy2DEFbuff;
-                    }
-                    else if (dP.ally3TargetSelected == dP.enemy3Name) //If the target selected is enemy3...
-                    {
-                        dP.enemy3Health -= (10 + ally3STRbuff) - enemy3DEFbuff;
-                    }
-                }
-
-                else if (dP.ally3MoveSelected == "Windmill") //If the move selected is Windmill...
-                {
-                    dP.enemy1Health -= (5 + ally3STRbuff) - enemy1DEFbuff;
-                    dP.enemy2Health -= (5 + ally3STRbuff) - enemy2DEFbuff;
-                    dP.enemy3Health -= (5 + ally3STRbuff) - enemy3DEFbuff;
-                }
-
+                HeroProtagonistOffensiveAllyBranching(dP.ally3MoveSelected, dP.ally3TargetSelected, ally3STRbuff);
                 dP.ally3MoveSelected = "";
                 dP.ally3TargetSelected = "";
             }
+            ChangeCharacterTurnOffensivePhase(); //If the characterTurn was "HeroProtagonist", call the function.
+        }
+    }
 
-            ChangeCharacterTurnOffensivePhase();
+    void HeroProtagonistOffensiveAllyBranching(string MoveSelected, string TargetSelected, int STRbuff) //Used for ally branching in the HeroProtagonistOffensive function.
+    {
+        if (MoveSelected == "Sword Slash") //If the move selected is Sword Slash...
+        {
+            accuracy = Random.Range(1, 101);
+
+            if (TargetSelected == dP.enemy1Name && accuracy <= 80) //If the target selected is enemy1 and the accuracy is 80 or below...
+            {
+                dP.enemy1Health -= (10 + STRbuff) - enemy1DEFbuff;
+            }
+            else if (TargetSelected == dP.enemy2Name && accuracy <= 80) //If the target selected is enemy2 and the accuracy is 80 or below...
+            {
+                dP.enemy2Health -= (10 + STRbuff) - enemy2DEFbuff;
+            }
+            else if (TargetSelected == dP.enemy3Name && accuracy <= 80) //If the target selected is enemy3 and the accuracy is 80 or below...
+            {
+                dP.enemy3Health -= (10 + STRbuff) - enemy3DEFbuff;
+            }
+            else if (accuracy > 80) //Else if the accuracy is above 80, miss the target.
+            {
+                //Missed
+            }
+        }
+
+        else if (MoveSelected == "Windmill") //If the move selected is Windmill...
+        {
+            accuracy = Random.Range(1, 101);
+            if (accuracy <= 80)
+            {
+                dP.enemy1Health -= (5 + STRbuff) - enemy1DEFbuff;
+            }
+            else if (accuracy > 80)
+            {
+                //Missed
+            }
+
+            accuracy = Random.Range(1, 101);
+            if (accuracy <= 80)
+            {
+                dP.enemy2Health -= (5 + STRbuff) - enemy2DEFbuff;
+            }
+            else if (accuracy > 80)
+            {
+                //Missed
+            }
+
+            accuracy = Random.Range(1, 101);
+            if (accuracy <= 80)
+            {
+                dP.enemy3Health -= (5 + STRbuff) - enemy3DEFbuff;
+            }
+            else if (accuracy > 80)
+            {
+                //Missed
+            }
+        }
+    }
+
+    void HeroProtagonistDefensiveAllyBranching(string MoveSelected, string TargetSelected) //Used for ally branching in the HeroProtagonistDefensive function.
+    {
+        if (MoveSelected == "War Cry") //If the move selected is War Cry...
+        {
+            if (TargetSelected == dP.ally1Name) //If the target selected is ally1...
+            {
+                ally1STRbuff = 5;
+            }
+            else if (TargetSelected == dP.ally2Name) //If the target selected is ally2...
+            {
+                ally2STRbuff = 5;
+            }
+            else if (TargetSelected == dP.ally3Name) //If the target selected is ally3...
+            {
+                ally3STRbuff = 5;
+            }
+        }
+        else if (MoveSelected == "Bandage-Up") //If the move selected is Bandage-Up...
+        {
+            if (TargetSelected == dP.ally1Name) //If the target selected is ally1...
+            {
+                dP.ally1Health += 6;
+                if (dP.ally1Health > dP.ally1MaxHealth)
+                {
+                    dP.ally1Health = dP.ally1MaxHealth;
+                }
+            }
+            else if (TargetSelected == dP.ally2Name) //If the target selected is ally2...
+            {
+                dP.ally2Health += 6;
+                if (dP.ally2Health > dP.ally2MaxHealth)
+                {
+                    dP.ally2Health = dP.ally2MaxHealth;
+                }
+            }
+            else if (TargetSelected == dP.ally3Name) //If the target selected is ally3...
+            {
+                dP.ally3Health += 6;
+                if (dP.ally3Health > dP.ally3MaxHealth)
+                {
+                    dP.ally3Health = dP.ally3MaxHealth;
+                }
+            }
         }
     }
 

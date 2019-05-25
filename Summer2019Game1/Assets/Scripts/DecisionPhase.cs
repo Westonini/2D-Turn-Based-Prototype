@@ -130,8 +130,6 @@ public class DecisionPhase : MonoBehaviour
         enemy2Name = enemy2.name.ToString();
         enemy3Name = enemy3.name.ToString();
 
-        characterTurn = ally1Name;
-
         Move1Button.SetActive(true);
         Move2Button.SetActive(true);
         Move3Button.SetActive(true);
@@ -180,9 +178,9 @@ public class DecisionPhase : MonoBehaviour
             }     
         }
         else if (characterTurn == "GlassCannon") //If the character's name is GlassCannon and they choose Move1...
-        {
+        {         
             if (ally1Name == "GlassCannon")
-            {
+            {             
                 ally1MoveSelected = "Shard Shot";
                 selectAnEnemy = true;
             }
@@ -196,7 +194,6 @@ public class DecisionPhase : MonoBehaviour
                 ally3MoveSelected = "Shard Shot";
                 selectAnEnemy = true;
             }
-
         }
         else if (characterTurn == "SupportMain") //If the character's name is SupportMain and they choose Move1...
         {

@@ -4597,6 +4597,12 @@ MonoBehaviour:
   enemy1TargetSelected: 
   enemy2TargetSelected: 
   enemy3TargetSelected: 
+  ally1IsCharging: 0
+  ally2IsCharging: 0
+  ally3IsCharging: 0
+  enemy1IsCharging: 0
+  enemy2IsCharging: 0
+  enemy3IsCharging: 0
   characterTurn: 
   actionPhase: 0
 --- !u!4 &1276723281
@@ -4620,7 +4626,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1276723279}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1de477c7a90dd594eb31dcc6d1118fb2, type: 3}
   m_Name: 
