@@ -23,6 +23,7 @@ public class DecisionPhase : MonoBehaviour
     public TextMeshProUGUI cMRightCharacterName;
     public TextMeshProUGUI cMRightCharacterHealthText;
     public TextMeshProUGUI cMMoveInfo;
+    public TextMeshProUGUI phaseText;
 
     [Space]
     [Header("Character GameObjects")]
@@ -32,6 +33,19 @@ public class DecisionPhase : MonoBehaviour
     public GameObject enemy1;
     public GameObject enemy2;
     public GameObject enemy3;
+
+    private SpriteRenderer ally1Sprite;
+    private Collider2D ally1Collider;
+    private SpriteRenderer ally2Sprite;
+    private Collider2D ally2Collider;
+    private SpriteRenderer ally3Sprite;
+    private Collider2D ally3Collider;
+    private SpriteRenderer enemy1Sprite;
+    private Collider2D enemy1Collider;
+    private SpriteRenderer enemy2Sprite;
+    private Collider2D enemy2Collider;
+    private SpriteRenderer enemy3Sprite;
+    private Collider2D enemy3Collider;
 
     [Space]
     [Header("Character Animators")]
@@ -112,6 +126,20 @@ public class DecisionPhase : MonoBehaviour
 
     void Awake()
     {
+        ally1Sprite = ally1.GetComponent<SpriteRenderer>();
+        ally2Sprite = ally2.GetComponent<SpriteRenderer>();
+        ally3Sprite = ally3.GetComponent<SpriteRenderer>();
+        enemy1Sprite = enemy1.GetComponent<SpriteRenderer>();
+        enemy2Sprite = enemy2.GetComponent<SpriteRenderer>();
+        enemy3Sprite = enemy3.GetComponent<SpriteRenderer>();
+
+        ally1Collider = ally1.GetComponent<Collider2D>();
+        ally2Collider = ally2.GetComponent<Collider2D>();
+        ally3Collider = ally3.GetComponent<Collider2D>();
+        enemy1Collider = enemy1.GetComponent<Collider2D>();
+        enemy2Collider = enemy2.GetComponent<Collider2D>();
+        enemy3Collider = enemy3.GetComponent<Collider2D>();
+
         aP = GameObject.FindWithTag("CombatControl").GetComponent<ActionPhase>();
 
         cMLeftSpriteAnim = cMLeftSprite.GetComponent<Animator>();
@@ -159,6 +187,8 @@ public class DecisionPhase : MonoBehaviour
         CheckIfDead(); //Calls CheckIfDead every frame to check if a character's HP is 0 or lower.
 
         EnemyTurn(); //Calls EnemyTurn every frame to check if it's one of the enemy's turns.
+
+        ChangePhaseText(); //Calls ChangePhaseText every turn to check which phase it is.
     }
 
     public void Move1Selected() //Called when the Move1 Button is clicked.
@@ -759,42 +789,54 @@ public class DecisionPhase : MonoBehaviour
         }
     }
 
-    void CheckIfDead() //Called in Update(); If one of the character's health equals or is below 0, call CharacterDeath().
+    void CheckIfDead() //Called in Update(); If one of the character's health equals or is below 0...
     {       
         if (ally1Health <= 0)
         {
             ally1Dead = true;
             ally1HealthText.text = "";
+            ally1Sprite.sprite = null;
+            ally1Collider.enabled = false;
             ally1Health = 0;
         }
         if (ally2Health <= 0)
         {
             ally2Dead = true;
             ally2HealthText.text = "";
+            ally2Sprite.sprite = null;
+            ally2Collider.enabled = false;
             ally2Health = 0;
         }
         if (ally3Health <= 0)
         {
             ally3Dead = true;
             ally3HealthText.text = "";
+            ally3Sprite.sprite = null;
+            ally3Collider.enabled = false;
             ally3Health = 0;
         }
         if (enemy1Health <= 0)
         {
             enemy1Dead = true;
             enemy1HealthText.text = "";
+            enemy1Sprite.sprite = null;
+            enemy1Collider.enabled = false;
             enemy1Health = 0;
         }
         if (enemy2Health <= 0)
         {
             enemy2Dead = true;
             enemy2HealthText.text = "";
+            enemy2Sprite.sprite = null;
+            enemy2Collider.enabled = false;
             enemy2Health = 0;
         }
         if (enemy3Health <= 0)
         {
             enemy3Dead = true;
             enemy3HealthText.text = "";
+            enemy3Sprite.sprite = null;
+            enemy3Collider.enabled = false;
             enemy3Health = 0;
         }
     }
@@ -883,6 +925,20 @@ public class DecisionPhase : MonoBehaviour
         else
         {
             return ally3Name;
+        }
+    }
+
+    void ChangePhaseText() //Called in Update(); changes the text showing the player which phase they're in.
+    {
+        if (actionPhase == false)
+        {
+            phaseText.color = new Color32(0, 166, 255, 255);
+            phaseText.text = "D E C I S I O N   P H A S E";
+        }
+        if (actionPhase == true)
+        {
+            phaseText.color = new Color32(255, 29, 0, 255);
+            phaseText.text = "A C T I O N   P H A S E";
         }
     }
 }
