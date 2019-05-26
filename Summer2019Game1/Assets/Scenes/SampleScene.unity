@@ -652,7 +652,7 @@ GameObject:
   - component: {fileID: 94509204}
   - component: {fileID: 94509203}
   m_Layer: 5
-  m_Name: Enemy1HealthLostText
+  m_Name: Enemy1HealthChangeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2738,7 +2738,7 @@ GameObject:
   - component: {fileID: 529734094}
   - component: {fileID: 529734093}
   m_Layer: 5
-  m_Name: Enemy3HealthLostText
+  m_Name: Enemy3HealthChangeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2920,7 +2920,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.8000488, y: -64.7}
+  m_AnchoredPosition: {x: -20.3, y: -64.7}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &595513451
@@ -2960,7 +2960,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3355443455
+    rgba: 3372220415
   m_fontColor: {r: 1, g: 1, b: 1, a: 0.78431374}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2986,7 +2986,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 3
-  m_textAlignment: 514
+  m_textAlignment: 513
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -4098,7 +4098,7 @@ GameObject:
   - component: {fileID: 795326266}
   - component: {fileID: 795326265}
   m_Layer: 5
-  m_Name: Ally1HealthLostText
+  m_Name: Ally1HealthChangeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6546,22 +6546,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1de477c7a90dd594eb31dcc6d1118fb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ally1HealthLostText: {fileID: 795326265}
+  characterTurn: 
+  ally1HealthChangeText: {fileID: 795326265}
   ally1MissText: {fileID: 198041566}
   ally1StatusEffectText: {fileID: 222315685}
-  ally2HealthLostText: {fileID: 1586804416}
+  ally2HealthChangeText: {fileID: 1586804416}
   ally2MissText: {fileID: 595513452}
   ally2StatusEffectText: {fileID: 1373260984}
-  ally3HealthLostText: {fileID: 2059681461}
+  ally3HealthChangeText: {fileID: 2059681461}
   ally3MissText: {fileID: 513293952}
   ally3StatusEffectText: {fileID: 1120982754}
-  enemy1HealthLostText: {fileID: 94509203}
+  enemy1HealthChangeText: {fileID: 94509203}
   enemy1MissText: {fileID: 971163322}
   enemy1StatusEffectText: {fileID: 1439137849}
-  enemy2HealthLostText: {fileID: 1480100953}
+  enemy2HealthChangeText: {fileID: 1480100953}
   enemy2MissText: {fileID: 853151295}
   enemy2StatusEffectText: {fileID: 1385486128}
-  enemy3HealthLostText: {fileID: 529734093}
+  enemy3HealthChangeText: {fileID: 529734093}
   enemy3MissText: {fileID: 1629323936}
   enemy3StatusEffectText: {fileID: 60006053}
   defensivePhase: 1
@@ -6838,7 +6839,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.9999695, y: -66}
+  m_AnchoredPosition: {x: -27.1, y: -48.2}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1373260984
@@ -6896,7 +6897,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_textAlignment: 258
+  m_textAlignment: 513
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -7656,7 +7657,7 @@ GameObject:
   - component: {fileID: 1480100954}
   - component: {fileID: 1480100953}
   m_Layer: 5
-  m_Name: Enemy2HealthLostText
+  m_Name: Enemy2HealthChangeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7985,7 +7986,7 @@ GameObject:
   - component: {fileID: 1586804417}
   - component: {fileID: 1586804416}
   m_Layer: 5
-  m_Name: Ally2HealthLostText
+  m_Name: Ally2HealthChangeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8007,7 +8008,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.8000488, y: -64.7}
+  m_AnchoredPosition: {x: 2.3, y: -64.7}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1586804416
@@ -8065,7 +8066,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_textAlignment: 514
+  m_textAlignment: 513
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -10054,7 +10055,7 @@ GameObject:
   - component: {fileID: 2059681462}
   - component: {fileID: 2059681461}
   m_Layer: 5
-  m_Name: Ally3HealthLostText
+  m_Name: Ally3HealthChangeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

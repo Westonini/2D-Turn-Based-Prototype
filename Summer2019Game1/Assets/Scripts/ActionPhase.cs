@@ -10,22 +10,22 @@ public class ActionPhase : MonoBehaviour
     public string characterTurn;
 
     [Header("Text Objects")]
-    public TextMeshProUGUI ally1HealthLostText;
+    public TextMeshProUGUI ally1HealthChangeText;
     public TextMeshProUGUI ally1MissText;
     public TextMeshProUGUI ally1StatusEffectText;
-    public TextMeshProUGUI ally2HealthLostText;
+    public TextMeshProUGUI ally2HealthChangeText;
     public TextMeshProUGUI ally2MissText;
     public TextMeshProUGUI ally2StatusEffectText;
-    public TextMeshProUGUI ally3HealthLostText;
+    public TextMeshProUGUI ally3HealthChangeText;
     public TextMeshProUGUI ally3MissText;
     public TextMeshProUGUI ally3StatusEffectText;
-    public TextMeshProUGUI enemy1HealthLostText;
+    public TextMeshProUGUI enemy1HealthChangeText;
     public TextMeshProUGUI enemy1MissText;
     public TextMeshProUGUI enemy1StatusEffectText;
-    public TextMeshProUGUI enemy2HealthLostText;
+    public TextMeshProUGUI enemy2HealthChangeText;
     public TextMeshProUGUI enemy2MissText;
     public TextMeshProUGUI enemy2StatusEffectText;
-    public TextMeshProUGUI enemy3HealthLostText;
+    public TextMeshProUGUI enemy3HealthChangeText;
     public TextMeshProUGUI enemy3MissText;
     public TextMeshProUGUI enemy3StatusEffectText;
 
@@ -65,6 +65,8 @@ public class ActionPhase : MonoBehaviour
     private bool enemy2HasBled = false;
     private bool enemy3HasBled = false;
 
+    private bool someoneIsBleeding = false;
+
     void Awake()
     {
         dP = GameObject.FindWithTag("CombatControl").GetComponent<DecisionPhase>();
@@ -81,20 +83,30 @@ public class ActionPhase : MonoBehaviour
     {
         if (dP.actionPhase == true) //if the Action Phase is active, call the character functions.
         {
-            if (defensivePhase == true)
+            //If any of the characters have bleeding values of 1 or 2; someoneIsBleeding is set to true.
+            if (ally1IsBleeding == 1 || ally1IsBleeding == 2 || ally2IsBleeding == 1 || ally2IsBleeding == 2 || ally3IsBleeding == 1 || ally3IsBleeding == 2 || enemy1IsBleeding == 1 || enemy1IsBleeding == 2 || enemy2IsBleeding == 1 || enemy2IsBleeding == 2 || enemy3IsBleeding == 1 || enemy3IsBleeding == 2)
+            {
+                someoneIsBleeding = true;
+            }
+            else
+            {
+                someoneIsBleeding = false;
+            }
+
+            if (defensivePhase == true) //If it's the DefensivePhase
             {
                 HeroProtagonistDefensive();
                 GlassCannonDefensive();
                 SupportMainDefensive();
                 SlimeDefensive();
             }
-            else
-            {
-                Bleed();
+            else //If it's the OffensivePhase
+            {  
                 HeroProtagonistOffensive();
                 GlassCannonOffensive();
                 SupportMainOffensive();
                 SlimeOffensive();
+                Bleed();
             }
         }
     }
@@ -114,6 +126,7 @@ public class ActionPhase : MonoBehaviour
                 {
                     {
                         ally1DEFbuff += 5;
+                        StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF Inc."));
                     }
                 }
                 if (dP.ally1MoveSelected == "War Cry" || dP.ally1MoveSelected == "Bandage-Up" || dP.ally1MoveSelected == "Defend")
@@ -132,6 +145,7 @@ public class ActionPhase : MonoBehaviour
                 {
                     {
                         ally2DEFbuff += 5;
+                        StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF Inc."));
                     }
                 }
                 if (dP.ally2MoveSelected == "War Cry" || dP.ally2MoveSelected == "Bandage-Up" || dP.ally2MoveSelected == "Defend")
@@ -150,6 +164,7 @@ public class ActionPhase : MonoBehaviour
                 {
                     {
                         ally3DEFbuff += 5;
+                        StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF Inc."));
                     }
                 }
                 if (dP.ally3MoveSelected == "War Cry" || dP.ally3MoveSelected == "Bandage-Up" || dP.ally3MoveSelected == "Defend")
@@ -169,29 +184,36 @@ public class ActionPhase : MonoBehaviour
         if (characterTurn == "HeroProtagonist")
         {
             //If HeroProtagonist is ally1...
-            if (dP.ally1Name == "HeroProtagonist")
+            if (dP.ally1Name == "HeroProtagonist" && dP.ally1MoveSelected != "")
             {
                 HeroProtagonistOffensiveAllyBranching(dP.ally1MoveSelected, dP.ally1TargetSelected, ally1STRbuff);
                 dP.ally1MoveSelected = "";
                 dP.ally1TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase();
             }
 
             //If HeroProtagonist is ally2...
-            else if (dP.ally2Name == "HeroProtagonist")
+            else if (dP.ally2Name == "HeroProtagonist" && dP.ally2MoveSelected != "")
             {
                 HeroProtagonistOffensiveAllyBranching(dP.ally2MoveSelected, dP.ally2TargetSelected, ally2STRbuff);
                 dP.ally2MoveSelected = "";
                 dP.ally2TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase();
             }
 
             //If HeroProtagonist is ally3...
-            else if (dP.ally3Name == "HeroProtagonist")
+            else if (dP.ally3Name == "HeroProtagonist" && dP.ally3MoveSelected != "")
             {
                 HeroProtagonistOffensiveAllyBranching(dP.ally3MoveSelected, dP.ally3TargetSelected, ally3STRbuff);
                 dP.ally3MoveSelected = "";
                 dP.ally3TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase();
             }
-            ChangeCharacterTurnOffensivePhase(); //If the characterTurn was "HeroProtagonist", call the function.
+            
+            else
+            {
+                ChangeCharacterTurnOffensivePhase(true);
+            }
         }
     }
 
@@ -202,14 +224,17 @@ public class ActionPhase : MonoBehaviour
             if (TargetSelected == dP.ally1Name) //If the target selected is ally1...
             {
                 ally1STRbuff = 5;
+                StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "STR Inc."));
             }
             else if (TargetSelected == dP.ally2Name) //If the target selected is ally2...
             {
                 ally2STRbuff = 5;
+                StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "STR Inc."));
             }
             else if (TargetSelected == dP.ally3Name) //If the target selected is ally3...
             {
                 ally3STRbuff = 5;
+                StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "STR Inc."));
             }
         }
         else if (MoveSelected == "Bandage-Up") //If the move selected is Bandage-Up...
@@ -217,6 +242,7 @@ public class ActionPhase : MonoBehaviour
             if (TargetSelected == dP.ally1Name) //If the target selected is ally1...
             {
                 dP.ally1Health += 6;
+                StartCoroutine(ShowHealingDealt(ally1HealthChangeText, 6));
                 if (dP.ally1Health > dP.ally1MaxHealth)
                 {
                     dP.ally1Health = dP.ally1MaxHealth;
@@ -225,6 +251,7 @@ public class ActionPhase : MonoBehaviour
             else if (TargetSelected == dP.ally2Name) //If the target selected is ally2...
             {
                 dP.ally2Health += 6;
+                StartCoroutine(ShowHealingDealt(ally2HealthChangeText, 6));
                 if (dP.ally2Health > dP.ally2MaxHealth)
                 {
                     dP.ally2Health = dP.ally2MaxHealth;
@@ -233,6 +260,7 @@ public class ActionPhase : MonoBehaviour
             else if (TargetSelected == dP.ally3Name) //If the target selected is ally3...
             {
                 dP.ally3Health += 6;
+                StartCoroutine(ShowHealingDealt(ally3HealthChangeText, 6));
                 if (dP.ally3Health > dP.ally3MaxHealth)
                 {
                     dP.ally3Health = dP.ally3MaxHealth;
@@ -250,7 +278,7 @@ public class ActionPhase : MonoBehaviour
             if (TargetSelected == dP.enemy1Name && accuracy <= 80) //If the target selected is enemy1 and the accuracy is 80 or below...
             {
                 dP.enemy1Health -= (10 + STRbuff) - enemy1DEFbuff;
-                StartCoroutine(ShowDamageDealt(enemy1HealthLostText, ((10 + STRbuff) - enemy1DEFbuff)));
+                StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((10 + STRbuff) - enemy1DEFbuff)));
             }
             else if (TargetSelected == dP.enemy1Name && accuracy > 80) //If the target selected is enemy1 but the attack misses...
             {
@@ -259,7 +287,7 @@ public class ActionPhase : MonoBehaviour
             else if (TargetSelected == dP.enemy2Name && accuracy <= 80) //If the target selected is enemy2 and the accuracy is 80 or below...
             {
                 dP.enemy2Health -= (10 + STRbuff) - enemy2DEFbuff;
-                StartCoroutine(ShowDamageDealt(enemy2HealthLostText, ((10 + STRbuff) - enemy2DEFbuff)));
+                StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((10 + STRbuff) - enemy2DEFbuff)));
             }
             else if (TargetSelected == dP.enemy2Name && accuracy > 80) //If the target selected is enemy2 but the attack misses...
             {
@@ -268,7 +296,7 @@ public class ActionPhase : MonoBehaviour
             else if (TargetSelected == dP.enemy3Name && accuracy <= 80) //If the target selected is enemy3 and the accuracy is 80 or below...
             {
                 dP.enemy3Health -= (10 + STRbuff) - enemy3DEFbuff;
-                StartCoroutine(ShowDamageDealt(enemy3HealthLostText, ((10 + STRbuff) - enemy3DEFbuff)));
+                StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((10 + STRbuff) - enemy3DEFbuff)));
             }
             else if (TargetSelected == dP.enemy3Name && accuracy > 80) //If the target selected is enemy3 but the attack misses...
             {
@@ -282,7 +310,7 @@ public class ActionPhase : MonoBehaviour
             if (accuracy <= 80)
             {
                 dP.enemy1Health -= (5 + STRbuff) - enemy1DEFbuff;
-                StartCoroutine(ShowDamageDealt(enemy1HealthLostText, ((5 + STRbuff) - enemy1DEFbuff)));
+                StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((5 + STRbuff) - enemy1DEFbuff)));
             }
             else if (accuracy > 80)
             {
@@ -293,7 +321,7 @@ public class ActionPhase : MonoBehaviour
             if (accuracy <= 80)
             {
                 dP.enemy2Health -= (5 + STRbuff) - enemy2DEFbuff;
-                StartCoroutine(ShowDamageDealt(enemy2HealthLostText, ((5 + STRbuff) - enemy2DEFbuff)));
+                StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((5 + STRbuff) - enemy2DEFbuff)));
             }
             else if (accuracy > 80)
             {
@@ -304,12 +332,12 @@ public class ActionPhase : MonoBehaviour
             if (accuracy <= 80)
             {
                 dP.enemy3Health -= (5 + STRbuff) - enemy3DEFbuff;
-                StartCoroutine(ShowDamageDealt(enemy3HealthLostText, ((5 + STRbuff) - enemy3DEFbuff)));
+                StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((5 + STRbuff) - enemy3DEFbuff)));
             }
             else if (accuracy > 80)
             {
                 StartCoroutine(ShowMiss(enemy3MissText));
-            }
+            }          
         }
     }
 
@@ -326,6 +354,7 @@ public class ActionPhase : MonoBehaviour
                 if (dP.ally1MoveSelected == "Defend") //If the move selected is Defend...
                 {
                     ally1DEFbuff += 5;
+                    StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF Inc."));
                 }
                 if (dP.ally1MoveSelected == "Smoke Bomb" || dP.ally1MoveSelected == "Defend")
                 {
@@ -343,6 +372,7 @@ public class ActionPhase : MonoBehaviour
                 if (dP.ally2MoveSelected == "Defend") //If the move selected is Defend...
                 {
                     ally2DEFbuff += 5;
+                    StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF Inc."));
                 }
                 if (dP.ally2MoveSelected == "Smoke Bomb" || dP.ally2MoveSelected == "Defend")
                 {
@@ -359,6 +389,7 @@ public class ActionPhase : MonoBehaviour
                 if (dP.ally3MoveSelected == "Defend") //If the move selected is Defend...
                 {
                     ally3DEFbuff += 5;
+                    StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF Inc."));
                 }
                 if (dP.ally3MoveSelected == "Smoke Bomb" || dP.ally3MoveSelected == "Defend")
                 {
@@ -393,7 +424,7 @@ public class ActionPhase : MonoBehaviour
                         dP.enemy1Health -= (15 + ally1STRbuff) - enemy1DEFbuff;
                         StartCoroutine(ShowDamageDealt(enemy1HealthLostText, ((15 + ally1STRbuff) - enemy1DEFbuff)));
                         enemy1IsBleeding = 1;
-                        StartCoroutine(ShowStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
                     }
                     else if (dP.ally1TargetSelected == dP.enemy1Name && accuracy > 70) //If the target selected is enemy1 but it misses...
                     {
@@ -409,7 +440,7 @@ public class ActionPhase : MonoBehaviour
                         dP.enemy2Health -= (15 + ally1STRbuff) - enemy2DEFbuff;
                         StartCoroutine(ShowDamageDealt(enemy2HealthLostText, ((15 + ally1STRbuff) - enemy2DEFbuff)));
                         enemy2IsBleeding = 1;
-                        StartCoroutine(ShowStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
                     }
                     else if (dP.ally1TargetSelected == dP.enemy2Name && accuracy > 70) //If the target selected is enemy2 but it misses...
                     {
@@ -425,7 +456,7 @@ public class ActionPhase : MonoBehaviour
                         dP.enemy3Health -= (15 + ally1STRbuff) - enemy3DEFbuff;
                         StartCoroutine(ShowDamageDealt(enemy3HealthLostText, ((15 + ally1STRbuff) - enemy3DEFbuff)));
                         enemy3IsBleeding = 1;
-                        StartCoroutine(ShowStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
                     }
                     else if (dP.ally1TargetSelected == dP.enemy3Name && accuracy > 70) //If the target selected is enemy3 but it misses...
                     {
@@ -461,14 +492,17 @@ public class ActionPhase : MonoBehaviour
             if (TargetSelected == dP.ally1Name) //If ally1 is targeted...
             {
                 ally1HasSmokeBomb = true;
+                StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "Evasion Inc."));
             }
             else if (TargetSelected == dP.ally2Name) //If ally2 is targeted...
             {
                 ally2HasSmokeBomb = true;
+                StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "Evasion Inc."));
             }
             else if (TargetSelected == dP.ally3Name) //If ally3 is targeted...
             {
                 ally3HasSmokeBomb = true;
+                StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "Evasion Inc."));
             }
         }
     }
@@ -505,87 +539,216 @@ public class ActionPhase : MonoBehaviour
         }
     }
 
-    void Bleed() //Called in Update(); causes character to bleed for 2 rounds if active.
+    void Bleed() //Called in Update() if someone is bleeding; causes character to bleed for 2 rounds if active.
     {
-        if (characterTurn == dP.enemy1Name && enemy1IsBleeding == 1 && enemy1HasBled == false) //If it's enemy1's turn and their turns bleeding is set to 1...
+        if (characterTurn == "Bleed")
         {
-            if (enemy1DEFbuff > 4)
+            if (someoneIsBleeding == true)
             {
-                StartCoroutine(ShowDamageDealt(enemy1HealthLostText, 0));
-            }
-            else
-            {
-                dP.enemy1Health -= (4 - enemy1DEFbuff);
-            }
-            enemy1IsBleeding = 2;
-            enemy1HasBled = true;
-        }
-        else if (characterTurn == dP.enemy1Name && enemy1IsBleeding == 2 && enemy1HasBled == false) //If it's enemy1's turn and their turns bleeding is set to 2...
-        {
-            if (enemy1DEFbuff > 4)
-            {
-                StartCoroutine(ShowDamageDealt(enemy1HealthLostText, 0));
-            }
-            else
-            {
-                dP.enemy1Health -= (4 - enemy1DEFbuff);
-            }
-            enemy1IsBleeding = 0;
-            enemy1HasBled = true;
-        }
+                if (ally1IsBleeding == 1 && ally1HasBled == false) //If it's ally1's turn and their turns bleeding is set to 1...
+                {
+                    if (ally1DEFbuff > 4)
+                    {
+                        StartCoroutine(ShowNegativeStatusEffect(ally1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(ally1HealthChangeText, 0));
+                    }
+                    else
+                    {
+                        dP.ally1Health -= (4 - ally1DEFbuff);
+                        StartCoroutine(ShowNegativeStatusEffect(ally1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(ally1HealthChangeText, (4 - ally1DEFbuff)));
+                    }
+                    ally1IsBleeding = 2;
+                    ally1HasBled = true;
+                }
+                else if (ally1IsBleeding == 2 && ally1HasBled == false) //If it's ally1's turn and their turns bleeding is set to 2...
+                {
+                    if (ally1DEFbuff > 4)
+                    {
+                        StartCoroutine(ShowNegativeStatusEffect(ally1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(ally1HealthChangeText, 0));
+                    }
+                    else
+                    {
+                        dP.ally1Health -= (4 - ally1DEFbuff);
+                        StartCoroutine(ShowNegativeStatusEffect(ally1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(ally1HealthChangeText, (4 - ally1DEFbuff)));
+                    }
+                    ally1IsBleeding = 0;
+                    ally1HasBled = true;
+                }
 
-        if (characterTurn == dP.enemy2Name && enemy2IsBleeding == 1 && enemy2HasBled == false) //If it's enemy2's turn and their turns bleeding is set to 1...
-        {
-            if (enemy2DEFbuff > 4)
-            {
-                StartCoroutine(ShowDamageDealt(enemy2HealthLostText, 0));
-            }
-            else
-            {
-                dP.enemy2Health -= (4 - enemy2DEFbuff);
-            }
-            enemy2IsBleeding = 2;
-            enemy2HasBled = true;
-        }
-        else if (characterTurn == dP.enemy2Name && enemy2IsBleeding == 2 && enemy2HasBled == false) //If it's enemy2's turn and their turns bleeding is set to 2...
-        {
-            if (enemy2DEFbuff > 4)
-            {
-                StartCoroutine(ShowDamageDealt(enemy2HealthLostText, 0));
-            }
-            else
-            {
-                dP.enemy2Health -= (4 - enemy2DEFbuff);
-            }
-            enemy2IsBleeding = 0;
-            enemy2HasBled = true;
-        }
+                if (ally2IsBleeding == 1 && ally2HasBled == false) //If it's ally2's turn and their turns bleeding is set to 1...
+                {
+                    if (ally2DEFbuff > 4)
+                    {
+                        StartCoroutine(ShowNegativeStatusEffect(ally2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(ally2HealthChangeText, 0));
+                    }
+                    else
+                    {
+                        dP.ally2Health -= (4 - ally2DEFbuff);
+                        StartCoroutine(ShowNegativeStatusEffect(ally2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(ally2HealthChangeText, (4 - ally2DEFbuff)));
+                    }
+                    ally2IsBleeding = 2;
+                    ally2HasBled = true;
+                }
+                else if (ally2IsBleeding == 2 && ally2HasBled == false) //If it's ally2's turn and their turns bleeding is set to 2...
+                {
+                    if (ally2DEFbuff > 4)
+                    {
+                        StartCoroutine(ShowNegativeStatusEffect(ally2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(ally2HealthChangeText, 0));
+                    }
+                    else
+                    {
+                        dP.ally2Health -= (4 - ally2DEFbuff);
+                        StartCoroutine(ShowNegativeStatusEffect(ally2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(ally2HealthChangeText, (4 - ally2DEFbuff)));
+                    }
+                    ally2IsBleeding = 0;
+                    ally2HasBled = true;
+                }
 
-        if (characterTurn == dP.enemy3Name && enemy3IsBleeding == 1 && enemy3HasBled == false) //If it's enemy3's turn and their turns bleeding is set to 1...
-        {
-            if (enemy3DEFbuff > 4)
-            {
-                StartCoroutine(ShowDamageDealt(enemy3HealthLostText, 0));
+                if (ally3IsBleeding == 1 && ally3HasBled == false) //If it's ally3's turn and their turns bleeding is set to 1...
+                {
+                    if (ally3DEFbuff > 4)
+                    {
+                        StartCoroutine(ShowNegativeStatusEffect(ally3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(ally3HealthChangeText, 0));
+                    }
+                    else
+                    {
+                        dP.ally3Health -= (4 - ally3DEFbuff);
+                        StartCoroutine(ShowNegativeStatusEffect(ally3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(ally3HealthChangeText, (4 - ally3DEFbuff)));
+                    }
+                    ally3IsBleeding = 2;
+                    ally3HasBled = true;
+                }
+                else if (ally3IsBleeding == 2 && ally3HasBled == false) //If it's ally3's turn and their turns bleeding is set to 2...
+                {
+                    if (ally3DEFbuff > 4)
+                    {
+                        StartCoroutine(ShowNegativeStatusEffect(ally3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(ally3HealthChangeText, 0));
+                    }
+                    else
+                    {
+                        dP.ally3Health -= (4 - ally3DEFbuff);
+                        StartCoroutine(ShowNegativeStatusEffect(ally3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(ally3HealthChangeText, (4 - ally3DEFbuff)));
+                    }
+                    ally3IsBleeding = 0;
+                    ally3HasBled = true;
+                }
+
+                if (enemy1IsBleeding == 1 && enemy1HasBled == false) //If it's enemy1's turn and their turns bleeding is set to 1...
+                {
+                    if (enemy1DEFbuff > 4)
+                    {
+                        StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, 0));
+                    }
+                    else
+                    {
+                        dP.enemy1Health -= (4 - enemy1DEFbuff);
+                        StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, (4 - enemy1DEFbuff)));
+                    }
+                    enemy1IsBleeding = 2;
+                    enemy1HasBled = true;
+                }
+                else if (enemy1IsBleeding == 2 && enemy1HasBled == false) //If it's enemy1's turn and their turns bleeding is set to 2...
+                {
+                    if (enemy1DEFbuff > 4)
+                    {
+                        StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, 0));
+                    }
+                    else
+                    {
+                        dP.enemy1Health -= (4 - enemy1DEFbuff);
+                        StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, (4 - enemy1DEFbuff)));
+                    }
+                    enemy1IsBleeding = 0;
+                    enemy1HasBled = true;
+                }
+
+                if (enemy2IsBleeding == 1 && enemy2HasBled == false) //If it's enemy2's turn and their turns bleeding is set to 1...
+                {
+                    if (enemy2DEFbuff > 4)
+                    {
+                        StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, 0));
+                    }
+                    else
+                    {
+                        dP.enemy2Health -= (4 - enemy2DEFbuff);
+                        StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, (4 - enemy2DEFbuff)));
+                    }
+                    enemy2IsBleeding = 2;
+                    enemy2HasBled = true;
+                }
+                else if (enemy2IsBleeding == 2 && enemy2HasBled == false) //If it's enemy2's turn and their turns bleeding is set to 2...
+                {
+                    if (enemy2DEFbuff > 4)
+                    {
+                        StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, 0));
+                    }
+                    else
+                    {
+                        dP.enemy2Health -= (4 - enemy2DEFbuff);
+                        StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, (4 - enemy2DEFbuff)));
+                    }
+                    enemy2IsBleeding = 0;
+                    enemy2HasBled = true;
+                }
+
+                if (enemy3IsBleeding == 1 && enemy3HasBled == false) //If it's enemy3's turn and their turns bleeding is set to 1...
+                {
+                    if (enemy3DEFbuff > 4)
+                    {
+                        StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, 0));
+                    }
+                    else
+                    {
+                        dP.enemy3Health -= (4 - enemy3DEFbuff);
+                        StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, (4 - enemy3DEFbuff)));
+                    }
+                    enemy3IsBleeding = 2;
+                    enemy3HasBled = true;
+                }
+                else if (enemy3IsBleeding == 2 && enemy3HasBled == false) //If it's enemy3's turn and their turns bleeding is set to 2...
+                {
+                    if (enemy3DEFbuff > 4)
+                    {
+                        StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, 0));
+                    }
+                    else
+                    {
+                        dP.enemy3Health -= (4 - enemy3DEFbuff);
+                        StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, (4 - enemy3DEFbuff)));
+                    }
+                    enemy3IsBleeding = 0;
+                    enemy3HasBled = true;
+                }
+
+                ChangeCharacterTurnOffensivePhase();
             }
-            else
+            else if (someoneIsBleeding == false)
             {
-                dP.enemy3Health -= (4 - enemy3DEFbuff);
+                ChangeCharacterTurnOffensivePhase(true);
             }
-            enemy3IsBleeding = 2;
-            enemy3HasBled = true;
-        }
-        else if (characterTurn == dP.enemy3Name && enemy3IsBleeding == 2 && enemy3HasBled == false) //If it's enemy3's turn and their turns bleeding is set to 2...
-        {
-            if (enemy3DEFbuff > 4)
-            {
-                StartCoroutine(ShowDamageDealt(enemy3HealthLostText, 0));
-            }
-            else
-            {
-                dP.enemy3Health -= (4 - enemy3DEFbuff);
-            }
-            enemy3IsBleeding = 0;
-            enemy3HasBled = true;
         }
     }
 
@@ -715,9 +878,19 @@ public class ActionPhase : MonoBehaviour
         //If the current turn is enemy3...
         else if (characterTurn == dP.enemy3Name && Skip == false) //If enemy3 made a move during this phase...
         {
-            StartCoroutine(CCTOPDowntimeFinal());
+            StartCoroutine(CCTOPDowntime("Bleed"));
         }
         else if (characterTurn == dP.enemy3Name && Skip == true) //If enemy3 didn't made a move during this phase...
+        {
+            characterTurn = "Bleed";
+        }
+
+        //If the current turn is for Bleeding Effects...
+        else if (characterTurn == "Bleed" && Skip == false) //If bleed was active during this phase...
+        {
+            StartCoroutine(CCTOPDowntimeFinal());
+        }
+        else if (characterTurn == "Bleed" && Skip == true) //If bleed wasn't active during this phase...
         {
             characterTurn = "";
             dP.actionPhase = false;
@@ -750,42 +923,20 @@ public class ActionPhase : MonoBehaviour
             enemy2HasBled = false;
             enemy3HasBled = false;
         }
-
-        /*if (characterTurn == dP.ally1Name)
-        {
-            StartCoroutine(CCTOPDowntime(dP.ally2Name));
-        }
-        else if (characterTurn == dP.ally2Name)
-        {
-            StartCoroutine(CCTOPDowntime(dP.ally3Name));
-        }
-        else if (characterTurn == dP.ally3Name)
-        {
-            StartCoroutine(CCTOPDowntime(dP.enemy1Name));
-        }
-        else if (characterTurn == dP.enemy1Name)
-        {
-            StartCoroutine(CCTOPDowntime(dP.enemy2Name));
-        }
-        else if (characterTurn == dP.enemy2Name)
-        {
-            StartCoroutine(CCTOPDowntime(dP.enemy2Name));
-        }
-        else if (characterTurn == dP.enemy3Name)
-        {
-            StartCoroutine(CCTOPDowntimeFinal());
-        }*/
     }
 
     IEnumerator CCTOPDowntime(string NextCharacterName) //To be called everytime the character turn in the OffensivePhase is to be changed after a character made a move. Waits 5 seconds before each change.
     {
+        characterTurn = "";
         yield return new WaitForSeconds(5);
         characterTurn = NextCharacterName;
     }
 
     IEnumerator CCTOPDowntimeFinal() //To be called after the final character turn in the OffensivePhase. Waits 5 seconds before each change.
     {
+        characterTurn = "";
         yield return new WaitForSeconds(5);
+        
         characterTurn = "";
         dP.actionPhase = false;
 
@@ -818,8 +969,17 @@ public class ActionPhase : MonoBehaviour
         enemy3HasBled = false;
     }
 
-    IEnumerator ShowStatusEffect(TextMeshProUGUI CharacterEffected, string StatusEffect) //When called, shows the inflicted status effect of the character for 3 seconds.
+    IEnumerator ShowNegativeStatusEffect(TextMeshProUGUI CharacterEffected, string StatusEffect) //When called, shows the negative inflicted status effect of the character for 3 seconds.
     {
+        CharacterEffected.color = new Color32(255, 0, 0, 200);
+        CharacterEffected.text = StatusEffect;
+        yield return new WaitForSeconds(3);
+        CharacterEffected.text = "";
+    }
+
+    IEnumerator ShowPositiveStatusEffect(TextMeshProUGUI CharacterEffected, string StatusEffect) //When called, shows the positive inflicted status effect of the character for 3 seconds.
+    {
+        CharacterEffected.color = new Color32(0, 0, 255, 200);
         CharacterEffected.text = StatusEffect;
         yield return new WaitForSeconds(3);
         CharacterEffected.text = "";
@@ -827,9 +987,18 @@ public class ActionPhase : MonoBehaviour
 
     IEnumerator ShowDamageDealt(TextMeshProUGUI CharacterHealthLost, int AmountLost) //When called, shows the damage dealt to the character for 3 seconds.
     {
+        CharacterHealthLost.color = new Color32(255, 0, 0, 200);
         CharacterHealthLost.text = "- " + AmountLost;
         yield return new WaitForSeconds(3);
         CharacterHealthLost.text = "";
+    }
+
+    IEnumerator ShowHealingDealt(TextMeshProUGUI CharacterHealthGained, int AmountGained) //When called, shows the heal dealt to the character for 3 seconds.
+    {
+        CharacterHealthGained.color = new Color32(0, 255, 0, 200);
+        CharacterHealthGained.text = "+ " + AmountGained;
+        yield return new WaitForSeconds(3);
+        CharacterHealthGained.text = "";
     }
 
     IEnumerator ShowMiss(TextMeshProUGUI CharacterMissText) //When called, shows the damage dealt to the character for 3 seconds.
