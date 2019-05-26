@@ -112,9 +112,6 @@ public class DecisionPhase : MonoBehaviour
     [HideInInspector]
     public string ally1TargetSelected = "", ally2TargetSelected = "", ally3TargetSelected = "", enemy1TargetSelected = "", enemy2TargetSelected = "", enemy3TargetSelected = "";
     private int enemyTargetSelectNumber;
-
-    [HideInInspector]
-    public bool ally1IsCharging = false, ally2IsCharging = false, ally3IsCharging = false, enemy1IsCharging = false, enemy2IsCharging = false, enemy3IsCharging = false;
     
     [HideInInspector]
     public string characterTurn = "";
@@ -188,7 +185,9 @@ public class DecisionPhase : MonoBehaviour
 
         EnemyTurn(); //Calls EnemyTurn every frame to check if it's one of the enemy's turns.
 
-        ChangePhaseText(); //Calls ChangePhaseText every turn to check which phase it is.
+        ChangePhaseText(); //Calls ChangePhaseText every frame to check which phase it is.
+
+        SkipTurn(); //Calls SkipTurn every frame to check if a character is doing a charge move.
     }
 
     public void Move1Selected() //Called when the Move1 Button is clicked.
@@ -341,19 +340,16 @@ public class DecisionPhase : MonoBehaviour
             if (ally1Name == "GlassCannon")
             {
                 ally1MoveSelected = "Focus Shot";
-                ChargeMove();
                 selectAnEnemy = true;
             }
             else if (ally2Name == "GlassCannon")
             {
                 ally2MoveSelected = "Focus Shot";
-                ChargeMove();
                 selectAnEnemy = true;
             }
             else if (ally3Name == "GlassCannon")
             {
                 ally3MoveSelected = "Focus Shot";
-                ChargeMove();
                 selectAnEnemy = true;
             }
         }
@@ -621,22 +617,6 @@ public class DecisionPhase : MonoBehaviour
         cMMoveInfo.text = "";
     }
 
-    void ChargeMove() //Called when a move requires a round to charge.
-    {
-        if (characterTurn == ally1Name)
-        {
-            ally1IsCharging = true;
-        }
-        else if (characterTurn == ally2Name)
-        {
-            ally2IsCharging = true;
-        }
-        else if (characterTurn == ally3Name)
-        {
-            ally3IsCharging = true;
-        }
-    }
-
     void TargetSelection() //Called in Update(); used to select targets for moves.
     {
         if (selectAnEnemy == true || selectAnAlly == true) //If the player is required to select an enemy or ally, the player will be able to click on one of the enemy or ally colliders.
@@ -798,6 +778,10 @@ public class DecisionPhase : MonoBehaviour
             ally1Sprite.sprite = null;
             ally1Collider.enabled = false;
             ally1Health = 0;
+            aP.ally1IsBleeding = 0;
+            /*aP.ally1IsCharging = false;
+            ally1TargetSelected = "";
+            ally1MoveSelected = "";*/
         }
         if (ally2Health <= 0)
         {
@@ -806,6 +790,10 @@ public class DecisionPhase : MonoBehaviour
             ally2Sprite.sprite = null;
             ally2Collider.enabled = false;
             ally2Health = 0;
+            aP.ally2IsBleeding = 0;
+            /*aP.ally2IsCharging = false;
+            ally2TargetSelected = "";
+            ally2MoveSelected = "";*/
         }
         if (ally3Health <= 0)
         {
@@ -814,6 +802,10 @@ public class DecisionPhase : MonoBehaviour
             ally3Sprite.sprite = null;
             ally3Collider.enabled = false;
             ally3Health = 0;
+            aP.ally3IsBleeding = 0;
+            /*aP.ally3IsCharging = false;
+            ally3TargetSelected = "";
+            ally3MoveSelected = "";*/
         }
         if (enemy1Health <= 0)
         {
@@ -822,6 +814,10 @@ public class DecisionPhase : MonoBehaviour
             enemy1Sprite.sprite = null;
             enemy1Collider.enabled = false;
             enemy1Health = 0;
+            aP.enemy1IsBleeding = 0;
+            /*aP.enemy1IsCharging = false;
+            enemy1TargetSelected = "";
+            enemy1MoveSelected = "";*/
         }
         if (enemy2Health <= 0)
         {
@@ -830,6 +826,10 @@ public class DecisionPhase : MonoBehaviour
             enemy2Sprite.sprite = null;
             enemy2Collider.enabled = false;
             enemy2Health = 0;
+            aP.enemy2IsBleeding = 0;
+            /*aP.enemy2IsCharging = false;
+            enemy2TargetSelected = "";
+            enemy2MoveSelected = "";*/
         }
         if (enemy3Health <= 0)
         {
@@ -838,6 +838,10 @@ public class DecisionPhase : MonoBehaviour
             enemy3Sprite.sprite = null;
             enemy3Collider.enabled = false;
             enemy3Health = 0;
+            aP.enemy3IsBleeding = 0;
+            /*aP.enemy3IsCharging = false;
+            enemy3TargetSelected = "";
+            enemy3MoveSelected = "";*/
         }
     }
 
@@ -939,6 +943,31 @@ public class DecisionPhase : MonoBehaviour
         {
             phaseText.color = new Color32(255, 29, 0, 255);
             phaseText.text = "A C T I O N   P H A S E";
+        }
+    }
+
+    void SkipTurn() //Called in Update(); skips a turn when a character is doing something that requires a round to charge.
+    {
+        if (aP.ally1IsCharging)
+        {
+            if (characterTurn == ally1Name)
+            {
+                Ally1MoveChosen();
+            }
+        }
+        if (aP.ally2IsCharging)
+        {
+            if (characterTurn == ally2Name)
+            {
+                Ally2MoveChosen();
+            }
+        }
+        if (aP.ally3IsCharging)
+        {
+            if (characterTurn == ally3Name)
+            {
+                Ally3MoveChosen();
+            }
         }
     }
 }

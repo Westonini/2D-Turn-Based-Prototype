@@ -43,6 +43,9 @@ public class ActionPhase : MonoBehaviour
     private int enemy2DEFbuff = 0;
     private int enemy3DEFbuff = 0;
 
+    [HideInInspector]
+    public bool ally1IsCharging = false, ally2IsCharging = false, ally3IsCharging = false, enemy1IsCharging = false, enemy2IsCharging = false, enemy3IsCharging = false;
+
     public bool defensivePhase = true;
 
     private int accuracy;
@@ -52,12 +55,8 @@ public class ActionPhase : MonoBehaviour
     private bool ally3HasSmokeBomb = false;
 
     private int bleedChance;
-    private int ally1IsBleeding = 0;
-    private int ally2IsBleeding = 0;
-    private int ally3IsBleeding = 0;
-    private int enemy1IsBleeding = 0;
-    private int enemy2IsBleeding = 0;
-    private int enemy3IsBleeding = 0;
+    [HideInInspector]
+    public int ally1IsBleeding = 0, ally2IsBleeding = 0, ally3IsBleeding = 0, enemy1IsBleeding = 0, enemy2IsBleeding = 0, enemy3IsBleeding = 0;
     private bool ally1HasBled = false;
     private bool ally2HasBled = false;
     private bool ally3HasBled = false;
@@ -409,21 +408,36 @@ public class ActionPhase : MonoBehaviour
             //If GlassCannon is ally1...
             if (dP.ally1Name == "GlassCannon" && dP.ally1MoveSelected != "")
             {
-                GlassCannonOffensiveAllyBranching(dP.ally1MoveSelected, dP.ally1TargetSelected, ally1STRbuff);
+                GlassCannonOffensiveAllyBranching(dP.ally1MoveSelected, dP.ally1TargetSelected, ally1STRbuff, "Ally1");
+                if (dP.ally1MoveSelected != "Focus Shot")
+                {
+                    dP.ally1MoveSelected = "";
+                    dP.ally1TargetSelected = "";
+                }
                 ChangeCharacterTurnOffensivePhase();
             }
 
             //If GlassCannon is ally2...
             else if (dP.ally2Name == "GlassCannon" && dP.ally2MoveSelected != "")
             {
-                GlassCannonOffensiveAllyBranching(dP.ally2MoveSelected, dP.ally2TargetSelected, ally2STRbuff);
+                GlassCannonOffensiveAllyBranching(dP.ally2MoveSelected, dP.ally2TargetSelected, ally2STRbuff, "Ally2");
+                if (dP.ally2MoveSelected != "Focus Shot")
+                {
+                    dP.ally2MoveSelected = "";
+                    dP.ally2TargetSelected = "";
+                }
                 ChangeCharacterTurnOffensivePhase();
             }
 
             //If GlassCannon is ally3...
             else if (dP.ally3Name == "GlassCannon" && dP.ally3MoveSelected != "")
             {
-                GlassCannonOffensiveAllyBranching(dP.ally3MoveSelected, dP.ally3TargetSelected, ally3STRbuff);
+                GlassCannonOffensiveAllyBranching(dP.ally3MoveSelected, dP.ally3TargetSelected, ally3STRbuff, "Ally3");
+                if (dP.ally3MoveSelected != "Focus Shot")
+                {
+                    dP.ally3MoveSelected = "";
+                    dP.ally3TargetSelected = "";
+                }
                 ChangeCharacterTurnOffensivePhase();
             }
 
@@ -456,7 +470,7 @@ public class ActionPhase : MonoBehaviour
         }
     }
 
-    void GlassCannonOffensiveAllyBranching(string MoveSelected, string TargetSelected, int STRbuff) //Used for ally branching in the HeroProtagonistOffensive function.
+    void GlassCannonOffensiveAllyBranching(string MoveSelected, string TargetSelected, int STRbuff, string AllyPlacement) //Used for ally branching in the HeroProtagonistOffensive function.
     {
         if (MoveSelected == "Shard Shot") // If the move selected is Shard Shot...
         {
@@ -510,6 +524,279 @@ public class ActionPhase : MonoBehaviour
             else if (TargetSelected == dP.enemy3Name && accuracy > 70) //If the target selected is enemy3 but it misses...
             {
                 StartCoroutine(ShowMiss(enemy3MissText));
+            }
+        }
+
+        else if (MoveSelected == "Shatter") //If the move selected is Shatter...
+        {
+            //Enemy1
+            accuracy = Random.Range(1, 101);
+            bleedChance = Random.Range(1, 101);
+
+            if (accuracy <= 70) //If the accuracy is 70 or lower it hits
+            {
+                dP.enemy1Health -= (7 + STRbuff) - enemy1DEFbuff;
+                StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((7 + STRbuff) - enemy1DEFbuff)));
+                if (bleedChance <= 15)
+                {
+                    enemy1IsBleeding = 1;
+                    StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                }
+            }
+            else if (accuracy > 70) //If the accuracy is 70 or lower it misses
+            {
+                StartCoroutine(ShowMiss(enemy1MissText));
+            }
+
+            //Enemy2
+            accuracy = Random.Range(1, 101);
+            bleedChance = Random.Range(1, 101);
+
+            if (accuracy <= 70) //If the accuracy is 70 or lower it hits
+            {
+                dP.enemy2Health -= (7 + STRbuff) - enemy2DEFbuff;
+                StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((7 + STRbuff) - enemy2DEFbuff)));
+                if (bleedChance <= 15)
+                {
+                    enemy2IsBleeding = 1;
+                    StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                }
+            }
+            else if (accuracy > 70) //If the accuracy is 70 or lower it misses
+            {
+                StartCoroutine(ShowMiss(enemy2MissText));
+            }
+
+            //Enemy3
+            accuracy = Random.Range(1, 101);
+            bleedChance = Random.Range(1, 101);
+
+            if (accuracy <= 70) //If the accuracy is 70 or lower it hits
+            {
+                dP.enemy3Health -= (7 + STRbuff) - enemy3DEFbuff;
+                StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((7 + STRbuff) - enemy3DEFbuff)));
+                if (bleedChance <= 15)
+                {
+                    enemy3IsBleeding = 1;
+                    StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                }
+            }
+            else if (accuracy > 70) //If the accuracy is 70 or lower it misses
+            {
+                StartCoroutine(ShowMiss(enemy3MissText));
+            }
+
+        }
+
+        else if (MoveSelected == "Focus Shot") //If the move selected is Focus Shot...
+        {
+            accuracy = Random.Range(1, 101);
+            bleedChance = Random.Range(1, 101);
+
+            //If GlassCannon is Ally1 and hasn't charged yet...
+            if (AllyPlacement == "Ally1" && ally1IsCharging == false)
+            {
+                ally1IsCharging = true;
+                StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "Charging"));
+            }
+            //Else if GlassCannon is Ally1 but has already charged...
+            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy1Name && accuracy <= 70) //If the target selected is enemy1 and it hits...
+            {
+                dP.enemy1Health -= (35 + STRbuff) - enemy1DEFbuff;
+                StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((35 + STRbuff) - enemy1DEFbuff)));
+                dP.ally1MoveSelected = "";
+                dP.ally1TargetSelected = "";
+                ally1IsCharging = false;              
+                if (bleedChance <= 40)
+                {
+                    enemy1IsBleeding = 1;
+                    StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                }
+            }
+            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy1Name && accuracy > 70) //If the target selected is enemy1 and it misses...
+            {
+                StartCoroutine(ShowMiss(enemy1MissText));
+                dP.ally1MoveSelected = "";
+                dP.ally1TargetSelected = "";
+                ally1IsCharging = false;
+            }
+            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy2Name && accuracy <= 70) //If the target selected is enemy2 and it hits...
+            {
+                dP.enemy2Health -= (35 + STRbuff) - enemy2DEFbuff;
+                StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((35 + STRbuff) - enemy2DEFbuff)));
+                dP.ally1MoveSelected = "";
+                dP.ally1TargetSelected = "";
+                ally1IsCharging = false;
+                if (bleedChance <= 40)
+                {
+                    enemy2IsBleeding = 1;
+                    StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                }
+            }
+            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy2Name && accuracy > 70) //If the target selected is enemy2 and it misses...
+            {
+                StartCoroutine(ShowMiss(enemy2MissText));
+                dP.ally1MoveSelected = "";
+                dP.ally1TargetSelected = "";
+                ally1IsCharging = false;
+            }
+            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy3Name && accuracy <= 70) //If the target selected is enemy3 and it hits...
+            {
+                dP.enemy3Health -= (35 + STRbuff) - enemy3DEFbuff;
+                StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((35 + STRbuff) - enemy3DEFbuff)));
+                dP.ally1MoveSelected = "";
+                dP.ally1TargetSelected = "";
+                ally1IsCharging = false;
+                if (bleedChance <= 40)
+                {
+                    enemy3IsBleeding = 1;
+                    StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                }
+            }
+            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy3Name && accuracy > 70) //If the target selected is enemy3 and it misses...
+            {
+                StartCoroutine(ShowMiss(enemy3MissText));
+                dP.ally1MoveSelected = "";
+                dP.ally1TargetSelected = "";
+                ally1IsCharging = false;
+            }
+
+
+            //If GlassCannon is Ally2 and hasn't charged yet...
+            if (AllyPlacement == "Ally2" && ally2IsCharging == false)
+            {
+                ally2IsCharging = true;
+                StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "Charging"));
+            }
+            //Else if GlassCannon is Ally2 but has already charged...
+            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy1Name && accuracy <= 70) //If the target selected is enemy1 and it hits...
+            {
+                dP.enemy1Health -= (35 + STRbuff) - enemy1DEFbuff;
+                StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((35 + STRbuff) - enemy1DEFbuff)));
+                dP.ally2MoveSelected = "";
+                dP.ally2TargetSelected = "";
+                ally2IsCharging = false;
+                if (bleedChance <= 40)
+                {
+                    enemy1IsBleeding = 1;
+                    StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                }
+            }
+            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy1Name && accuracy > 70) //If the target selected is enemy1 and it misses...
+            {
+                StartCoroutine(ShowMiss(enemy1MissText));
+                dP.ally2MoveSelected = "";
+                dP.ally2TargetSelected = "";
+                ally2IsCharging = false;
+            }
+            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy2Name && accuracy <= 70) //If the target selected is enemy2 and it hits...
+            {
+                dP.enemy2Health -= (35 + STRbuff) - enemy2DEFbuff;
+                StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((35 + STRbuff) - enemy2DEFbuff)));
+                dP.ally2MoveSelected = "";
+                dP.ally2TargetSelected = "";
+                ally2IsCharging = false;
+                if (bleedChance <= 40)
+                {
+                    enemy2IsBleeding = 1;
+                    StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                }
+            }
+            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy2Name && accuracy > 70) //If the target selected is enemy2 and it misses...
+            {
+                StartCoroutine(ShowMiss(enemy2MissText));
+                dP.ally2MoveSelected = "";
+                dP.ally2TargetSelected = "";
+                ally2IsCharging = false;
+            }
+            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy3Name && accuracy <= 70) //If the target selected is enemy3 and it hits...
+            {
+                dP.enemy3Health -= (35 + STRbuff) - enemy3DEFbuff;
+                StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((35 + STRbuff) - enemy3DEFbuff)));
+                dP.ally2MoveSelected = "";
+                dP.ally2TargetSelected = "";
+                ally2IsCharging = false;
+                if (bleedChance <= 40)
+                {
+                    enemy3IsBleeding = 1;
+                    StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                }
+            }
+            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy3Name && accuracy > 70) //If the target selected is enemy3 and it misses...
+            {
+                StartCoroutine(ShowMiss(enemy3MissText));
+                dP.ally2MoveSelected = "";
+                dP.ally2TargetSelected = "";
+                ally2IsCharging = false;
+            }
+
+
+            //If GlassCannon is Ally3 and hasn't charged yet...
+            if (AllyPlacement == "Ally3" && ally3IsCharging == false)
+            {
+                ally3IsCharging = true;
+                StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "Charging"));
+            }
+            //Else if GlassCannon is Ally3 but has already charged...
+            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy1Name && accuracy <= 70) //If the target selected is enemy1 and it hits...
+            {
+                dP.enemy1Health -= (35 + STRbuff) - enemy1DEFbuff;
+                StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((35 + STRbuff) - enemy1DEFbuff)));
+                dP.ally3MoveSelected = "";
+                dP.ally3TargetSelected = "";
+                ally3IsCharging = false;
+                if (bleedChance <= 40)
+                {
+                    enemy1IsBleeding = 1;
+                    StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                }
+            }
+            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy1Name && accuracy > 70) //If the target selected is enemy1 and it misses...
+            {
+                StartCoroutine(ShowMiss(enemy1MissText));
+                dP.ally3MoveSelected = "";
+                dP.ally3TargetSelected = "";
+                ally3IsCharging = false;
+            }
+            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy2Name && accuracy <= 70) //If the target selected is enemy2 and it hits...
+            {
+                dP.enemy2Health -= (35 + STRbuff) - enemy2DEFbuff;
+                StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((35 + STRbuff) - enemy2DEFbuff)));
+                dP.ally3MoveSelected = "";
+                dP.ally3TargetSelected = "";
+                ally3IsCharging = false;
+                if (bleedChance <= 40)
+                {
+                    enemy2IsBleeding = 1;
+                    StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                }
+            }
+            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy2Name && accuracy > 70) //If the target selected is enemy2 and it misses...
+            {
+                StartCoroutine(ShowMiss(enemy2MissText));
+                dP.ally3MoveSelected = "";
+                dP.ally3TargetSelected = "";
+                ally3IsCharging = false;
+            }
+            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy3Name && accuracy <= 70) //If the target selected is enemy3 and it hits...
+            {
+                dP.enemy3Health -= (35 + STRbuff) - enemy3DEFbuff;
+                StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((35 + STRbuff) - enemy3DEFbuff)));
+                dP.ally3MoveSelected = "";
+                dP.ally3TargetSelected = "";
+                ally3IsCharging = false;
+                if (bleedChance <= 40)
+                {
+                    enemy3IsBleeding = 1;
+                    StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                }
+            }
+            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy3Name && accuracy > 70) //If the target selected is enemy3 and it misses...
+            {
+                StartCoroutine(ShowMiss(enemy3MissText));
+                dP.ally3MoveSelected = "";
+                dP.ally3TargetSelected = "";
+                ally3IsCharging = false;
             }
         }
     }
@@ -967,6 +1254,10 @@ public class ActionPhase : MonoBehaviour
 
         dP.characterTurn = dP.ally1Name;
         dP.charactersTurnText.text = dP.characterTurn + "'s Turn";
+
+        ally1HasSmokeBomb = false;
+        ally2HasSmokeBomb = false;
+        ally3HasSmokeBomb = false;
 
         ally1HasBled = false;
         ally2HasBled = false;
