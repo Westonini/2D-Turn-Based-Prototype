@@ -242,28 +242,16 @@ public class ActionPhase : MonoBehaviour
             {
                 dP.ally1Health += 6;
                 StartCoroutine(ShowHealingDealt(ally1HealthChangeText, 6));
-                if (dP.ally1Health > dP.ally1MaxHealth)
-                {
-                    dP.ally1Health = dP.ally1MaxHealth;
-                }
             }
             else if (TargetSelected == dP.ally2Name) //If the target selected is ally2...
             {
                 dP.ally2Health += 6;
                 StartCoroutine(ShowHealingDealt(ally2HealthChangeText, 6));
-                if (dP.ally2Health > dP.ally2MaxHealth)
-                {
-                    dP.ally2Health = dP.ally2MaxHealth;
-                }
             }
             else if (TargetSelected == dP.ally3Name) //If the target selected is ally3...
             {
                 dP.ally3Health += 6;
                 StartCoroutine(ShowHealingDealt(ally3HealthChangeText, 6));
-                if (dP.ally3Health > dP.ally3MaxHealth)
-                {
-                    dP.ally3Health = dP.ally3MaxHealth;
-                }
             }
         }
     }
@@ -867,11 +855,42 @@ public class ActionPhase : MonoBehaviour
         }
     }
 
+    //Called when the characterTurn == "SupportMain" and the move chosen was an offensive-type move.
     void SupportMainOffensive()
     {
         if (characterTurn == "SupportMain")
         {
-            ChangeCharacterTurnOffensivePhase(true);
+            //If SupportMain is ally1...
+            if (dP.ally1Name == "SupportMain" && dP.ally1MoveSelected != "")
+            {
+                SupportMainOffensiveAllyBranching(dP.ally1MoveSelected, dP.ally1TargetSelected, ally1STRbuff, "Ally1");
+                dP.ally1MoveSelected = "";
+                dP.ally1TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase();
+            }
+
+            //If SupportMain is ally2...
+            else if (dP.ally2Name == "SupportMain" && dP.ally2MoveSelected != "")
+            {
+                SupportMainOffensiveAllyBranching(dP.ally2MoveSelected, dP.ally2TargetSelected, ally2STRbuff, "Ally2");
+                dP.ally2MoveSelected = "";
+                dP.ally2TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase();
+            }
+
+            //If SupportMain is ally3...
+            else if (dP.ally3Name == "SupportMain" && dP.ally3MoveSelected != "")
+            {
+                SupportMainOffensiveAllyBranching(dP.ally3MoveSelected, dP.ally3TargetSelected, ally3STRbuff, "Ally3");
+                dP.ally3MoveSelected = "";
+                dP.ally3TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase();
+            }
+
+            else
+            {
+                ChangeCharacterTurnOffensivePhase(true);
+            }
         }
     }
 
@@ -883,28 +902,16 @@ public class ActionPhase : MonoBehaviour
             {
                 dP.ally1Health += 12;
                 StartCoroutine(ShowHealingDealt(ally1HealthChangeText, 12));
-                if (dP.ally1Health > dP.ally1MaxHealth)
-                {
-                    dP.ally1Health = dP.ally1MaxHealth;
-                }
             }
             else if (TargetSelected == dP.ally2Name) //If the target selected is ally2...
             {
                 dP.ally2Health += 12;
                 StartCoroutine(ShowHealingDealt(ally2HealthChangeText, 12));
-                if (dP.ally2Health > dP.ally2MaxHealth)
-                {
-                    dP.ally2Health = dP.ally2MaxHealth;
-                }
             }
             else if (TargetSelected == dP.ally3Name) //If the target selected is ally3...
             {
                 dP.ally3Health += 12;
                 StartCoroutine(ShowHealingDealt(ally3HealthChangeText, 12));
-                if (dP.ally3Health > dP.ally3MaxHealth)
-                {
-                    dP.ally3Health = dP.ally3MaxHealth;
-                }
             }
         }
 
@@ -922,28 +929,103 @@ public class ActionPhase : MonoBehaviour
         {
             dP.ally1Health += 6;
             StartCoroutine(ShowHealingDealt(ally1HealthChangeText, 6));
-            if (dP.ally1Health > dP.ally1MaxHealth)
-            {
-                dP.ally1Health = dP.ally1MaxHealth;
-            }
 
             dP.ally2Health += 6;
             StartCoroutine(ShowHealingDealt(ally2HealthChangeText, 6));
-            if (dP.ally2Health > dP.ally2MaxHealth)
-            {
-                dP.ally2Health = dP.ally2MaxHealth;
-            }
 
             dP.ally3Health += 6;
             StartCoroutine(ShowHealingDealt(ally3HealthChangeText, 6));
-            if (dP.ally3Health > dP.ally3MaxHealth)
+        }
+    }
+
+    void SupportMainOffensiveAllyBranching(string MoveSelected, string TargetSelected, int STRbuff, string AllyPlacement) //Used for ally branching in the SupportMainOffensive function.
+    {
+        if (MoveSelected == "Leech") //If the move selected is Leech...
+        {
+            accuracy = Random.Range(1, 101);
+
+            if (TargetSelected == dP.enemy1Name && accuracy <= 85) //If the target selected is enemy1 and the accuracy is 80 or below...
             {
-                dP.ally3Health = dP.ally3MaxHealth;
+                dP.enemy1Health -= (8 + STRbuff) - enemy1DEFbuff;
+                StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((8 + STRbuff) - enemy1DEFbuff)));
+
+                if (AllyPlacement == "Ally1")
+                {
+                    dP.ally1Health += ((8 + STRbuff) - enemy1DEFbuff) / 2;
+                    StartCoroutine(ShowHealingDealt(ally1HealthChangeText, ((8 + STRbuff) - enemy1DEFbuff) / 2));
+                }
+                else if (AllyPlacement == "Ally2")
+                {
+                    dP.ally2Health += ((8 + STRbuff) - enemy1DEFbuff) / 2;
+                    StartCoroutine(ShowHealingDealt(ally2HealthChangeText, ((8 + STRbuff) - enemy1DEFbuff) / 2));
+                }
+                if (AllyPlacement == "Ally3")
+                {
+                    dP.ally3Health += ((8 + STRbuff) - enemy1DEFbuff) / 2;
+                    StartCoroutine(ShowHealingDealt(ally3HealthChangeText, ((8 + STRbuff) - enemy1DEFbuff) / 2));
+                }
+            }
+            else if (TargetSelected == dP.enemy1Name && accuracy > 85) //If the target selected is enemy1 but the attack misses...
+            {
+                StartCoroutine(ShowMiss(enemy1MissText));
+            }
+
+            else if (TargetSelected == dP.enemy2Name && accuracy <= 85) //If the target selected is enemy2 and the accuracy is 80 or below...
+            {
+                dP.enemy2Health -= (8 + STRbuff) - enemy2DEFbuff;
+                StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((8 + STRbuff) - enemy2DEFbuff)));
+
+                if (AllyPlacement == "Ally1")
+                {
+                    dP.ally1Health += ((8 + STRbuff) - enemy2DEFbuff) / 2;
+                    StartCoroutine(ShowHealingDealt(ally1HealthChangeText, ((8 + STRbuff) - enemy2DEFbuff) / 2));
+                }
+                else if (AllyPlacement == "Ally2")
+                {
+                    dP.ally2Health += ((8 + STRbuff) - enemy2DEFbuff) / 2;
+                    StartCoroutine(ShowHealingDealt(ally2HealthChangeText, ((8 + STRbuff) - enemy2DEFbuff) / 2));
+                }
+                if (AllyPlacement == "Ally3")
+                {
+                    dP.ally3Health += ((8 + STRbuff) - enemy2DEFbuff) / 2;
+                    StartCoroutine(ShowHealingDealt(ally3HealthChangeText, ((8 + STRbuff) - enemy2DEFbuff) / 2));
+                }
+            }
+            else if (TargetSelected == dP.enemy2Name && accuracy > 85) //If the target selected is enemy2 but the attack misses...
+            {
+                StartCoroutine(ShowMiss(enemy2MissText));
+            }
+
+
+            else if (TargetSelected == dP.enemy3Name && accuracy <= 85) //If the target selected is enemy3 and the accuracy is 80 or below...
+            {
+                dP.enemy3Health -= (8 + STRbuff) - enemy3DEFbuff;
+                StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((8 + STRbuff) - enemy3DEFbuff)));
+
+                if (AllyPlacement == "Ally1")
+                {
+                    dP.ally1Health += ((8 + STRbuff) - enemy3DEFbuff) / 2;
+                    StartCoroutine(ShowHealingDealt(ally1HealthChangeText, ((8 + STRbuff) - enemy3DEFbuff) / 2));
+                }
+                else if (AllyPlacement == "Ally2")
+                {
+                    dP.ally2Health += ((8 + STRbuff) - enemy3DEFbuff) / 2;
+                    StartCoroutine(ShowHealingDealt(ally2HealthChangeText, ((8 + STRbuff) - enemy3DEFbuff) / 2));
+                }
+                if (AllyPlacement == "Ally3")
+                {
+                    dP.ally3Health += ((8 + STRbuff) - enemy3DEFbuff) / 2;
+                    StartCoroutine(ShowHealingDealt(ally3HealthChangeText, ((8 + STRbuff) - enemy3DEFbuff) / 2));
+                }
+            }
+            else if (TargetSelected == dP.enemy3Name && accuracy > 85) //If the target selected is enemy3 but the attack misses...
+            {
+                StartCoroutine(ShowMiss(enemy3MissText));
             }
         }
     }
 
-    void SlimeDefensive()
+        void SlimeDefensive()
     {
         if (characterTurn == "Slime1" || characterTurn == "Slime2" || characterTurn == "Slime3")
         {

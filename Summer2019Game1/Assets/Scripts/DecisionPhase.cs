@@ -457,26 +457,50 @@ public class DecisionPhase : MonoBehaviour
     {
         if (ally1Dead != true)
         {
+            if (ally1Health > ally1MaxHealth)
+            {
+                ally1Health = ally1MaxHealth;
+            }
             ally1HealthText.text = "HP: " + ally1Health.ToString() + " / " + ally1MaxHealth.ToString();
         }
         if (ally2Dead != true)
         {
+            if (ally2Health > ally2MaxHealth)
+            {
+                ally2Health = ally2MaxHealth;
+            }
             ally2HealthText.text = "HP: " + ally2Health.ToString() + " / " + ally2MaxHealth.ToString();
         }
         if (ally3Dead != true)
         {
+            if (ally3Health > ally3MaxHealth)
+            {
+                ally3Health = ally3MaxHealth;
+            }
             ally3HealthText.text = "HP: " + ally3Health.ToString() + " / " + ally3MaxHealth.ToString();
         }
         if (enemy1Dead != true)
         {
+            if (enemy1Health > enemy1MaxHealth)
+            {
+                enemy1Health = enemy1MaxHealth;
+            }
             enemy1HealthText.text = "HP: " + enemy1Health.ToString() + " / " + enemy1MaxHealth.ToString();
         }
         if (enemy2Dead != true)
         {
+            if (enemy2Health > enemy2MaxHealth)
+            {
+                enemy2Health = enemy2MaxHealth;
+            }
             enemy2HealthText.text = "HP: " + enemy2Health.ToString() + " / " + enemy2MaxHealth.ToString();
         }
         if (enemy3Dead != true)
         {
+            if (enemy3Health > enemy3MaxHealth)
+            {
+                enemy3Health = enemy3MaxHealth;
+            }
             enemy3HealthText.text = "HP: " + enemy3Health.ToString() + " / " + enemy3MaxHealth.ToString();
         }
 
