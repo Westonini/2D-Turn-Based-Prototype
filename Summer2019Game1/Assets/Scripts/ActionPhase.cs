@@ -99,7 +99,7 @@ public class ActionPhase : MonoBehaviour
                 SupportMainDefensive();
                 SlimeDefensive();
             }
-            else //If it's the OffensivePhase
+            else if (defensivePhase != true) //If it's the OffensivePhase
             {  
                 HeroProtagonistOffensive();
                 GlassCannonOffensive();
@@ -448,7 +448,7 @@ public class ActionPhase : MonoBehaviour
         }
     }
 
-    void GlassCannonDefensiveAllyBranching(string MoveSelected, string TargetSelected)
+    void GlassCannonDefensiveAllyBranching(string MoveSelected, string TargetSelected) //Used for ally branching in the GlassCannonDefensive function.
     {
         if (MoveSelected == "Smoke Bomb") //If the move selected is Smoke bomb...
         {
@@ -470,7 +470,7 @@ public class ActionPhase : MonoBehaviour
         }
     }
 
-    void GlassCannonOffensiveAllyBranching(string MoveSelected, string TargetSelected, int STRbuff, string AllyPlacement) //Used for ally branching in the HeroProtagonistOffensive function.
+    void GlassCannonOffensiveAllyBranching(string MoveSelected, string TargetSelected, int STRbuff, string AllyPlacement) //Used for ally branching in the GlassCannonOffensive function.
     {
         if (MoveSelected == "Shard Shot") // If the move selected is Shard Shot...
         {
@@ -801,11 +801,69 @@ public class ActionPhase : MonoBehaviour
         }
     }
 
+    //Called when the characterTurn == "SupportMain" and the move chosen was a defensive-type move.
     void SupportMainDefensive()
     {
         if (characterTurn == "SupportMain")
         {
-            ChangeCharacterTurnDefensivePhase();
+            //If SupportMain is ally1...
+            if (dP.ally1Name == "SupportMain")
+            {
+                SupportMainDefensiveAllyBranching(dP.ally1MoveSelected, dP.ally1TargetSelected);
+
+                if (dP.ally1MoveSelected == "Defend")
+                {
+                    {
+                        ally1DEFbuff += 5;
+                        StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF Inc."));
+                    }
+                }
+                if (dP.ally1MoveSelected == "Mend" || dP.ally1MoveSelected == "Buckle Down" || dP.ally1MoveSelected == "Mend-All" || dP.ally1MoveSelected == "Defend")
+                {
+                    dP.ally1MoveSelected = "";
+                    dP.ally1TargetSelected = "";
+                }
+            }
+
+            //If SupportMain is ally2...
+            else if (dP.ally2Name == "SupportMain")
+            {
+                SupportMainDefensiveAllyBranching(dP.ally2MoveSelected, dP.ally2TargetSelected);
+
+                if (dP.ally2MoveSelected == "Defend")
+                {
+                    {
+                        ally2DEFbuff += 5;
+                        StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF Inc."));
+                    }
+                }
+                if (dP.ally2MoveSelected == "Mend" || dP.ally2MoveSelected == "Buckle Down" || dP.ally2MoveSelected == "Mend-All" || dP.ally2MoveSelected == "Defend")
+                {
+                    dP.ally2MoveSelected = "";
+                    dP.ally2TargetSelected = "";
+                }
+            }
+
+            //If SupportMain is ally3...
+            if (dP.ally3Name == "SupportMain")
+            {
+                SupportMainDefensiveAllyBranching(dP.ally3MoveSelected, dP.ally3TargetSelected);
+
+                if (dP.ally3MoveSelected == "Defend")
+                {
+                    {
+                        ally3DEFbuff += 5;
+                        StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF Inc."));
+                    }
+                }
+                if (dP.ally3MoveSelected == "Mend" || dP.ally3MoveSelected == "Buckle Down" || dP.ally3MoveSelected == "Mend-All" || dP.ally3MoveSelected == "Defend")
+                {
+                    dP.ally3MoveSelected = "";
+                    dP.ally3TargetSelected = "";
+                }
+            }
+
+            ChangeCharacterTurnDefensivePhase(); //If the characterTurn was "SupportMain", call the function.
         }
     }
 
@@ -814,6 +872,74 @@ public class ActionPhase : MonoBehaviour
         if (characterTurn == "SupportMain")
         {
             ChangeCharacterTurnOffensivePhase(true);
+        }
+    }
+
+    void SupportMainDefensiveAllyBranching(string MoveSelected, string TargetSelected) //Used for ally branching in the SupportMainDefensive function.
+    {
+        if (MoveSelected == "Mend") //If the move selected is Mend...
+        {
+            if (TargetSelected == dP.ally1Name) //If the target selected is ally1...
+            {
+                dP.ally1Health += 12;
+                StartCoroutine(ShowHealingDealt(ally1HealthChangeText, 12));
+                if (dP.ally1Health > dP.ally1MaxHealth)
+                {
+                    dP.ally1Health = dP.ally1MaxHealth;
+                }
+            }
+            else if (TargetSelected == dP.ally2Name) //If the target selected is ally2...
+            {
+                dP.ally2Health += 12;
+                StartCoroutine(ShowHealingDealt(ally2HealthChangeText, 12));
+                if (dP.ally2Health > dP.ally2MaxHealth)
+                {
+                    dP.ally2Health = dP.ally2MaxHealth;
+                }
+            }
+            else if (TargetSelected == dP.ally3Name) //If the target selected is ally3...
+            {
+                dP.ally3Health += 12;
+                StartCoroutine(ShowHealingDealt(ally3HealthChangeText, 12));
+                if (dP.ally3Health > dP.ally3MaxHealth)
+                {
+                    dP.ally3Health = dP.ally3MaxHealth;
+                }
+            }
+        }
+
+        else if (MoveSelected == "Buckle Down") //If the move selected is Buckle Down...
+        {
+            ally1DEFbuff += 5;
+            StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF Inc."));
+            ally2DEFbuff += 5;
+            StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF Inc."));
+            ally3DEFbuff += 5;
+            StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF Inc."));
+        }
+
+        else if (MoveSelected == "Mend-All") //If the move selected is Mend-All...
+        {
+            dP.ally1Health += 6;
+            StartCoroutine(ShowHealingDealt(ally1HealthChangeText, 6));
+            if (dP.ally1Health > dP.ally1MaxHealth)
+            {
+                dP.ally1Health = dP.ally1MaxHealth;
+            }
+
+            dP.ally2Health += 6;
+            StartCoroutine(ShowHealingDealt(ally2HealthChangeText, 6));
+            if (dP.ally2Health > dP.ally2MaxHealth)
+            {
+                dP.ally2Health = dP.ally2MaxHealth;
+            }
+
+            dP.ally3Health += 6;
+            StartCoroutine(ShowHealingDealt(ally3HealthChangeText, 6));
+            if (dP.ally3Health > dP.ally3MaxHealth)
+            {
+                dP.ally3Health = dP.ally3MaxHealth;
+            }
         }
     }
 
@@ -1112,6 +1238,7 @@ public class ActionPhase : MonoBehaviour
 
     IEnumerator CCTDPDowntime(string NextCharacterName, bool DefensivePhase = true) //To be called everytime the character turn in the DefensivePhase is to be changed after a character made a move. Waits 5 seconds before each change.
     {
+        characterTurn = "";
         yield return new WaitForSeconds(5);
         characterTurn = NextCharacterName;
         defensivePhase = DefensivePhase;      
@@ -1146,7 +1273,7 @@ public class ActionPhase : MonoBehaviour
         }
         else if (characterTurn == dP.ally3Name && Skip == true) //If ally3 didn't made a move during this phase...
         {
-            characterTurn = dP.enemy1Name;
+            characterTurn = dP.enemy1Name;          
         }
 
         //If the current turn is enemy1...
