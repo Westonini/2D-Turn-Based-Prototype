@@ -92,12 +92,8 @@ public class DecisionPhase : MonoBehaviour
     [HideInInspector]
     public int ally1Health = 0, ally2Health = 0, ally3Health = 0, enemy1Health = 0, enemy2Health = 0, enemy3Health = 0;
 
-    private bool ally1Dead = false;
-    private bool ally2Dead = false;
-    private bool ally3Dead = false;
-    private bool enemy1Dead = false;
-    private bool enemy2Dead = false;
-    private bool enemy3Dead = false;
+    [HideInInspector]
+    public bool ally1Dead = false, ally2Dead = false, ally3Dead = false, enemy1Dead = false, enemy2Dead = false, enemy3Dead = false;
 
     [HideInInspector] 
     public string ally1MoveSelected = "", ally2MoveSelected = "", ally3MoveSelected = "", enemy1MoveSelected = "", enemy2MoveSelected = "", enemy3MoveSelected = "";
@@ -871,7 +867,7 @@ public class DecisionPhase : MonoBehaviour
 
     private void EnemyTurn() //Called in Update(); If it's one of the enemy's turns, call EnemyMoves() to select which move they choose and call EnemyTargetSelect() to select which target(s) they'll select. If their target is dead they'll need to reselect a target.
     {
-        if (characterTurn == enemy1Name) //If it's the first enemy's turn...
+        if (characterTurn == enemy1Name && enemy1Dead == false) //If it's the first enemy's turn...
         {
             enemy1MoveSelected = EnemyMoves();
             while ((enemy1TargetSelected == ally1Name && ally1Dead == true) || (enemy1TargetSelected == ally2Name && ally2Dead == true) || (enemy1TargetSelected == ally3Name && ally3Dead == true) || enemy1TargetSelected == "")
@@ -880,8 +876,13 @@ public class DecisionPhase : MonoBehaviour
             }
             characterTurn = enemy2Name;
         }
+        else if (characterTurn == enemy1Name && enemy1Dead == true)
+        {
+            characterTurn = enemy2Name;
+        }
 
-        if (characterTurn == enemy2Name) //If it's the second enemy's turn...
+
+        if (characterTurn == enemy2Name && enemy2Dead == false) //If it's the second enemy's turn...
         {
             enemy2MoveSelected = EnemyMoves();
             while ((enemy2TargetSelected == ally1Name && ally1Dead == true) || (enemy2TargetSelected == ally2Name && ally2Dead == true) || (enemy2TargetSelected == ally3Name && ally3Dead == true) || enemy2TargetSelected == "")
@@ -890,14 +891,26 @@ public class DecisionPhase : MonoBehaviour
             }
             characterTurn = enemy3Name;
         }
+        else if (characterTurn == enemy2Name && enemy2Dead == true)
+        {
+            characterTurn = enemy3Name;
+        }
 
-        if (characterTurn == enemy3Name) //If it's the third enemy's turn...
+
+        if (characterTurn == enemy3Name && enemy3Dead == false) //If it's the third enemy's turn...
         {
             enemy3MoveSelected = EnemyMoves();
             while ((enemy3TargetSelected == ally1Name && ally1Dead == true) || (enemy3TargetSelected == ally2Name && ally2Dead == true) || (enemy3TargetSelected == ally3Name && ally3Dead == true) || enemy3TargetSelected == "")
             {
                 enemy3TargetSelected = EnemyTargetSelect(enemy3MoveSelected, enemy3Name);
             }
+            characterTurn = "";
+            actionPhase = true; //After the last character chooses their move, set the actionPhase bool to true which starts the Action Phase.
+            aP.defensivePhase = true;
+            aP.characterTurn = ally1Name;
+        }
+        else if (characterTurn == enemy3Name && enemy3Dead == true)
+        {
             characterTurn = "";
             actionPhase = true; //After the last character chooses their move, set the actionPhase bool to true which starts the Action Phase.
             aP.defensivePhase = true;
@@ -972,21 +985,21 @@ public class DecisionPhase : MonoBehaviour
 
     void SkipTurn() //Called in Update(); skips a turn when a character is doing something that requires a round to charge.
     {
-        if (aP.ally1IsCharging)
+        if (aP.ally1IsCharging || ally1Dead)
         {
             if (characterTurn == ally1Name)
             {
                 Ally1MoveChosen();
             }
         }
-        if (aP.ally2IsCharging)
+        if (aP.ally2IsCharging || ally2Dead)
         {
             if (characterTurn == ally2Name)
             {
                 Ally2MoveChosen();
             }
         }
-        if (aP.ally3IsCharging)
+        if (aP.ally3IsCharging || ally3Dead)
         {
             if (characterTurn == ally3Name)
             {

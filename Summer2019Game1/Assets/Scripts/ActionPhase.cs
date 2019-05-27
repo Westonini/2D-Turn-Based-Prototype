@@ -100,7 +100,8 @@ public class ActionPhase : MonoBehaviour
                 SlimeDefensive();
             }
             else if (defensivePhase != true) //If it's the OffensivePhase
-            {  
+            {
+                CancelEnemyTurnIfDead();
                 HeroProtagonistOffensive();
                 GlassCannonOffensive();
                 SupportMainOffensive();
@@ -1025,7 +1026,8 @@ public class ActionPhase : MonoBehaviour
         }
     }
 
-        void SlimeDefensive()
+    //Called when the characterTurn == "Slime1/Slime2/Slime3" and the move chosen was an defensive-type move.
+    void SlimeDefensive()
     {
         if (characterTurn == "Slime1" || characterTurn == "Slime2" || characterTurn == "Slime3")
         {
@@ -1033,13 +1035,158 @@ public class ActionPhase : MonoBehaviour
         }
     }
 
+    //Called when the characterTurn == "Slime1/Slime2/Slime3" and the move chosen was an offensive-type move.
     void SlimeOffensive()
     {
-        if (characterTurn == "Slime1" || characterTurn == "Slime2" || characterTurn == "Slime3")
+        if (characterTurn == "Slime1")
         {
-            ChangeCharacterTurnOffensivePhase(true);
+            //If Slime1 is enemy1...
+            if (dP.enemy1Name == "Slime1" && dP.enemy1MoveSelected != "")
+            {
+                SlimeOffensiveEnemyBranching(dP.enemy1MoveSelected, dP.enemy1TargetSelected, enemy1STRbuff);
+                dP.enemy1MoveSelected = "";
+                dP.enemy1TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase(false);
+            }
+
+            //If Slime1 is enemy2...
+            if (dP.enemy2Name == "Slime1" && dP.enemy2MoveSelected != "")
+            {
+                SlimeOffensiveEnemyBranching(dP.enemy2MoveSelected, dP.enemy2TargetSelected, enemy2STRbuff);
+                dP.enemy2MoveSelected = "";
+                dP.enemy2TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase(false);
+            }
+
+            //If Slime1 is enemy3...
+            if (dP.enemy3Name == "Slime1" && dP.enemy3MoveSelected != "")
+            {
+                SlimeOffensiveEnemyBranching(dP.enemy3MoveSelected, dP.enemy3TargetSelected, enemy3STRbuff);
+                dP.enemy3MoveSelected = "";
+                dP.enemy3TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase(false);
+            }
+
+            else
+            {
+                ChangeCharacterTurnOffensivePhase(true);
+            }
+        }
+
+        if (characterTurn == "Slime2")
+        {
+            //If Slime2 is enemy1...
+            if (dP.enemy1Name == "Slime2" && dP.enemy1MoveSelected != "")
+            {
+                SlimeOffensiveEnemyBranching(dP.enemy1MoveSelected, dP.enemy1TargetSelected, enemy1STRbuff);
+                dP.enemy1MoveSelected = "";
+                dP.enemy1TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase(false);
+            }
+
+            //If Slime2 is enemy2...
+            if (dP.enemy2Name == "Slime2" && dP.enemy2MoveSelected != "")
+            {
+                SlimeOffensiveEnemyBranching(dP.enemy2MoveSelected, dP.enemy2TargetSelected, enemy2STRbuff);
+                dP.enemy2MoveSelected = "";
+                dP.enemy2TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase(false);
+            }
+
+            //If Slime2 is enemy3...
+            if (dP.enemy3Name == "Slime2" && dP.enemy3MoveSelected != "")
+            {
+                SlimeOffensiveEnemyBranching(dP.enemy3MoveSelected, dP.enemy3TargetSelected, enemy3STRbuff);
+                dP.enemy3MoveSelected = "";
+                dP.enemy3TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase(false);
+            }
+
+            else
+            {
+                ChangeCharacterTurnOffensivePhase(true);
+            }
+        }
+
+        if (characterTurn == "Slime3")
+        {
+            //If Slime3 is enemy1...
+            if (dP.enemy1Name == "Slime3" && dP.enemy1MoveSelected != "")
+            {
+                SlimeOffensiveEnemyBranching(dP.enemy1MoveSelected, dP.enemy1TargetSelected, enemy1STRbuff);
+                dP.enemy1MoveSelected = "";
+                dP.enemy1TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase(false);
+            }
+
+            //If Slime3 is enemy2...
+            if (dP.enemy2Name == "Slime3" && dP.enemy2MoveSelected != "")
+            {
+                SlimeOffensiveEnemyBranching(dP.enemy2MoveSelected, dP.enemy2TargetSelected, enemy2STRbuff);
+                dP.enemy2MoveSelected = "";
+                dP.enemy2TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase(false);
+            }
+
+            //If Slime3 is enemy3...
+            if (dP.enemy3Name == "Slime3" && dP.enemy3MoveSelected != "")
+            {
+                SlimeOffensiveEnemyBranching(dP.enemy3MoveSelected, dP.enemy3TargetSelected, enemy3STRbuff);
+                dP.enemy3MoveSelected = "";
+                dP.enemy3TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase(false);
+            }
+
+            else
+            {
+                ChangeCharacterTurnOffensivePhase(true);
+            }
         }
     }
+
+    void SlimeOffensiveEnemyBranching(string MoveSelected, string TargetSelected, int STRbuff) //Used for ally branching in the SlimeOffensive function.
+    {
+        if (MoveSelected == "Attack")  //If the move selected is Attack...
+        {
+            accuracy = Random.Range(1, 101);
+
+            //If the target selected has a smoke bomb effect on them, up the max accuracy range to decrease the accuracy.
+            if (TargetSelected == dP.ally1Name && ally1HasSmokeBomb == true || TargetSelected == dP.ally2Name && ally2HasSmokeBomb == true || TargetSelected == dP.ally3Name && ally3HasSmokeBomb == true)
+            {
+                accuracy = Random.Range(1, 121);
+            }
+
+            if (TargetSelected == dP.ally1Name && accuracy <= 70) //If the target selected is ally1 and the accuracy is 70 or below... 
+            {
+                dP.ally1Health -= (7 + STRbuff) - ally1DEFbuff;
+                StartCoroutine(ShowDamageDealt(ally1HealthChangeText, ((7 + STRbuff) - ally1DEFbuff)));
+            }
+            else if (TargetSelected == dP.ally1Name && accuracy > 70) //If the target selected is ally1 and the accuracy is above 70... 
+            {
+                StartCoroutine(ShowMiss(ally1MissText));
+            }
+            else if (TargetSelected == dP.ally2Name && accuracy <= 70) //If the target selected is ally2 and the accuracy is 70 or below... 
+            {
+                dP.ally2Health -= (7 + STRbuff) - ally2DEFbuff;
+                StartCoroutine(ShowDamageDealt(ally2HealthChangeText, ((7 + STRbuff) - ally2DEFbuff)));
+            }
+            else if (TargetSelected == dP.ally2Name && accuracy > 70) //If the target selected is ally2 and the accuracy is above 70... 
+            {
+                StartCoroutine(ShowMiss(ally2MissText));
+            }
+            else if (TargetSelected == dP.ally3Name && accuracy <= 70) //If the target selected is ally3 and the accuracy is 70 or below... 
+            {
+                dP.ally3Health -= (7 + STRbuff) - ally3DEFbuff;
+                StartCoroutine(ShowDamageDealt(ally3HealthChangeText, ((7 + STRbuff) - ally3DEFbuff)));
+            }
+            else if (TargetSelected == dP.ally3Name && accuracy > 70) //If the target selected is ally3 and the accuracy is above 70... 
+            {
+                StartCoroutine(ShowMiss(ally3MissText));
+            }
+        }
+    }
+
+
 
     void Bleed() //Called in Update() if someone is bleeding; causes character to bleed for 2 rounds if active.
     {
@@ -1257,61 +1404,61 @@ public class ActionPhase : MonoBehaviour
     void ChangeCharacterTurnDefensivePhase() //Called when it's needed to change characterTurn during the DefensivePhase;  after enemy3's defensive phase turn is over set the defensivePhase bool to false.
     {
         //If the current turn is ally1...
-        if (characterTurn == dP.ally1Name && dP.ally1MoveSelected == "") //If ally1 made a move during this phase...
+        if (characterTurn == dP.ally1Name && dP.ally1MoveSelected == "" && dP.ally1Dead == false) //If ally1 made a move during this phase...
         {
             StartCoroutine(CCTDPDowntime(dP.ally2Name));
         }
-        else if (characterTurn == dP.ally1Name && dP.ally1MoveSelected != "") //If ally1 hasn't made a move during this phase...
+        else if (characterTurn == dP.ally1Name && dP.ally1MoveSelected != "" || characterTurn == dP.ally1Name && dP.ally1Dead == true) //If ally1 hasn't made a move during this phase or is dead...
         {
             characterTurn = dP.ally2Name;
         }
 
         //If the current turn is ally2...
-        else if (characterTurn == dP.ally2Name && dP.ally2MoveSelected == "") //If ally2 made a move during this phase...
+        else if (characterTurn == dP.ally2Name && dP.ally2MoveSelected == "" && dP.ally2Dead == false) //If ally2 made a move during this phase...
         {
             StartCoroutine(CCTDPDowntime(dP.ally3Name));
         }
-        else if (characterTurn == dP.ally2Name && dP.ally2MoveSelected != "") //If ally2 hasn't made a move during this phase...
+        else if (characterTurn == dP.ally2Name && dP.ally2MoveSelected != "" || characterTurn == dP.ally2Name && dP.ally2Dead == true) //If ally2 hasn't made a move during this phase or is dead...
         {
             characterTurn = dP.ally3Name;
         }
 
         //If the current turn is ally3...
-        else if (characterTurn == dP.ally3Name && dP.ally3MoveSelected == "") //If ally3 made a move during this phase...
+        else if (characterTurn == dP.ally3Name && dP.ally3MoveSelected == "" && dP.ally3Dead == false) //If ally3 made a move during this phase...
         {
             StartCoroutine(CCTDPDowntime(dP.enemy1Name));
         }
-        else if (characterTurn == dP.ally3Name && dP.ally3MoveSelected != "") //If ally3 hasn't made a move during this phase...
+        else if (characterTurn == dP.ally3Name && dP.ally3MoveSelected != "" || characterTurn == dP.ally3Name && dP.ally3Dead == true) //If ally3 hasn't made a move during this phase or is dead...
         {
             characterTurn = dP.enemy1Name;
         }
 
         //If the current turn is enemy1...
-        else if (characterTurn == dP.enemy1Name && dP.enemy1MoveSelected == "") //If enemy1 made a move during this phase...
+        else if (characterTurn == dP.enemy1Name && dP.enemy1MoveSelected == "" && dP.enemy1Dead == false) //If enemy1 made a move during this phase...
         {
             StartCoroutine(CCTDPDowntime(dP.enemy2Name));
         }
-        else if (characterTurn == dP.enemy1Name && dP.enemy1MoveSelected != "") //If enemy1 hasn't made a move during this phase...
+        else if (characterTurn == dP.enemy1Name && dP.enemy1MoveSelected != "" || characterTurn == dP.enemy1Name && dP.enemy1Dead == true) //If enemy1 hasn't made a move during this phase or is dead...
         {
             characterTurn = dP.enemy2Name;
         }
 
         //If the current turn is enemy2...
-        else if (characterTurn == dP.enemy2Name && dP.enemy2MoveSelected == "") //If enemy2 made a move during this phase...
+        else if (characterTurn == dP.enemy2Name && dP.enemy2MoveSelected == "" && dP.enemy2Dead == false) //If enemy2 made a move during this phase...
         {
             StartCoroutine(CCTDPDowntime(dP.enemy3Name));
         }
-        else if (characterTurn == dP.enemy2Name && dP.enemy2MoveSelected != "") //If enemy2 hasn't made a move during this phase...
+        else if (characterTurn == dP.enemy2Name && dP.enemy2MoveSelected != "" || characterTurn == dP.enemy2Name && dP.enemy2Dead == true) //If enemy2 hasn't made a move during this phase or is dead...
         {
             characterTurn = dP.enemy3Name;
         }
 
         //If the current turn is enemy3
-        else if (characterTurn == dP.enemy3Name && dP.enemy3MoveSelected == "") //If enemy3 made a move during this phase...
+        else if (characterTurn == dP.enemy3Name && dP.enemy3MoveSelected == "" && dP.enemy3Dead == false) //If enemy3 made a move during this phase...
         {
             StartCoroutine(CCTDPDowntime(dP.ally1Name, defensivePhase = false));
         }
-        else if (characterTurn == dP.enemy3Name && dP.enemy3MoveSelected != "") //If enemy3 hasn't made a move during this phase...
+        else if (characterTurn == dP.enemy3Name && dP.enemy3MoveSelected != "" || characterTurn == dP.enemy3Name && dP.enemy3Dead == true) //If enemy3 hasn't made a move during this phase or is dead...
         {
             characterTurn = dP.ally1Name;
             defensivePhase = false;
@@ -1425,6 +1572,25 @@ public class ActionPhase : MonoBehaviour
             enemy1HasBled = false;
             enemy2HasBled = false;
             enemy3HasBled = false;
+        }
+    }
+
+    void CancelEnemyTurnIfDead() //Called each frame in Update() during OffensivePhase; if an enemy is dead make their move and target equal to an empty string.
+    {
+        if (dP.enemy1Dead == true)
+        {
+            dP.enemy1MoveSelected = "";
+            dP.enemy1TargetSelected = "";
+        }
+        if (dP.enemy2Dead == true)
+        {
+            dP.enemy2MoveSelected = "";
+            dP.enemy2TargetSelected = "";
+        }
+        if (dP.enemy3Dead == true)
+        {
+            dP.enemy3MoveSelected = "";
+            dP.enemy3TargetSelected = "";
         }
     }
 
