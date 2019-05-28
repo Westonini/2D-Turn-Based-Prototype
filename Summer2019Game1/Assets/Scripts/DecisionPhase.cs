@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class DecisionPhase : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class DecisionPhase : MonoBehaviour
     public TextMeshProUGUI cMRightCharacterHealthText;
     public TextMeshProUGUI cMMoveInfo;
     public TextMeshProUGUI phaseText;
+    public TextMeshProUGUI winText;
 
     [Space]
     [Header("Character GameObjects")]
@@ -184,6 +186,11 @@ public class DecisionPhase : MonoBehaviour
         ChangePhaseText(); //Calls ChangePhaseText every frame to check which phase it is.
 
         SkipTurn(); //Calls SkipTurn every frame to check if a character is doing a charge move.
+
+        if (ally1Dead && ally2Dead && ally3Dead || enemy1Dead && enemy2Dead && enemy3Dead)
+        {
+            StartCoroutine(EndTheGame()); //Calls EndTheGame() when all allies or all enemies are killed.
+        }
     }
 
     public void Move1Selected() //Called when the Move1 Button is clicked.
@@ -972,6 +979,22 @@ public class DecisionPhase : MonoBehaviour
         else
         {
             return ally3Name;
+        }
+    }
+
+    IEnumerator EndTheGame() //Ends the game if all enemies are killed
+    {
+        if (ally1Dead && ally2Dead && ally3Dead)
+        {
+            winText.text = "Wave Failed";
+            yield return new WaitForSeconds(10);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        else if (enemy1Dead && enemy2Dead && enemy3Dead)
+        {
+            winText.text = "Wave Completed";
+            yield return new WaitForSeconds(10);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
