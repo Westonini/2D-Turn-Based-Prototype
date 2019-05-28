@@ -987,14 +987,32 @@ public class DecisionPhase : MonoBehaviour
         if (ally1Dead && ally2Dead && ally3Dead)
         {
             winText.text = "Wave Failed";
+            Move1Button.SetActive(false);
+            Move2Button.SetActive(false);
+            Move3Button.SetActive(false);
+            Move4Button.SetActive(false);
+            DefendButton.SetActive(false);
+            charactersTurnText.text = "";
+            cMMoveInfo.text = "";
+            characterTurn = "";
+            actionPhase = false;
             yield return new WaitForSeconds(10);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
         else if (enemy1Dead && enemy2Dead && enemy3Dead)
         {
             winText.text = "Wave Completed";
+            Move1Button.SetActive(false);
+            Move2Button.SetActive(false);
+            Move3Button.SetActive(false);
+            Move4Button.SetActive(false);
+            DefendButton.SetActive(false);
+            charactersTurnText.text = "";
+            cMMoveInfo.text = "";
+            characterTurn = "";
+            actionPhase = false;
             yield return new WaitForSeconds(10);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
     }
 
