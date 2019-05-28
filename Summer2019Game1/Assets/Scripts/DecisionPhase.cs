@@ -799,6 +799,7 @@ public class DecisionPhase : MonoBehaviour
             ally1Collider.enabled = false;
             ally1Health = 0;
             aP.ally1IsBleeding = 0;
+            aP.ally1PermSTRBuff = 0;
             /*aP.ally1IsCharging = false;
             ally1TargetSelected = "";
             ally1MoveSelected = "";*/
@@ -811,6 +812,7 @@ public class DecisionPhase : MonoBehaviour
             ally2Collider.enabled = false;
             ally2Health = 0;
             aP.ally2IsBleeding = 0;
+            aP.ally2PermSTRBuff = 0;
             /*aP.ally2IsCharging = false;
             ally2TargetSelected = "";
             ally2MoveSelected = "";*/
@@ -823,6 +825,7 @@ public class DecisionPhase : MonoBehaviour
             ally3Collider.enabled = false;
             ally3Health = 0;
             aP.ally3IsBleeding = 0;
+            aP.ally3PermSTRBuff = 0;
             /*aP.ally3IsCharging = false;
             ally3TargetSelected = "";
             ally3MoveSelected = "";*/
@@ -835,6 +838,7 @@ public class DecisionPhase : MonoBehaviour
             enemy1Collider.enabled = false;
             enemy1Health = 0;
             aP.enemy1IsBleeding = 0;
+            aP.enemy1PermSTRBuff = 0;
             /*aP.enemy1IsCharging = false;
             enemy1TargetSelected = "";
             enemy1MoveSelected = "";*/
@@ -847,6 +851,7 @@ public class DecisionPhase : MonoBehaviour
             enemy2Collider.enabled = false;
             enemy2Health = 0;
             aP.enemy2IsBleeding = 0;
+            aP.enemy2PermSTRBuff = 0;
             /*aP.enemy2IsCharging = false;
             enemy2TargetSelected = "";
             enemy2MoveSelected = "";*/
@@ -859,6 +864,7 @@ public class DecisionPhase : MonoBehaviour
             enemy3Collider.enabled = false;
             enemy3Health = 0;
             aP.enemy3IsBleeding = 0;
+            aP.enemy3PermSTRBuff = 0;
             /*aP.enemy3IsCharging = false;
             enemy3TargetSelected = "";
             enemy3MoveSelected = "";*/
