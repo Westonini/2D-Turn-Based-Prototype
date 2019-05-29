@@ -24,6 +24,7 @@ public class DecisionPhase : MonoBehaviour
     public TextMeshProUGUI cMRightCharacterName;
     public TextMeshProUGUI cMRightCharacterHealthText;
     public TextMeshProUGUI cMMoveInfo;
+    public GameObject phaseTextObject;
     public TextMeshProUGUI phaseText;
     public TextMeshProUGUI winText;
 
@@ -954,7 +955,7 @@ public class DecisionPhase : MonoBehaviour
         }
     }
 
-    private string EnemyTargetSelect(string enemyMoveSelected, string enemyName) //Called to choose which target(s) the enemies select. Returns the enemy's target.
+    public string EnemyTargetSelect(string enemyMoveSelected, string enemyName) //Called to choose which target(s) the enemies select. Returns the enemy's target.
     {
         enemyTargetSelectNumber = Random.Range(1, 4); //Choose a random number between 1-3.
 
@@ -998,6 +999,7 @@ public class DecisionPhase : MonoBehaviour
             
             winText.text = "Wave Failed";
             phaseText.text = "";
+            phaseTextObject.SetActive(false);
             Move1Button.SetActive(false);
             Move2Button.SetActive(false);
             Move3Button.SetActive(false);
@@ -1023,6 +1025,7 @@ public class DecisionPhase : MonoBehaviour
            
             winText.text = "Wave Completed";
             phaseText.text = "";
+            phaseTextObject.SetActive(false);
             Move1Button.SetActive(false);
             Move2Button.SetActive(false);
             Move3Button.SetActive(false);
@@ -1045,7 +1048,7 @@ public class DecisionPhase : MonoBehaviour
             phaseText.color = new Color32(0, 166, 255, 255);
             phaseText.text = "D E C I S I O N   P H A S E";
         }
-        if (actionPhase == true && ((ally1Dead == false && ally2Dead == false && ally3Dead == false) || (enemy1Dead == false && enemy2Dead == false && enemy3Dead == false)))
+        else if (actionPhase == true && ((ally1Dead == false && ally2Dead == false && ally3Dead == false) || (enemy1Dead == false && enemy2Dead == false && enemy3Dead == false)))
         {
             phaseText.color = new Color32(255, 29, 0, 255);
             phaseText.text = "A C T I O N   P H A S E";

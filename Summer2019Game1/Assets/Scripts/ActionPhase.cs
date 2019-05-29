@@ -137,7 +137,7 @@ public class ActionPhase : MonoBehaviour
                 {
                     {
                         ally1DEFBuff += 5;
-                        StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF Inc."));
+                        StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF +"));
                     }
                 }
                 if (dP.ally1MoveSelected == "War Cry" || dP.ally1MoveSelected == "Bandage-Up" || dP.ally1MoveSelected == "Defend")
@@ -156,7 +156,7 @@ public class ActionPhase : MonoBehaviour
                 {
                     {
                         ally2DEFBuff += 5;
-                        StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF Inc."));
+                        StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF +"));
                     }
                 }
                 if (dP.ally2MoveSelected == "War Cry" || dP.ally2MoveSelected == "Bandage-Up" || dP.ally2MoveSelected == "Defend")
@@ -175,7 +175,7 @@ public class ActionPhase : MonoBehaviour
                 {
                     {
                         ally3DEFBuff += 5;
-                        StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF Inc."));
+                        StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF +"));
                     }
                 }
                 if (dP.ally3MoveSelected == "War Cry" || dP.ally3MoveSelected == "Bandage-Up" || dP.ally3MoveSelected == "Defend")
@@ -235,17 +235,17 @@ public class ActionPhase : MonoBehaviour
             if (TargetSelected == dP.ally1Name) //If the target selected is ally1...
             {
                 ally1STRBuff = 5;
-                StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "STR Inc."));
+                StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "STR +"));
             }
             else if (TargetSelected == dP.ally2Name) //If the target selected is ally2...
             {
                 ally2STRBuff = 5;
-                StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "STR Inc."));
+                StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "STR +"));
             }
             else if (TargetSelected == dP.ally3Name) //If the target selected is ally3...
             {
                 ally3STRBuff = 5;
-                StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "STR Inc."));
+                StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "STR +"));
             }
         }
         else if (MoveSelected == "Bandage-Up") //If the move selected is Bandage-Up...
@@ -314,44 +314,60 @@ public class ActionPhase : MonoBehaviour
 
         else if (MoveSelected == "Windmill") //If the move selected is Windmill...
         {
+            //Enemy1
             accuracy = Random.Range(1, 101);
-            if (accuracy <= 80)
+            if (dP.enemy1Dead != true)
             {
-                StartCoroutine(DoEnemy1Animation("Injured"));
-                FindObjectOfType<AudioManager>().Play("SwordHit");
-                dP.enemy1Health -= DealDamage((5 + STRbuff) - enemy1DEFBuff);
-                StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((5 + STRbuff) - enemy1DEFBuff)));
-            }
-            else if (accuracy > 80)
-            {
-                StartCoroutine(ShowMiss(enemy1MissText));
+                if (accuracy <= 80)
+                {
+                    StartCoroutine(DoEnemy1Animation("Injured"));
+                    FindObjectOfType<AudioManager>().Play("SwordHit");
+                    dP.enemy1Health -= DealDamage((5 + STRbuff) - enemy1DEFBuff);
+                    StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((5 + STRbuff) - enemy1DEFBuff)));
+                }
+                else if (accuracy > 80)
+                {
+                    StartCoroutine(ShowMiss(enemy1MissText));
+                }
             }
 
+
+
+            //Enemy2
             accuracy = Random.Range(1, 101);
-            if (accuracy <= 80)
+            if (dP.enemy2Dead != true)
             {
-                StartCoroutine(DoEnemy2Animation("Injured"));
-                FindObjectOfType<AudioManager>().Play("SwordHit");
-                dP.enemy2Health -= DealDamage((5 + STRbuff) - enemy2DEFBuff);
-                StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((5 + STRbuff) - enemy2DEFBuff)));
-            }
-            else if (accuracy > 80)
-            {
-                StartCoroutine(ShowMiss(enemy2MissText));
+                if (accuracy <= 80)
+                {
+                    StartCoroutine(DoEnemy2Animation("Injured"));
+                    FindObjectOfType<AudioManager>().Play("SwordHit");
+                    dP.enemy2Health -= DealDamage((5 + STRbuff) - enemy2DEFBuff);
+                    StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((5 + STRbuff) - enemy2DEFBuff)));
+                }
+                else if (accuracy > 80)
+                {
+                    StartCoroutine(ShowMiss(enemy2MissText));
+                }
             }
 
+
+
+            //Enemy3
             accuracy = Random.Range(1, 101);
-            if (accuracy <= 80)
+            if (dP.enemy3Dead != true)
             {
-                StartCoroutine(DoEnemy3Animation("Injured"));
-                FindObjectOfType<AudioManager>().Play("SwordHit");
-                dP.enemy3Health -= DealDamage((5 + STRbuff) - enemy3DEFBuff);
-                StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((5 + STRbuff) - enemy3DEFBuff)));
-            }
-            else if (accuracy > 80)
-            {
-                StartCoroutine(ShowMiss(enemy3MissText));
-            }          
+                if (accuracy <= 80)
+                {
+                    StartCoroutine(DoEnemy3Animation("Injured"));
+                    FindObjectOfType<AudioManager>().Play("SwordHit");
+                    dP.enemy3Health -= DealDamage((5 + STRbuff) - enemy3DEFBuff);
+                    StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((5 + STRbuff) - enemy3DEFBuff)));
+                }
+                else if (accuracy > 80)
+                {
+                    StartCoroutine(ShowMiss(enemy3MissText));
+                }
+            }    
         }
     }
 
@@ -368,7 +384,7 @@ public class ActionPhase : MonoBehaviour
                 if (dP.ally1MoveSelected == "Defend") //If the move selected is Defend...
                 {
                     ally1DEFBuff += 5;
-                    StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF Inc."));
+                    StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF +"));
                 }
                 if (dP.ally1MoveSelected == "Smoke Bomb" || dP.ally1MoveSelected == "Defend")
                 {
@@ -386,7 +402,7 @@ public class ActionPhase : MonoBehaviour
                 if (dP.ally2MoveSelected == "Defend") //If the move selected is Defend...
                 {
                     ally2DEFBuff += 5;
-                    StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF Inc."));
+                    StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF +"));
                 }
                 if (dP.ally2MoveSelected == "Smoke Bomb" || dP.ally2MoveSelected == "Defend")
                 {
@@ -403,7 +419,7 @@ public class ActionPhase : MonoBehaviour
                 if (dP.ally3MoveSelected == "Defend") //If the move selected is Defend...
                 {
                     ally3DEFBuff += 5;
-                    StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF Inc."));
+                    StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF +"));
                 }
                 if (dP.ally3MoveSelected == "Smoke Bomb" || dP.ally3MoveSelected == "Defend")
                 {
@@ -470,17 +486,17 @@ public class ActionPhase : MonoBehaviour
             if (TargetSelected == dP.ally1Name) //If ally1 is targeted...
             {
                 ally1HasSmokeBomb = true;
-                StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "Evasion Inc."));
+                StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "EVADE +"));
             }
             else if (TargetSelected == dP.ally2Name) //If ally2 is targeted...
             {
                 ally2HasSmokeBomb = true;
-                StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "Evasion Inc."));
+                StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "EVADE +"));
             }
             else if (TargetSelected == dP.ally3Name) //If ally3 is targeted...
             {
                 ally3HasSmokeBomb = true;
-                StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "Evasion Inc."));
+                StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "EVADE +"));
             }
         }
     }
@@ -506,7 +522,7 @@ public class ActionPhase : MonoBehaviour
                 dP.enemy1Health -= DealDamage((15 + STRbuff) - enemy1DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((15 + STRbuff) - enemy1DEFBuff)));
                 enemy1IsBleeding = 1;
-                StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "BLEEDING"));
             }
             else if (TargetSelected == dP.enemy1Name && accuracy > 70) //If the target selected is enemy1 but it misses...
             {
@@ -526,7 +542,7 @@ public class ActionPhase : MonoBehaviour
                 dP.enemy2Health -= DealDamage((15 + STRbuff) - enemy2DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((15 + STRbuff) - enemy2DEFBuff)));
                 enemy2IsBleeding = 1;
-                StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "BLEEDING"));
             }
             else if (TargetSelected == dP.enemy2Name && accuracy > 70) //If the target selected is enemy2 but it misses...
             {
@@ -546,7 +562,7 @@ public class ActionPhase : MonoBehaviour
                 dP.enemy3Health -= DealDamage((15 + STRbuff) - enemy3DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((15 + STRbuff) - enemy3DEFBuff)));
                 enemy3IsBleeding = 1;
-                StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "BLEEDING"));
             }
             else if (TargetSelected == dP.enemy3Name && accuracy > 70) //If the target selected is enemy3 but it misses...
             {
@@ -560,65 +576,75 @@ public class ActionPhase : MonoBehaviour
             accuracy = Random.Range(1, 101);
             bleedChance = Random.Range(1, 101);
 
-            if (accuracy <= 70) //If the accuracy is 70 or lower it hits
+            if (dP.enemy1Dead != true)
             {
-                StartCoroutine(DoEnemy1Animation("Injured"));
-                FindObjectOfType<AudioManager>().Play("Cannon");
-                dP.enemy1Health -= DealDamage((7 + STRbuff) - enemy1DEFBuff);
-                StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((7 + STRbuff) - enemy1DEFBuff)));
-                if (bleedChance <= 15)
+                if (accuracy <= 70) //If the accuracy is 70 or lower it hits
                 {
-                    enemy1IsBleeding = 1;
-                    StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                    StartCoroutine(DoEnemy1Animation("Injured"));
+                    FindObjectOfType<AudioManager>().Play("Cannon");
+                    dP.enemy1Health -= DealDamage((7 + STRbuff) - enemy1DEFBuff);
+                    StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((7 + STRbuff) - enemy1DEFBuff)));
+                    if (bleedChance <= 15)
+                    {
+                        enemy1IsBleeding = 1;
+                        StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "BLEEDING"));
+                    }
+                }
+                else if (accuracy > 70) //If the accuracy is 70 or lower it misses
+                {
+                    StartCoroutine(ShowMiss(enemy1MissText));
                 }
             }
-            else if (accuracy > 70) //If the accuracy is 70 or lower it misses
-            {
-                StartCoroutine(ShowMiss(enemy1MissText));
-            }
+
 
             //Enemy2
             accuracy = Random.Range(1, 101);
             bleedChance = Random.Range(1, 101);
 
-            if (accuracy <= 70) //If the accuracy is 70 or lower it hits
+            if (dP.enemy2Dead != true)
             {
-                StartCoroutine(DoEnemy2Animation("Injured"));
-                FindObjectOfType<AudioManager>().Play("Cannon");
-                dP.enemy2Health -= DealDamage((7 + STRbuff) - enemy2DEFBuff);
-                StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((7 + STRbuff) - enemy2DEFBuff)));
-                if (bleedChance <= 15)
+                if (accuracy <= 70) //If the accuracy is 70 or lower it hits
                 {
-                    enemy2IsBleeding = 1;
-                    StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                    StartCoroutine(DoEnemy2Animation("Injured"));
+                    FindObjectOfType<AudioManager>().Play("Cannon");
+                    dP.enemy2Health -= DealDamage((7 + STRbuff) - enemy2DEFBuff);
+                    StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((7 + STRbuff) - enemy2DEFBuff)));
+                    if (bleedChance <= 15)
+                    {
+                        enemy2IsBleeding = 1;
+                        StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "BLEEDING"));
+                    }
+                }
+                else if (accuracy > 70) //If the accuracy is 70 or lower it misses
+                {
+                    StartCoroutine(ShowMiss(enemy2MissText));
                 }
             }
-            else if (accuracy > 70) //If the accuracy is 70 or lower it misses
-            {
-                StartCoroutine(ShowMiss(enemy2MissText));
-            }
+
 
             //Enemy3
             accuracy = Random.Range(1, 101);
             bleedChance = Random.Range(1, 101);
 
-            if (accuracy <= 70) //If the accuracy is 70 or lower it hits
+            if (dP.enemy3Dead != true)
             {
-                StartCoroutine(DoEnemy3Animation("Injured"));
-                FindObjectOfType<AudioManager>().Play("Cannon");
-                dP.enemy3Health -= DealDamage((7 + STRbuff) - enemy3DEFBuff);
-                StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((7 + STRbuff) - enemy3DEFBuff)));
-                if (bleedChance <= 15)
+                if (accuracy <= 70) //If the accuracy is 70 or lower it hits
                 {
-                    enemy3IsBleeding = 1;
-                    StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                    StartCoroutine(DoEnemy3Animation("Injured"));
+                    FindObjectOfType<AudioManager>().Play("Cannon");
+                    dP.enemy3Health -= DealDamage((7 + STRbuff) - enemy3DEFBuff);
+                    StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((7 + STRbuff) - enemy3DEFBuff)));
+                    if (bleedChance <= 15)
+                    {
+                        enemy3IsBleeding = 1;
+                        StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "BLEEDING"));
+                    }
+                }
+                else if (accuracy > 70) //If the accuracy is 70 or lower it misses
+                {
+                    StartCoroutine(ShowMiss(enemy3MissText));
                 }
             }
-            else if (accuracy > 70) //If the accuracy is 70 or lower it misses
-            {
-                StartCoroutine(ShowMiss(enemy3MissText));
-            }
-
         }
 
         else if (MoveSelected == "Focus Shot") //If the move selected is Focus Shot...
@@ -645,7 +671,7 @@ public class ActionPhase : MonoBehaviour
                 if (bleedChance <= 40)
                 {
                     enemy1IsBleeding = 1;
-                    StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                    StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "BLEEDING"));
                 }
             }
             else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy1Name && accuracy > 70) //If the target selected is enemy1 and it misses...
@@ -667,7 +693,7 @@ public class ActionPhase : MonoBehaviour
                 if (bleedChance <= 40)
                 {
                     enemy2IsBleeding = 1;
-                    StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                    StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "BLEEDING"));
                 }
             }
             else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy2Name && accuracy > 70) //If the target selected is enemy2 and it misses...
@@ -689,7 +715,7 @@ public class ActionPhase : MonoBehaviour
                 if (bleedChance <= 40)
                 {
                     enemy3IsBleeding = 1;
-                    StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                    StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "BLEEDING"));
                 }
             }
             else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy3Name && accuracy > 70) //If the target selected is enemy3 and it misses...
@@ -720,7 +746,7 @@ public class ActionPhase : MonoBehaviour
                 if (bleedChance <= 40)
                 {
                     enemy1IsBleeding = 1;
-                    StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                    StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "BLEEDING"));
                 }
             }
             else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy1Name && accuracy > 70) //If the target selected is enemy1 and it misses...
@@ -742,7 +768,7 @@ public class ActionPhase : MonoBehaviour
                 if (bleedChance <= 40)
                 {
                     enemy2IsBleeding = 1;
-                    StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                    StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "BLEEDING"));
                 }
             }
             else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy2Name && accuracy > 70) //If the target selected is enemy2 and it misses...
@@ -764,7 +790,7 @@ public class ActionPhase : MonoBehaviour
                 if (bleedChance <= 40)
                 {
                     enemy3IsBleeding = 1;
-                    StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                    StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "BLEEDING"));
                 }
             }
             else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy3Name && accuracy > 70) //If the target selected is enemy3 and it misses...
@@ -795,7 +821,7 @@ public class ActionPhase : MonoBehaviour
                 if (bleedChance <= 40)
                 {
                     enemy1IsBleeding = 1;
-                    StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                    StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "BLEEDING"));
                 }
             }
             else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy1Name && accuracy > 70) //If the target selected is enemy1 and it misses...
@@ -817,7 +843,7 @@ public class ActionPhase : MonoBehaviour
                 if (bleedChance <= 40)
                 {
                     enemy2IsBleeding = 1;
-                    StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                    StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "BLEEDING"));
                 }
             }
             else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy2Name && accuracy > 70) //If the target selected is enemy2 and it misses...
@@ -839,7 +865,7 @@ public class ActionPhase : MonoBehaviour
                 if (bleedChance <= 40)
                 {
                     enemy3IsBleeding = 1;
-                    StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                    StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "BLEEDING"));
                 }
             }
             else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy3Name && accuracy > 70) //If the target selected is enemy3 and it misses...
@@ -866,7 +892,7 @@ public class ActionPhase : MonoBehaviour
                 {
                     {
                         ally1DEFBuff += 5;
-                        StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF Inc."));
+                        StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF +"));
                     }
                 }
                 if (dP.ally1MoveSelected == "Mend" || dP.ally1MoveSelected == "Buckle Down" || dP.ally1MoveSelected == "Mend-All" || dP.ally1MoveSelected == "Defend")
@@ -885,7 +911,7 @@ public class ActionPhase : MonoBehaviour
                 {
                     {
                         ally2DEFBuff += 5;
-                        StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF Inc."));
+                        StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF +"));
                     }
                 }
                 if (dP.ally2MoveSelected == "Mend" || dP.ally2MoveSelected == "Buckle Down" || dP.ally2MoveSelected == "Mend-All" || dP.ally2MoveSelected == "Defend")
@@ -904,7 +930,7 @@ public class ActionPhase : MonoBehaviour
                 {
                     {
                         ally3DEFBuff += 5;
-                        StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF Inc."));
+                        StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF +"));
                     }
                 }
                 if (dP.ally3MoveSelected == "Mend" || dP.ally3MoveSelected == "Buckle Down" || dP.ally3MoveSelected == "Mend-All" || dP.ally3MoveSelected == "Defend")
@@ -984,11 +1010,11 @@ public class ActionPhase : MonoBehaviour
         else if (MoveSelected == "Buckle Down") //If the move selected is Buckle Down...
         {
             ally1DEFBuff += 5;
-            StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF Inc."));
+            StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF +"));
             ally2DEFBuff += 5;
-            StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF Inc."));
+            StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF +"));
             ally3DEFBuff += 5;
-            StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF Inc."));
+            StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF +"));
         }
 
         else if (MoveSelected == "Mend-All") //If the move selected is Mend-All...
@@ -1117,37 +1143,64 @@ public class ActionPhase : MonoBehaviour
             //If Slime1 is enemy1...
             if (dP.enemy1Name == "Slime1")
             {
-                if (dP.enemy1MoveSelected == "Power-Up")
+                if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
-                    StartCoroutine(ShowPositiveStatusEffect(enemy1StatusEffectText, "STR Inc."));
+                    StartCoroutine(ShowPositiveStatusEffect(enemy1StatusEffectText, "STR +"));
                     enemy1STRBuff += 2;
                     enemy1PermSTRBuff += 2;
                     dP.enemy1MoveSelected = "";
                     dP.enemy1TargetSelected = "";
                 }
+                else if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff >= 6) //If the move selected is Power-Up but the character has over 6 PERM STR...
+                {
+                    dP.enemy1TargetSelected = "";
+                    dP.enemy1MoveSelected = "Attack";
+                    while ((dP.enemy1TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy1TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy1TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy1TargetSelected == "")
+                    {
+                        dP.enemy1TargetSelected = dP.EnemyTargetSelect(dP.enemy1MoveSelected, dP.enemy1Name);
+                    }
+                }
             }
             //If Slime1 is enemy2...
             else if (dP.enemy2Name == "Slime1")
             {
-                if (dP.enemy2MoveSelected == "Power-Up")
+                if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
-                    StartCoroutine(ShowPositiveStatusEffect(enemy2StatusEffectText, "STR Inc."));
+                    StartCoroutine(ShowPositiveStatusEffect(enemy2StatusEffectText, "STR +"));
                     enemy2STRBuff += 2;
                     enemy2PermSTRBuff += 2;
                     dP.enemy2MoveSelected = "";
                     dP.enemy2TargetSelected = "";
                 }
+                else if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff >= 6) //If the move selected is Power-Up but the character has over 6 PERM STR...
+                {
+                    dP.enemy2TargetSelected = "";
+                    dP.enemy2MoveSelected = "Attack";
+                    while ((dP.enemy2TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy2TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy2TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy2TargetSelected == "")
+                    {
+                        dP.enemy2TargetSelected = dP.EnemyTargetSelect(dP.enemy2MoveSelected, dP.enemy2Name);
+                    }
+                }
             }
             //If Slime1 is enemy3...
-            if (dP.enemy3Name == "Slime1")
+            if (dP.enemy3Name == "Slime1") 
             {
-                if (dP.enemy3MoveSelected == "Power-Up")
+                if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
-                    StartCoroutine(ShowPositiveStatusEffect(enemy3StatusEffectText, "STR Inc."));
+                    StartCoroutine(ShowPositiveStatusEffect(enemy3StatusEffectText, "STR +"));
                     enemy3STRBuff += 2;
                     enemy3PermSTRBuff += 2;
                     dP.enemy3MoveSelected = "";
                     dP.enemy3TargetSelected = "";
+                }
+                else if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff >= 6) //If the move selected is Power-Up but the character has over 6 PERM STR...
+                {
+                    dP.enemy3TargetSelected = "";
+                    dP.enemy3MoveSelected = "Attack";
+                    while ((dP.enemy3TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy3TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy3TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy3TargetSelected == "")
+                    {
+                        dP.enemy3TargetSelected = dP.EnemyTargetSelect(dP.enemy3MoveSelected, dP.enemy3Name);
+                    }
                 }
             }
 
@@ -1159,37 +1212,64 @@ public class ActionPhase : MonoBehaviour
             //If Slime2 is enemy1...
             if (dP.enemy1Name == "Slime2")
             {
-                if (dP.enemy1MoveSelected == "Power-Up")
+                if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
-                    StartCoroutine(ShowPositiveStatusEffect(enemy1StatusEffectText, "STR Inc."));
+                    StartCoroutine(ShowPositiveStatusEffect(enemy1StatusEffectText, "STR +"));
                     enemy1STRBuff += 2;
                     enemy1PermSTRBuff += 2;
                     dP.enemy1MoveSelected = "";
                     dP.enemy1TargetSelected = "";
                 }
+                else if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff >= 6) //If the move selected is Power-Up but the character has over 6 PERM STR...
+                {
+                    dP.enemy1TargetSelected = "";
+                    dP.enemy1MoveSelected = "Attack";
+                    while ((dP.enemy1TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy1TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy1TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy1TargetSelected == "")
+                    {
+                        dP.enemy1TargetSelected = dP.EnemyTargetSelect(dP.enemy1MoveSelected, dP.enemy1Name);
+                    }
+                }
             }
             //If Slime2 is enemy2...
             else if (dP.enemy2Name == "Slime2")
             {
-                if (dP.enemy2MoveSelected == "Power-Up")
+                if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
-                    StartCoroutine(ShowPositiveStatusEffect(enemy2StatusEffectText, "STR Inc."));
+                    StartCoroutine(ShowPositiveStatusEffect(enemy2StatusEffectText, "STR +"));
                     enemy2STRBuff += 2;
                     enemy2PermSTRBuff += 2;
                     dP.enemy2MoveSelected = "";
                     dP.enemy2TargetSelected = "";
                 }
+                else if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff >= 6) //If the move selected is Power-Up but the character has over 6 PERM STR...
+                {
+                    dP.enemy2TargetSelected = "";
+                    dP.enemy2MoveSelected = "Attack";
+                    while ((dP.enemy2TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy2TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy2TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy2TargetSelected == "")
+                    {
+                        dP.enemy2TargetSelected = dP.EnemyTargetSelect(dP.enemy2MoveSelected, dP.enemy2Name);
+                    }
+                }
             }
             //If Slime2 is enemy3...
             if (dP.enemy3Name == "Slime2")
             {
-                if (dP.enemy3MoveSelected == "Power-Up")
+                if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
-                    StartCoroutine(ShowPositiveStatusEffect(enemy3StatusEffectText, "STR Inc."));
+                    StartCoroutine(ShowPositiveStatusEffect(enemy3StatusEffectText, "STR +"));
                     enemy3STRBuff += 2;
                     enemy3PermSTRBuff += 2;
                     dP.enemy3MoveSelected = "";
                     dP.enemy3TargetSelected = "";
+                }
+                else if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff >= 6) //If the move selected is Power-Up but the character has over 6 PERM STR...
+                {
+                    dP.enemy3TargetSelected = "";
+                    dP.enemy3MoveSelected = "Attack";
+                    while ((dP.enemy3TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy3TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy3TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy3TargetSelected == "")
+                    {
+                        dP.enemy3TargetSelected = dP.EnemyTargetSelect(dP.enemy3MoveSelected, dP.enemy3Name);
+                    }
                 }
             }
 
@@ -1201,37 +1281,64 @@ public class ActionPhase : MonoBehaviour
             //If Slime3 is enemy1...
             if (dP.enemy1Name == "Slime3")
             {
-                if (dP.enemy1MoveSelected == "Power-Up")
+                if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
-                    StartCoroutine(ShowPositiveStatusEffect(enemy1StatusEffectText, "STR Inc."));
+                    StartCoroutine(ShowPositiveStatusEffect(enemy1StatusEffectText, "STR +"));
                     enemy1STRBuff += 2;
                     enemy1PermSTRBuff += 2;
                     dP.enemy1MoveSelected = "";
                     dP.enemy1TargetSelected = "";
                 }
+                else if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff >= 6) //If the move selected is Power-Up but the character has over 6 PERM STR...
+                {
+                    dP.enemy1TargetSelected = "";
+                    dP.enemy1MoveSelected = "Attack";
+                    while ((dP.enemy1TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy1TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy1TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy1TargetSelected == "")
+                    {
+                        dP.enemy1TargetSelected = dP.EnemyTargetSelect(dP.enemy1MoveSelected, dP.enemy1Name);
+                    }
+                }
             }
             //If Slime3 is enemy2...
             else if (dP.enemy2Name == "Slime3")
             {
-                if (dP.enemy2MoveSelected == "Power-Up")
+                if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
-                    StartCoroutine(ShowPositiveStatusEffect(enemy2StatusEffectText, "STR Inc."));
+                    StartCoroutine(ShowPositiveStatusEffect(enemy2StatusEffectText, "STR +"));
                     enemy2STRBuff += 2;
                     enemy2PermSTRBuff += 2;
                     dP.enemy2MoveSelected = "";
                     dP.enemy2TargetSelected = "";
                 }
+                else if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff >= 6) //If the move selected is Power-Up but the character has over 6 PERM STR...
+                {
+                    dP.enemy2TargetSelected = "";
+                    dP.enemy2MoveSelected = "Attack";
+                    while ((dP.enemy2TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy2TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy2TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy2TargetSelected == "")
+                    {
+                        dP.enemy2TargetSelected = dP.EnemyTargetSelect(dP.enemy2MoveSelected, dP.enemy2Name);
+                    }
+                }
             }
             //If Slime3 is enemy3...
             if (dP.enemy3Name == "Slime3")
             {
-                if (dP.enemy3MoveSelected == "Power-Up")
+                if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
-                    StartCoroutine(ShowPositiveStatusEffect(enemy3StatusEffectText, "STR Inc."));
+                    StartCoroutine(ShowPositiveStatusEffect(enemy3StatusEffectText, "STR +"));
                     enemy3STRBuff += 2;
                     enemy3PermSTRBuff += 2;
                     dP.enemy3MoveSelected = "";
                     dP.enemy3TargetSelected = "";
+                }
+                else if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff >= 6) //If the move selected is Power-Up but the character has over 6 PERM STR...
+                {
+                    dP.enemy3TargetSelected = "";
+                    dP.enemy3MoveSelected = "Attack";
+                    while ((dP.enemy3TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy3TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy3TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy3TargetSelected == "")
+                    {
+                        dP.enemy3TargetSelected = dP.EnemyTargetSelect(dP.enemy3MoveSelected, dP.enemy3Name);
+                    }
                 }
             }
 
@@ -1414,14 +1521,14 @@ public class ActionPhase : MonoBehaviour
                     if (ally1DEFBuff > 4)
                     {
                         StartCoroutine(DoAlly1Animation("Injured"));
-                        StartCoroutine(ShowNegativeStatusEffect(ally1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(ally1StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(ally1HealthChangeText, 0));
                     }
                     else
                     {
                         StartCoroutine(DoAlly1Animation("Injured"));
                         dP.ally1Health -= (4 - ally1DEFBuff);
-                        StartCoroutine(ShowNegativeStatusEffect(ally1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(ally1StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(ally1HealthChangeText, (4 - ally1DEFBuff)));
                     }
                     ally1IsBleeding = 2;
@@ -1432,14 +1539,14 @@ public class ActionPhase : MonoBehaviour
                     if (ally1DEFBuff > 4)
                     {
                         StartCoroutine(DoAlly1Animation("Injured"));
-                        StartCoroutine(ShowNegativeStatusEffect(ally1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(ally1StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(ally1HealthChangeText, 0));
                     }
                     else
                     {
                         StartCoroutine(DoAlly1Animation("Injured"));
                         dP.ally1Health -= (4 - ally1DEFBuff);
-                        StartCoroutine(ShowNegativeStatusEffect(ally1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(ally1StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(ally1HealthChangeText, (4 - ally1DEFBuff)));
                     }
                     ally1IsBleeding = 0;
@@ -1451,14 +1558,14 @@ public class ActionPhase : MonoBehaviour
                     if (ally2DEFBuff > 4)
                     {
                         StartCoroutine(DoAlly2Animation("Injured"));
-                        StartCoroutine(ShowNegativeStatusEffect(ally2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(ally2StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(ally2HealthChangeText, 0));
                     }
                     else
                     {
                         StartCoroutine(DoAlly2Animation("Injured"));
                         dP.ally2Health -= (4 - ally2DEFBuff);
-                        StartCoroutine(ShowNegativeStatusEffect(ally2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(ally2StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(ally2HealthChangeText, (4 - ally2DEFBuff)));
                     }
                     ally2IsBleeding = 2;
@@ -1469,14 +1576,14 @@ public class ActionPhase : MonoBehaviour
                     if (ally2DEFBuff > 4)
                     {
                         StartCoroutine(DoAlly2Animation("Injured"));
-                        StartCoroutine(ShowNegativeStatusEffect(ally2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(ally2StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(ally2HealthChangeText, 0));
                     }
                     else
                     {
                         StartCoroutine(DoAlly2Animation("Injured"));
                         dP.ally2Health -= (4 - ally2DEFBuff);
-                        StartCoroutine(ShowNegativeStatusEffect(ally2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(ally2StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(ally2HealthChangeText, (4 - ally2DEFBuff)));
                     }
                     ally2IsBleeding = 0;
@@ -1488,14 +1595,14 @@ public class ActionPhase : MonoBehaviour
                     if (ally3DEFBuff > 4)
                     {
                         StartCoroutine(DoAlly3Animation("Injured"));
-                        StartCoroutine(ShowNegativeStatusEffect(ally3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(ally3StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(ally3HealthChangeText, 0));
                     }
                     else
                     {
                         StartCoroutine(DoAlly3Animation("Injured"));
                         dP.ally3Health -= (4 - ally3DEFBuff);
-                        StartCoroutine(ShowNegativeStatusEffect(ally3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(ally3StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(ally3HealthChangeText, (4 - ally3DEFBuff)));
                     }
                     ally3IsBleeding = 2;
@@ -1506,14 +1613,14 @@ public class ActionPhase : MonoBehaviour
                     if (ally3DEFBuff > 4)
                     {
                         StartCoroutine(DoAlly3Animation("Injured"));
-                        StartCoroutine(ShowNegativeStatusEffect(ally3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(ally3StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(ally3HealthChangeText, 0));
                     }
                     else
                     {
                         StartCoroutine(DoAlly3Animation("Injured"));
                         dP.ally3Health -= (4 - ally3DEFBuff);
-                        StartCoroutine(ShowNegativeStatusEffect(ally3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(ally3StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(ally3HealthChangeText, (4 - ally3DEFBuff)));
                     }
                     ally3IsBleeding = 0;
@@ -1525,14 +1632,14 @@ public class ActionPhase : MonoBehaviour
                     if (enemy1DEFBuff > 4)
                     {
                         StartCoroutine(DoEnemy1Animation("Injured"));
-                        StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, 0));
                     }
                     else
                     {
                         StartCoroutine(DoEnemy1Animation("Injured"));
                         dP.enemy1Health -= (4 - enemy1DEFBuff);
-                        StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, (4 - enemy1DEFBuff)));
                     }
                     enemy1IsBleeding = 2;
@@ -1543,14 +1650,14 @@ public class ActionPhase : MonoBehaviour
                     if (enemy1DEFBuff > 4)
                     {
                         StartCoroutine(DoEnemy1Animation("Injured"));
-                        StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, 0));
                     }
                     else
                     {
                         StartCoroutine(DoEnemy1Animation("Injured"));
                         dP.enemy1Health -= (4 - enemy1DEFBuff);
-                        StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, (4 - enemy1DEFBuff)));
                     }
                     enemy1IsBleeding = 0;
@@ -1562,14 +1669,14 @@ public class ActionPhase : MonoBehaviour
                     if (enemy2DEFBuff > 4)
                     {
                         StartCoroutine(DoEnemy2Animation("Injured"));
-                        StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, 0));
                     }
                     else
                     {
                         StartCoroutine(DoEnemy2Animation("Injured"));
                         dP.enemy2Health -= (4 - enemy2DEFBuff);
-                        StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, (4 - enemy2DEFBuff)));
                     }
                     enemy2IsBleeding = 2;
@@ -1580,14 +1687,14 @@ public class ActionPhase : MonoBehaviour
                     if (enemy2DEFBuff > 4)
                     {
                         StartCoroutine(DoEnemy2Animation("Injured"));
-                        StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, 0));
                     }
                     else
                     {
                         StartCoroutine(DoEnemy2Animation("Injured"));
                         dP.enemy2Health -= (4 - enemy2DEFBuff);
-                        StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, (4 - enemy2DEFBuff)));
                     }
                     enemy2IsBleeding = 0;
@@ -1599,14 +1706,14 @@ public class ActionPhase : MonoBehaviour
                     if (enemy3DEFBuff > 4)
                     {
                         StartCoroutine(DoEnemy3Animation("Injured"));
-                        StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, 0));
                     }
                     else
                     {
                         StartCoroutine(DoEnemy3Animation("Injured"));
                         dP.enemy3Health -= (4 - enemy3DEFBuff);
-                        StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, (4 - enemy3DEFBuff)));
                     }
                     enemy3IsBleeding = 2;
@@ -1617,14 +1724,14 @@ public class ActionPhase : MonoBehaviour
                     if (enemy3DEFBuff > 4)
                     {
                         StartCoroutine(DoEnemy3Animation("Injured"));
-                        StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, 0));
                     }
                     else
                     {
                         StartCoroutine(DoEnemy3Animation("Injured"));
                         dP.enemy3Health -= (4 - enemy3DEFBuff);
-                        StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
+                        StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "BLEEDING"));
                         StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, (4 - enemy3DEFBuff)));
                     }
                     enemy3IsBleeding = 0;
@@ -1981,7 +2088,7 @@ public class ActionPhase : MonoBehaviour
     IEnumerator ShowNegativeStatusEffect(TextMeshProUGUI CharacterEffected, string StatusEffect) //When called, shows the negative inflicted status effect of the character for 3 seconds.
     {
         FindObjectOfType<AudioManager>().Play("PowerDown");
-        CharacterEffected.color = new Color32(255, 0, 0, 200);
+        CharacterEffected.color = new Color32(255, 30, 30, 200);
         CharacterEffected.text = StatusEffect;
         yield return new WaitForSeconds(2.5f);
         CharacterEffected.text = "";
@@ -1990,7 +2097,7 @@ public class ActionPhase : MonoBehaviour
     IEnumerator ShowPositiveStatusEffect(TextMeshProUGUI CharacterEffected, string StatusEffect) //When called, shows the positive inflicted status effect of the character for 3 seconds.
     {
         FindObjectOfType<AudioManager>().Play("PowerUp");
-        CharacterEffected.color = new Color32(0, 0, 255, 200);
+        CharacterEffected.color = new Color32(30, 30, 255, 200);
         CharacterEffected.text = StatusEffect;
         yield return new WaitForSeconds(2.5f);
         CharacterEffected.text = "";
