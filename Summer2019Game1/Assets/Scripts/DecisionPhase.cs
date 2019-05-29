@@ -984,9 +984,12 @@ public class DecisionPhase : MonoBehaviour
 
     IEnumerator EndTheGame() //Ends the game if all enemies are killed
     {
-        if (ally1Dead && ally2Dead && ally3Dead)
+        if (ally1Dead && ally2Dead && ally3Dead) //If all allies are killed...
         {
+            yield return new WaitForSeconds(2);
+            FindObjectOfType<AudioManager>().Play("Lose");
             winText.text = "Wave Failed";
+            phaseText.text = "";
             Move1Button.SetActive(false);
             Move2Button.SetActive(false);
             Move3Button.SetActive(false);
@@ -999,9 +1002,12 @@ public class DecisionPhase : MonoBehaviour
             yield return new WaitForSeconds(10);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
-        else if (enemy1Dead && enemy2Dead && enemy3Dead)
+        else if (enemy1Dead && enemy2Dead && enemy3Dead) //If all enemies are killed...
         {
+            yield return new WaitForSeconds(2);
+            FindObjectOfType<AudioManager>().Play("Win");
             winText.text = "Wave Completed";
+            phaseText.text = "";
             Move1Button.SetActive(false);
             Move2Button.SetActive(false);
             Move3Button.SetActive(false);

@@ -103,4 +103,9 @@ public class MouseHoverOverMoves : MonoBehaviour
     {
         dP.cMMoveInfo.text = "";
     }
+
+    public void OnMouseClick() //When you click one of the buttons in the CombatMenu it'll play a click sound.
+    {
+        FindObjectOfType<AudioManager>().Play("ButtonClick");
+    }
 }
