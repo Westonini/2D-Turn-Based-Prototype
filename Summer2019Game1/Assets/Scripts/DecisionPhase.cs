@@ -119,6 +119,8 @@ public class DecisionPhase : MonoBehaviour
 
     private ActionPhase aP;
 
+    private bool waveEndSoundPlayed = false;
+
     void Awake()
     {
         ally1Sprite = ally1.GetComponent<SpriteRenderer>();
@@ -937,7 +939,7 @@ public class DecisionPhase : MonoBehaviour
         {
             enemyMoveSelectNumber = Random.Range(1, 5); //Choose a random number between 1-4.
 
-            if (enemyMoveSelectNumber == 1 || enemyMoveSelectNumber == 2)
+            if (enemyMoveSelectNumber == 1 || enemyMoveSelectNumber == 2 || enemyMoveSelectNumber == 3)
             {
                 return "Attack";
             }
@@ -986,8 +988,14 @@ public class DecisionPhase : MonoBehaviour
     {
         if (ally1Dead && ally2Dead && ally3Dead) //If all allies are killed...
         {
-            yield return new WaitForSeconds(2);
-            FindObjectOfType<AudioManager>().Play("Lose");
+            yield return new WaitForSeconds(2.5f);
+
+            if (waveEndSoundPlayed == false)
+            {
+                FindObjectOfType<AudioManager>().Play("Lose");
+                waveEndSoundPlayed = true;
+            }
+            
             winText.text = "Wave Failed";
             phaseText.text = "";
             Move1Button.SetActive(false);
@@ -999,13 +1007,20 @@ public class DecisionPhase : MonoBehaviour
             cMMoveInfo.text = "";
             characterTurn = "";
             actionPhase = false;
-            yield return new WaitForSeconds(10);
+
+            yield return new WaitForSeconds(5);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
         else if (enemy1Dead && enemy2Dead && enemy3Dead) //If all enemies are killed...
         {
-            yield return new WaitForSeconds(2);
-            FindObjectOfType<AudioManager>().Play("Win");
+            yield return new WaitForSeconds(2.5f);
+
+            if (waveEndSoundPlayed == false)
+            {
+                FindObjectOfType<AudioManager>().Play("Win");
+                waveEndSoundPlayed = true;
+            }
+           
             winText.text = "Wave Completed";
             phaseText.text = "";
             Move1Button.SetActive(false);
@@ -1017,22 +1032,27 @@ public class DecisionPhase : MonoBehaviour
             cMMoveInfo.text = "";
             characterTurn = "";
             actionPhase = false;
-            yield return new WaitForSeconds(10);
+
+            yield return new WaitForSeconds(5);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
     }
 
     void ChangePhaseText() //Called in Update(); changes the text showing the player which phase they're in.
     {
-        if (actionPhase == false)
+        if (actionPhase == false && ((ally1Dead == false && ally2Dead == false && ally3Dead == false) || (enemy1Dead == false && enemy2Dead == false && enemy3Dead == false)))
         {
             phaseText.color = new Color32(0, 166, 255, 255);
             phaseText.text = "D E C I S I O N   P H A S E";
         }
-        if (actionPhase == true)
+        if (actionPhase == true && ((ally1Dead == false && ally2Dead == false && ally3Dead == false) || (enemy1Dead == false && enemy2Dead == false && enemy3Dead == false)))
         {
             phaseText.color = new Color32(255, 29, 0, 255);
             phaseText.text = "A C T I O N   P H A S E";
+        }
+        else
+        {
+            phaseText.text = "";
         }
     }
 

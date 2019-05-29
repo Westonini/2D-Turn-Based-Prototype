@@ -252,16 +252,19 @@ public class ActionPhase : MonoBehaviour
         {
             if (TargetSelected == dP.ally1Name) //If the target selected is ally1...
             {
+                StartCoroutine(DoAlly1Animation("Healed"));
                 dP.ally1Health += HealHealth(6);
                 StartCoroutine(ShowHealingDealt(ally1HealthChangeText, 6));
             }
             else if (TargetSelected == dP.ally2Name) //If the target selected is ally2...
             {
+                StartCoroutine(DoAlly2Animation("Healed"));
                 dP.ally2Health += HealHealth(6);
                 StartCoroutine(ShowHealingDealt(ally2HealthChangeText, 6));
             }
             else if (TargetSelected == dP.ally3Name) //If the target selected is ally3...
             {
+                StartCoroutine(DoAlly3Animation("Healed"));
                 dP.ally3Health += HealHealth(6);
                 StartCoroutine(ShowHealingDealt(ally3HealthChangeText, 6));
             }
@@ -276,6 +279,7 @@ public class ActionPhase : MonoBehaviour
 
             if (TargetSelected == dP.enemy1Name && accuracy <= 80) //If the target selected is enemy1 and the accuracy is 80 or below...
             {
+                StartCoroutine(DoEnemy1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("SwordHit");
                 dP.enemy1Health -= DealDamage((10 + STRbuff) - enemy1DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((10 + STRbuff) - enemy1DEFBuff)));
@@ -286,6 +290,7 @@ public class ActionPhase : MonoBehaviour
             }
             else if (TargetSelected == dP.enemy2Name && accuracy <= 80) //If the target selected is enemy2 and the accuracy is 80 or below...
             {
+                StartCoroutine(DoEnemy2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("SwordHit");
                 dP.enemy2Health -= DealDamage((10 + STRbuff) - enemy2DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((10 + STRbuff) - enemy2DEFBuff)));
@@ -296,6 +301,7 @@ public class ActionPhase : MonoBehaviour
             }
             else if (TargetSelected == dP.enemy3Name && accuracy <= 80) //If the target selected is enemy3 and the accuracy is 80 or below...
             {
+                StartCoroutine(DoEnemy3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("SwordHit");
                 dP.enemy3Health -= DealDamage((10 + STRbuff) - enemy3DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((10 + STRbuff) - enemy3DEFBuff)));
@@ -311,6 +317,7 @@ public class ActionPhase : MonoBehaviour
             accuracy = Random.Range(1, 101);
             if (accuracy <= 80)
             {
+                StartCoroutine(DoEnemy1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("SwordHit");
                 dP.enemy1Health -= DealDamage((5 + STRbuff) - enemy1DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((5 + STRbuff) - enemy1DEFBuff)));
@@ -323,6 +330,7 @@ public class ActionPhase : MonoBehaviour
             accuracy = Random.Range(1, 101);
             if (accuracy <= 80)
             {
+                StartCoroutine(DoEnemy2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("SwordHit");
                 dP.enemy2Health -= DealDamage((5 + STRbuff) - enemy2DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((5 + STRbuff) - enemy2DEFBuff)));
@@ -335,6 +343,7 @@ public class ActionPhase : MonoBehaviour
             accuracy = Random.Range(1, 101);
             if (accuracy <= 80)
             {
+                StartCoroutine(DoEnemy3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("SwordHit");
                 dP.enemy3Health -= DealDamage((5 + STRbuff) - enemy3DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((5 + STRbuff) - enemy3DEFBuff)));
@@ -485,12 +494,14 @@ public class ActionPhase : MonoBehaviour
 
             if (TargetSelected == dP.enemy1Name && accuracy <= 70 && bleedChance > 30) //If the target selected is enemy1 and the accuracy is 70 or below...
             {
+                StartCoroutine(DoEnemy1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy1Health -= DealDamage((15 + STRbuff) - enemy1DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((15 + STRbuff) - enemy1DEFBuff)));
             }
             else if (TargetSelected == dP.enemy1Name && accuracy <= 70 && bleedChance <= 30) //If the target selected is enemy1 and the accuracy is 70 or below and the bleedChance is 30 or below...
             {
+                StartCoroutine(DoEnemy1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy1Health -= DealDamage((15 + STRbuff) - enemy1DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((15 + STRbuff) - enemy1DEFBuff)));
@@ -503,12 +514,14 @@ public class ActionPhase : MonoBehaviour
             }
             else if (TargetSelected == dP.enemy2Name && accuracy <= 70 && bleedChance > 30) //If the target selected is enemy2 and the accuracy is 70 or below...
             {
+                StartCoroutine(DoEnemy2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy2Health -= DealDamage((15 + STRbuff) - enemy2DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((15 + STRbuff) - enemy2DEFBuff)));
             }
             else if (TargetSelected == dP.enemy2Name && accuracy <= 70 && bleedChance <= 30) //If the target selected is enemy2 and the accuracy is 70 or below and the bleedChance is 30 or below...
             {
+                StartCoroutine(DoEnemy2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy2Health -= DealDamage((15 + STRbuff) - enemy2DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((15 + STRbuff) - enemy2DEFBuff)));
@@ -521,12 +534,14 @@ public class ActionPhase : MonoBehaviour
             }
             else if (TargetSelected == dP.enemy3Name && accuracy <= 70 && bleedChance > 30) //If the target selected is enemy3 and the accuracy is 70 or below...
             {
+                StartCoroutine(DoEnemy3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy3Health -= DealDamage((15 + STRbuff) - enemy3DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((15 + STRbuff) - enemy3DEFBuff)));
             }
             else if (TargetSelected == dP.enemy3Name && accuracy <= 70 && bleedChance <= 30) //If the target selected is enemy3 and the accuracy is 70 or below and the bleedChance is 30 or below...
             {
+                StartCoroutine(DoEnemy3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy3Health -= DealDamage((15 + STRbuff) - enemy3DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((15 + STRbuff) - enemy3DEFBuff)));
@@ -547,6 +562,7 @@ public class ActionPhase : MonoBehaviour
 
             if (accuracy <= 70) //If the accuracy is 70 or lower it hits
             {
+                StartCoroutine(DoEnemy1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy1Health -= DealDamage((7 + STRbuff) - enemy1DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((7 + STRbuff) - enemy1DEFBuff)));
@@ -567,6 +583,7 @@ public class ActionPhase : MonoBehaviour
 
             if (accuracy <= 70) //If the accuracy is 70 or lower it hits
             {
+                StartCoroutine(DoEnemy2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy2Health -= DealDamage((7 + STRbuff) - enemy2DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((7 + STRbuff) - enemy2DEFBuff)));
@@ -587,6 +604,7 @@ public class ActionPhase : MonoBehaviour
 
             if (accuracy <= 70) //If the accuracy is 70 or lower it hits
             {
+                StartCoroutine(DoEnemy3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy3Health -= DealDamage((7 + STRbuff) - enemy3DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((7 + STRbuff) - enemy3DEFBuff)));
@@ -617,6 +635,7 @@ public class ActionPhase : MonoBehaviour
             //Else if GlassCannon is Ally1 but has already charged...
             else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy1Name && accuracy <= 70) //If the target selected is enemy1 and it hits...
             {
+                StartCoroutine(DoEnemy1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy1Health -= DealDamage((35 + STRbuff) - enemy1DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((35 + STRbuff) - enemy1DEFBuff)));
@@ -638,6 +657,7 @@ public class ActionPhase : MonoBehaviour
             }
             else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy2Name && accuracy <= 70) //If the target selected is enemy2 and it hits...
             {
+                StartCoroutine(DoEnemy2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy2Health -= DealDamage((35 + STRbuff) - enemy2DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((35 + STRbuff) - enemy2DEFBuff)));
@@ -659,6 +679,7 @@ public class ActionPhase : MonoBehaviour
             }
             else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy3Name && accuracy <= 70) //If the target selected is enemy3 and it hits...
             {
+                StartCoroutine(DoEnemy3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy3Health -= DealDamage((35 + STRbuff) - enemy3DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((35 + STRbuff) - enemy3DEFBuff)));
@@ -689,6 +710,7 @@ public class ActionPhase : MonoBehaviour
             //Else if GlassCannon is Ally2 but has already charged...
             else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy1Name && accuracy <= 70) //If the target selected is enemy1 and it hits...
             {
+                StartCoroutine(DoEnemy1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy1Health -= DealDamage((35 + STRbuff) - enemy1DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((35 + STRbuff) - enemy1DEFBuff)));
@@ -710,6 +732,7 @@ public class ActionPhase : MonoBehaviour
             }
             else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy2Name && accuracy <= 70) //If the target selected is enemy2 and it hits...
             {
+                StartCoroutine(DoEnemy2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy2Health -= DealDamage((35 + STRbuff) - enemy2DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((35 + STRbuff) - enemy2DEFBuff)));
@@ -731,6 +754,7 @@ public class ActionPhase : MonoBehaviour
             }
             else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy3Name && accuracy <= 70) //If the target selected is enemy3 and it hits...
             {
+                StartCoroutine(DoEnemy3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy3Health -= DealDamage((35 + STRbuff) - enemy3DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((35 + STRbuff) - enemy3DEFBuff)));
@@ -761,6 +785,7 @@ public class ActionPhase : MonoBehaviour
             //Else if GlassCannon is Ally3 but has already charged...
             else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy1Name && accuracy <= 70) //If the target selected is enemy1 and it hits...
             {
+                StartCoroutine(DoEnemy1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy1Health -= DealDamage((35 + STRbuff) - enemy1DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((35 + STRbuff) - enemy1DEFBuff)));
@@ -782,6 +807,7 @@ public class ActionPhase : MonoBehaviour
             }
             else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy2Name && accuracy <= 70) //If the target selected is enemy2 and it hits...
             {
+                StartCoroutine(DoEnemy2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy2Health -= DealDamage((35 + STRbuff) - enemy2DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((35 + STRbuff) - enemy2DEFBuff)));
@@ -803,6 +829,7 @@ public class ActionPhase : MonoBehaviour
             }
             else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy3Name && accuracy <= 70) //If the target selected is enemy3 and it hits...
             {
+                StartCoroutine(DoEnemy3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy3Health -= DealDamage((35 + STRbuff) - enemy3DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((35 + STRbuff) - enemy3DEFBuff)));
@@ -936,16 +963,19 @@ public class ActionPhase : MonoBehaviour
         {
             if (TargetSelected == dP.ally1Name) //If the target selected is ally1...
             {
+                StartCoroutine(DoAlly1Animation("Healed"));
                 dP.ally1Health += HealHealth(12);
                 StartCoroutine(ShowHealingDealt(ally1HealthChangeText, 12));
             }
             else if (TargetSelected == dP.ally2Name) //If the target selected is ally2...
             {
+                StartCoroutine(DoAlly2Animation("Healed"));
                 dP.ally2Health += HealHealth(12);
                 StartCoroutine(ShowHealingDealt(ally2HealthChangeText, 12));
             }
             else if (TargetSelected == dP.ally3Name) //If the target selected is ally3...
             {
+                StartCoroutine(DoAlly3Animation("Healed"));
                 dP.ally3Health += HealHealth(12);
                 StartCoroutine(ShowHealingDealt(ally3HealthChangeText, 12));
             }
@@ -963,12 +993,15 @@ public class ActionPhase : MonoBehaviour
 
         else if (MoveSelected == "Mend-All") //If the move selected is Mend-All...
         {
+            StartCoroutine(DoAlly1Animation("Healed"));
             dP.ally1Health += HealHealth(6);
             StartCoroutine(ShowHealingDealt(ally1HealthChangeText, 6));
 
+            StartCoroutine(DoAlly2Animation("Healed"));
             dP.ally2Health += HealHealth(6);
             StartCoroutine(ShowHealingDealt(ally2HealthChangeText, 6));
 
+            StartCoroutine(DoAlly3Animation("Healed"));
             dP.ally3Health += HealHealth(6);
             StartCoroutine(ShowHealingDealt(ally3HealthChangeText, 6));
         }
@@ -982,22 +1015,26 @@ public class ActionPhase : MonoBehaviour
 
             if (TargetSelected == dP.enemy1Name && accuracy <= 85) //If the target selected is enemy1 and the accuracy is 80 or below...
             {
+                StartCoroutine(DoEnemy1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Spell");
                 dP.enemy1Health -= DealDamage((8 + STRbuff) - enemy1DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((8 + STRbuff) - enemy1DEFBuff)));
 
                 if (AllyPlacement == "Ally1")
                 {
+                    StartCoroutine(DoAlly1Animation("Healed"));
                     dP.ally1Health += HealHealth(((8 + STRbuff) - enemy1DEFBuff) / 2);
                     StartCoroutine(ShowHealingDealt(ally1HealthChangeText, ((8 + STRbuff) - enemy1DEFBuff) / 2));
                 }
                 else if (AllyPlacement == "Ally2")
                 {
+                    StartCoroutine(DoAlly2Animation("Healed"));
                     dP.ally2Health += HealHealth(((8 + STRbuff) - enemy1DEFBuff) / 2);
                     StartCoroutine(ShowHealingDealt(ally2HealthChangeText, ((8 + STRbuff) - enemy1DEFBuff) / 2));
                 }
                 if (AllyPlacement == "Ally3")
                 {
+                    StartCoroutine(DoAlly3Animation("Healed"));
                     dP.ally3Health += HealHealth(((8 + STRbuff) - enemy1DEFBuff) / 2);
                     StartCoroutine(ShowHealingDealt(ally3HealthChangeText, ((8 + STRbuff) - enemy1DEFBuff) / 2));
                 }
@@ -1009,22 +1046,26 @@ public class ActionPhase : MonoBehaviour
 
             else if (TargetSelected == dP.enemy2Name && accuracy <= 85) //If the target selected is enemy2 and the accuracy is 80 or below...
             {
+                StartCoroutine(DoEnemy2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Spell");
                 dP.enemy2Health -= DealDamage((8 + STRbuff) - enemy2DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((8 + STRbuff) - enemy2DEFBuff)));
 
                 if (AllyPlacement == "Ally1")
                 {
+                    StartCoroutine(DoAlly1Animation("Healed"));
                     dP.ally1Health += HealHealth(((8 + STRbuff) - enemy2DEFBuff) / 2);
                     StartCoroutine(ShowHealingDealt(ally1HealthChangeText, ((8 + STRbuff) - enemy2DEFBuff) / 2));
                 }
                 else if (AllyPlacement == "Ally2")
                 {
+                    StartCoroutine(DoAlly2Animation("Healed"));
                     dP.ally2Health += HealHealth(((8 + STRbuff) - enemy2DEFBuff) / 2);
                     StartCoroutine(ShowHealingDealt(ally2HealthChangeText, ((8 + STRbuff) - enemy2DEFBuff) / 2));
                 }
                 if (AllyPlacement == "Ally3")
                 {
+                    StartCoroutine(DoAlly3Animation("Healed"));
                     dP.ally3Health += HealHealth(((8 + STRbuff) - enemy2DEFBuff) / 2);
                     StartCoroutine(ShowHealingDealt(ally3HealthChangeText, ((8 + STRbuff) - enemy2DEFBuff) / 2));
                 }
@@ -1037,22 +1078,26 @@ public class ActionPhase : MonoBehaviour
 
             else if (TargetSelected == dP.enemy3Name && accuracy <= 85) //If the target selected is enemy3 and the accuracy is 80 or below...
             {
+                StartCoroutine(DoEnemy3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Spell");
                 dP.enemy3Health -= DealDamage((8 + STRbuff) - enemy3DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((8 + STRbuff) - enemy3DEFBuff)));
 
                 if (AllyPlacement == "Ally1")
                 {
+                    StartCoroutine(DoAlly1Animation("Healed"));
                     dP.ally1Health += HealHealth(((8 + STRbuff) - enemy3DEFBuff) / 2);
                     StartCoroutine(ShowHealingDealt(ally1HealthChangeText, ((8 + STRbuff) - enemy3DEFBuff) / 2));
                 }
                 else if (AllyPlacement == "Ally2")
                 {
+                    StartCoroutine(DoAlly2Animation("Healed"));
                     dP.ally2Health += HealHealth(((8 + STRbuff) - enemy3DEFBuff) / 2);
                     StartCoroutine(ShowHealingDealt(ally2HealthChangeText, ((8 + STRbuff) - enemy3DEFBuff) / 2));
                 }
                 if (AllyPlacement == "Ally3")
                 {
+                    StartCoroutine(DoAlly3Animation("Healed"));
                     dP.ally3Health += HealHealth(((8 + STRbuff) - enemy3DEFBuff) / 2);
                     StartCoroutine(ShowHealingDealt(ally3HealthChangeText, ((8 + STRbuff) - enemy3DEFBuff) / 2));
                 }
@@ -1322,6 +1367,7 @@ public class ActionPhase : MonoBehaviour
 
             if (TargetSelected == dP.ally1Name && accuracy <= 70) //If the target selected is ally1 and the accuracy is 70 or below... 
             {
+                StartCoroutine(DoAlly1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Squish");
                 dP.ally1Health -= DealDamage((5 + STRbuff) - ally1DEFBuff);
                 StartCoroutine(ShowDamageDealt(ally1HealthChangeText, ((5 + STRbuff) - ally1DEFBuff)));
@@ -1332,6 +1378,7 @@ public class ActionPhase : MonoBehaviour
             }
             else if (TargetSelected == dP.ally2Name && accuracy <= 70) //If the target selected is ally2 and the accuracy is 70 or below... 
             {
+                StartCoroutine(DoAlly2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Squish");
                 dP.ally2Health -= DealDamage((5 + STRbuff) - ally2DEFBuff);
                 StartCoroutine(ShowDamageDealt(ally2HealthChangeText, ((5 + STRbuff) - ally2DEFBuff)));
@@ -1342,6 +1389,7 @@ public class ActionPhase : MonoBehaviour
             }
             else if (TargetSelected == dP.ally3Name && accuracy <= 70) //If the target selected is ally3 and the accuracy is 70 or below... 
             {
+                StartCoroutine(DoAlly3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Squish");
                 dP.ally3Health -= DealDamage((5 + STRbuff) - ally3DEFBuff);
                 StartCoroutine(ShowDamageDealt(ally3HealthChangeText, ((5 + STRbuff) - ally3DEFBuff)));
@@ -1365,11 +1413,13 @@ public class ActionPhase : MonoBehaviour
                 {
                     if (ally1DEFBuff > 4)
                     {
+                        StartCoroutine(DoAlly1Animation("Injured"));
                         StartCoroutine(ShowNegativeStatusEffect(ally1StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(ally1HealthChangeText, 0));
                     }
                     else
                     {
+                        StartCoroutine(DoAlly1Animation("Injured"));
                         dP.ally1Health -= (4 - ally1DEFBuff);
                         StartCoroutine(ShowNegativeStatusEffect(ally1StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(ally1HealthChangeText, (4 - ally1DEFBuff)));
@@ -1381,11 +1431,13 @@ public class ActionPhase : MonoBehaviour
                 {
                     if (ally1DEFBuff > 4)
                     {
+                        StartCoroutine(DoAlly1Animation("Injured"));
                         StartCoroutine(ShowNegativeStatusEffect(ally1StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(ally1HealthChangeText, 0));
                     }
                     else
                     {
+                        StartCoroutine(DoAlly1Animation("Injured"));
                         dP.ally1Health -= (4 - ally1DEFBuff);
                         StartCoroutine(ShowNegativeStatusEffect(ally1StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(ally1HealthChangeText, (4 - ally1DEFBuff)));
@@ -1398,11 +1450,13 @@ public class ActionPhase : MonoBehaviour
                 {
                     if (ally2DEFBuff > 4)
                     {
+                        StartCoroutine(DoAlly2Animation("Injured"));
                         StartCoroutine(ShowNegativeStatusEffect(ally2StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(ally2HealthChangeText, 0));
                     }
                     else
                     {
+                        StartCoroutine(DoAlly2Animation("Injured"));
                         dP.ally2Health -= (4 - ally2DEFBuff);
                         StartCoroutine(ShowNegativeStatusEffect(ally2StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(ally2HealthChangeText, (4 - ally2DEFBuff)));
@@ -1414,11 +1468,13 @@ public class ActionPhase : MonoBehaviour
                 {
                     if (ally2DEFBuff > 4)
                     {
+                        StartCoroutine(DoAlly2Animation("Injured"));
                         StartCoroutine(ShowNegativeStatusEffect(ally2StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(ally2HealthChangeText, 0));
                     }
                     else
                     {
+                        StartCoroutine(DoAlly2Animation("Injured"));
                         dP.ally2Health -= (4 - ally2DEFBuff);
                         StartCoroutine(ShowNegativeStatusEffect(ally2StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(ally2HealthChangeText, (4 - ally2DEFBuff)));
@@ -1431,11 +1487,13 @@ public class ActionPhase : MonoBehaviour
                 {
                     if (ally3DEFBuff > 4)
                     {
+                        StartCoroutine(DoAlly3Animation("Injured"));
                         StartCoroutine(ShowNegativeStatusEffect(ally3StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(ally3HealthChangeText, 0));
                     }
                     else
                     {
+                        StartCoroutine(DoAlly3Animation("Injured"));
                         dP.ally3Health -= (4 - ally3DEFBuff);
                         StartCoroutine(ShowNegativeStatusEffect(ally3StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(ally3HealthChangeText, (4 - ally3DEFBuff)));
@@ -1447,11 +1505,13 @@ public class ActionPhase : MonoBehaviour
                 {
                     if (ally3DEFBuff > 4)
                     {
+                        StartCoroutine(DoAlly3Animation("Injured"));
                         StartCoroutine(ShowNegativeStatusEffect(ally3StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(ally3HealthChangeText, 0));
                     }
                     else
                     {
+                        StartCoroutine(DoAlly3Animation("Injured"));
                         dP.ally3Health -= (4 - ally3DEFBuff);
                         StartCoroutine(ShowNegativeStatusEffect(ally3StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(ally3HealthChangeText, (4 - ally3DEFBuff)));
@@ -1464,11 +1524,13 @@ public class ActionPhase : MonoBehaviour
                 {
                     if (enemy1DEFBuff > 4)
                     {
+                        StartCoroutine(DoEnemy1Animation("Injured"));
                         StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, 0));
                     }
                     else
                     {
+                        StartCoroutine(DoEnemy1Animation("Injured"));
                         dP.enemy1Health -= (4 - enemy1DEFBuff);
                         StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, (4 - enemy1DEFBuff)));
@@ -1480,11 +1542,13 @@ public class ActionPhase : MonoBehaviour
                 {
                     if (enemy1DEFBuff > 4)
                     {
+                        StartCoroutine(DoEnemy1Animation("Injured"));
                         StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, 0));
                     }
                     else
                     {
+                        StartCoroutine(DoEnemy1Animation("Injured"));
                         dP.enemy1Health -= (4 - enemy1DEFBuff);
                         StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, (4 - enemy1DEFBuff)));
@@ -1497,11 +1561,13 @@ public class ActionPhase : MonoBehaviour
                 {
                     if (enemy2DEFBuff > 4)
                     {
+                        StartCoroutine(DoEnemy2Animation("Injured"));
                         StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, 0));
                     }
                     else
                     {
+                        StartCoroutine(DoEnemy2Animation("Injured"));
                         dP.enemy2Health -= (4 - enemy2DEFBuff);
                         StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, (4 - enemy2DEFBuff)));
@@ -1513,11 +1579,13 @@ public class ActionPhase : MonoBehaviour
                 {
                     if (enemy2DEFBuff > 4)
                     {
+                        StartCoroutine(DoEnemy2Animation("Injured"));
                         StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, 0));
                     }
                     else
                     {
+                        StartCoroutine(DoEnemy2Animation("Injured"));
                         dP.enemy2Health -= (4 - enemy2DEFBuff);
                         StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, (4 - enemy2DEFBuff)));
@@ -1530,11 +1598,13 @@ public class ActionPhase : MonoBehaviour
                 {
                     if (enemy3DEFBuff > 4)
                     {
+                        StartCoroutine(DoEnemy3Animation("Injured"));
                         StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, 0));
                     }
                     else
                     {
+                        StartCoroutine(DoEnemy3Animation("Injured"));
                         dP.enemy3Health -= (4 - enemy3DEFBuff);
                         StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, (4 - enemy3DEFBuff)));
@@ -1546,11 +1616,13 @@ public class ActionPhase : MonoBehaviour
                 {
                     if (enemy3DEFBuff > 4)
                     {
+                        StartCoroutine(DoEnemy3Animation("Injured"));
                         StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, 0));
                     }
                     else
                     {
+                        StartCoroutine(DoEnemy3Animation("Injured"));
                         dP.enemy3Health -= (4 - enemy3DEFBuff);
                         StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "Bleeding"));
                         StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, (4 - enemy3DEFBuff)));
@@ -1705,7 +1777,7 @@ public class ActionPhase : MonoBehaviour
     IEnumerator CCTDPDowntime(string NextCharacterName, bool DefensivePhase = true) //To be called everytime the character turn in the DefensivePhase is to be changed after a character made a move. Waits 5 seconds before each change.
     {
         characterTurn = "";
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         characterTurn = NextCharacterName;
         defensivePhase = DefensivePhase;      
     }
@@ -1826,14 +1898,14 @@ public class ActionPhase : MonoBehaviour
     IEnumerator CCTOPDowntime(string NextCharacterName) //To be called everytime the character turn in the OffensivePhase is to be changed after a character made a move. Waits 5 seconds before each change.
     {
         characterTurn = "";
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         characterTurn = NextCharacterName;
     }
 
     IEnumerator CCTOPDowntimeFinal() //To be called after the final character turn in the OffensivePhase. Waits 5 seconds before each change.
     {
         characterTurn = "";
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         
         characterTurn = "";
         dP.actionPhase = false;
@@ -1911,7 +1983,7 @@ public class ActionPhase : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("PowerDown");
         CharacterEffected.color = new Color32(255, 0, 0, 200);
         CharacterEffected.text = StatusEffect;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2.5f);
         CharacterEffected.text = "";
     }
 
@@ -1920,7 +1992,7 @@ public class ActionPhase : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("PowerUp");
         CharacterEffected.color = new Color32(0, 0, 255, 200);
         CharacterEffected.text = StatusEffect;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2.5f);
         CharacterEffected.text = "";
     }
 
@@ -1930,14 +2002,14 @@ public class ActionPhase : MonoBehaviour
         {
             CharacterHealthLost.color = new Color32(255, 0, 0, 200);
             CharacterHealthLost.text = "- " + AmountLost;
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2.5f);
             CharacterHealthLost.text = "";
         }
         else
         {           
             CharacterHealthLost.color = new Color32(255, 0, 0, 200);
             CharacterHealthLost.text = "- " + 0;
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2.5f);
             CharacterHealthLost.text = "";
         }
     }
@@ -1949,7 +2021,7 @@ public class ActionPhase : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("Heal");
             CharacterHealthGained.color = new Color32(0, 255, 0, 200);
             CharacterHealthGained.text = "+ " + AmountGained;
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2.5f);
             CharacterHealthGained.text = "";
         }
         else
@@ -1957,7 +2029,7 @@ public class ActionPhase : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("Heal");
             CharacterHealthGained.color = new Color32(0, 255, 0, 200);
             CharacterHealthGained.text = "+ " + 0;
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2.5f);
             CharacterHealthGained.text = "";
         }
 
@@ -1967,7 +2039,109 @@ public class ActionPhase : MonoBehaviour
     {
         FindObjectOfType<AudioManager>().Play("Miss");
         CharacterMissText.text = "MISS";
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2.5f);
         CharacterMissText.text = "";
+    }
+
+    IEnumerator DoAlly1Animation(string Animation) //Is called when Ally1 needs to play an animation.
+    {
+        if (Animation == "Injured")
+        {
+            dP.ally1Anim.SetBool("CharacterInjured", true);
+            yield return new WaitForSeconds(1);
+            dP.ally1Anim.SetBool("CharacterInjured", false);
+        }
+
+        else if (Animation == "Healed")
+        {
+            dP.ally1Anim.SetBool("CharacterHealed", true);
+            yield return new WaitForSeconds(1);
+            dP.ally1Anim.SetBool("CharacterHealed", false);
+        }
+    }
+
+    IEnumerator DoAlly2Animation(string Animation) //Is called when Ally2 needs to play an animation.
+    {
+        if (Animation == "Injured")
+        {
+            dP.ally2Anim.SetBool("CharacterInjured", true);
+            yield return new WaitForSeconds(1);
+            dP.ally2Anim.SetBool("CharacterInjured", false);
+        }
+
+        else if (Animation == "Healed")
+        {
+            dP.ally2Anim.SetBool("CharacterHealed", true);
+            yield return new WaitForSeconds(1);
+            dP.ally2Anim.SetBool("CharacterHealed", false);
+        }
+    }
+
+    IEnumerator DoAlly3Animation(string Animation) //Is called when Ally3 needs to play an animation.
+    {
+        if (Animation == "Injured")
+        {
+            dP.ally3Anim.SetBool("CharacterInjured", true);
+            yield return new WaitForSeconds(1);
+            dP.ally3Anim.SetBool("CharacterInjured", false);
+        }
+
+        else if (Animation == "Healed")
+        {
+            dP.ally3Anim.SetBool("CharacterHealed", true);
+            yield return new WaitForSeconds(1);
+            dP.ally3Anim.SetBool("CharacterHealed", false);
+        }
+    }
+
+    IEnumerator DoEnemy1Animation(string Animation) //Is called when Enemy1 needs to play an animation.
+    {
+        if (Animation == "Injured")
+        {
+            dP.enemy1Anim.SetBool("CharacterInjured", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy1Anim.SetBool("CharacterInjured", false);
+        }
+
+        else if (Animation == "Healed")
+        {
+            dP.enemy1Anim.SetBool("CharacterHealed", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy1Anim.SetBool("CharacterHealed", false);
+        }
+    }
+
+    IEnumerator DoEnemy2Animation(string Animation) //Is called when Enemy2 needs to play an animation.
+    {
+        if (Animation == "Injured")
+        {
+            dP.enemy2Anim.SetBool("CharacterInjured", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy2Anim.SetBool("CharacterInjured", false);
+        }
+
+        else if (Animation == "Healed")
+        {
+            dP.enemy2Anim.SetBool("CharacterHealed", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy2Anim.SetBool("CharacterHealed", false);
+        }
+    }
+
+    IEnumerator DoEnemy3Animation(string Animation) //Is called when Enemy3 needs to play an animation.
+    {
+        if (Animation == "Injured")
+        {
+            dP.enemy3Anim.SetBool("CharacterInjured", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy3Anim.SetBool("CharacterInjured", false);
+        }
+
+        else if (Animation == "Healed")
+        {
+            dP.enemy3Anim.SetBool("CharacterHealed", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy3Anim.SetBool("CharacterHealed", false);
+        }
     }
 }
