@@ -136,6 +136,7 @@ public class ActionPhase : MonoBehaviour
                 if (dP.ally1MoveSelected == "Defend")
                 {
                     {
+                        StartCoroutine(DoAlly1Animation("Buffed"));
                         ally1DEFBuff += 5;
                         StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF +"));
                     }
@@ -155,6 +156,7 @@ public class ActionPhase : MonoBehaviour
                 if (dP.ally2MoveSelected == "Defend")
                 {
                     {
+                        StartCoroutine(DoAlly2Animation("Buffed"));
                         ally2DEFBuff += 5;
                         StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF +"));
                     }
@@ -174,6 +176,7 @@ public class ActionPhase : MonoBehaviour
                 if (dP.ally3MoveSelected == "Defend")
                 {
                     {
+                        StartCoroutine(DoAlly3Animation("Buffed"));
                         ally3DEFBuff += 5;
                         StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF +"));
                     }
@@ -237,16 +240,19 @@ public class ActionPhase : MonoBehaviour
         {
             if (TargetSelected == dP.ally1Name) //If the target selected is ally1...
             {
+                StartCoroutine(DoAlly1Animation("Buffed"));
                 ally1STRBuff = 5;
                 StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "STR +"));
             }
             else if (TargetSelected == dP.ally2Name) //If the target selected is ally2...
             {
+                StartCoroutine(DoAlly2Animation("Buffed"));
                 ally2STRBuff = 5;
                 StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "STR +"));
             }
             else if (TargetSelected == dP.ally3Name) //If the target selected is ally3...
             {
+                StartCoroutine(DoAlly3Animation("Buffed"));
                 ally3STRBuff = 5;
                 StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "STR +"));
             }
@@ -386,6 +392,7 @@ public class ActionPhase : MonoBehaviour
 
                 if (dP.ally1MoveSelected == "Defend") //If the move selected is Defend...
                 {
+                    StartCoroutine(DoAlly1Animation("Buffed"));
                     ally1DEFBuff += 5;
                     StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF +"));
                 }
@@ -404,6 +411,7 @@ public class ActionPhase : MonoBehaviour
 
                 if (dP.ally2MoveSelected == "Defend") //If the move selected is Defend...
                 {
+                    StartCoroutine(DoAlly2Animation("Buffed"));
                     ally2DEFBuff += 5;
                     StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF +"));
                 }
@@ -421,6 +429,7 @@ public class ActionPhase : MonoBehaviour
 
                 if (dP.ally3MoveSelected == "Defend") //If the move selected is Defend...
                 {
+                    StartCoroutine(DoAlly3Animation("Buffed"));
                     ally3DEFBuff += 5;
                     StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF +"));
                 }
@@ -506,16 +515,19 @@ public class ActionPhase : MonoBehaviour
         {
             if (TargetSelected == dP.ally1Name) //If ally1 is targeted...
             {
+                StartCoroutine(DoAlly1Animation("Buffed"));
                 ally1HasSmokeBomb = true;
                 StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "EVADE +"));
             }
             else if (TargetSelected == dP.ally2Name) //If ally2 is targeted...
             {
+                StartCoroutine(DoAlly2Animation("Buffed"));
                 ally2HasSmokeBomb = true;
                 StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "EVADE +"));
             }
             else if (TargetSelected == dP.ally3Name) //If ally3 is targeted...
             {
+                StartCoroutine(DoAlly3Animation("Buffed"));
                 ally3HasSmokeBomb = true;
                 StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "EVADE +"));
             }
@@ -676,6 +688,7 @@ public class ActionPhase : MonoBehaviour
             //If GlassCannon is Ally1 and hasn't charged yet...
             if (AllyPlacement == "Ally1" && ally1IsCharging == false)
             {
+                StartCoroutine(DoAlly1Animation("Buffed"));
                 ally1IsCharging = true;
                 StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "Charging"));
             }
@@ -751,6 +764,7 @@ public class ActionPhase : MonoBehaviour
             //If GlassCannon is Ally2 and hasn't charged yet...
             if (AllyPlacement == "Ally2" && ally2IsCharging == false)
             {
+                StartCoroutine(DoAlly2Animation("Buffed"));
                 ally2IsCharging = true;
                 StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "Charging"));
             }
@@ -826,6 +840,7 @@ public class ActionPhase : MonoBehaviour
             //If GlassCannon is Ally3 and hasn't charged yet...
             if (AllyPlacement == "Ally3" && ally3IsCharging == false)
             {
+                StartCoroutine(DoAlly3Animation("Buffed"));
                 ally3IsCharging = true;
                 StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "Charging"));
             }
@@ -912,6 +927,7 @@ public class ActionPhase : MonoBehaviour
                 if (dP.ally1MoveSelected == "Defend")
                 {
                     {
+                        StartCoroutine(DoAlly1Animation("Buffed"));
                         ally1DEFBuff += 5;
                         StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF +"));
                     }
@@ -931,6 +947,7 @@ public class ActionPhase : MonoBehaviour
                 if (dP.ally2MoveSelected == "Defend")
                 {
                     {
+                        StartCoroutine(DoAlly2Animation("Buffed"));
                         ally2DEFBuff += 5;
                         StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF +"));
                     }
@@ -950,6 +967,7 @@ public class ActionPhase : MonoBehaviour
                 if (dP.ally3MoveSelected == "Defend")
                 {
                     {
+                        StartCoroutine(DoAlly3Animation("Buffed"));
                         ally3DEFBuff += 5;
                         StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF +"));
                     }
@@ -1033,10 +1051,15 @@ public class ActionPhase : MonoBehaviour
 
         else if (MoveSelected == "Buckle Down") //If the move selected is Buckle Down...
         {
+            StartCoroutine(DoAlly1Animation("Buffed"));
             ally1DEFBuff += 5;
             StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF +"));
+
+            StartCoroutine(DoAlly2Animation("Buffed"));
             ally2DEFBuff += 5;
             StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF +"));
+
+            StartCoroutine(DoAlly3Animation("Buffed"));
             ally3DEFBuff += 5;
             StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF +"));
         }
@@ -1169,6 +1192,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy1Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy1StatusEffectText, "STR +"));
                     enemy1STRBuff += 2;
                     enemy1PermSTRBuff += 2;
@@ -1190,6 +1214,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy2Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy2StatusEffectText, "STR +"));
                     enemy2STRBuff += 2;
                     enemy2PermSTRBuff += 2;
@@ -1211,6 +1236,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy3Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy3StatusEffectText, "STR +"));
                     enemy3STRBuff += 2;
                     enemy3PermSTRBuff += 2;
@@ -1238,6 +1264,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy1Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy1StatusEffectText, "STR +"));
                     enemy1STRBuff += 2;
                     enemy1PermSTRBuff += 2;
@@ -1259,6 +1286,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy2Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy2StatusEffectText, "STR +"));
                     enemy2STRBuff += 2;
                     enemy2PermSTRBuff += 2;
@@ -1280,6 +1308,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy3Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy3StatusEffectText, "STR +"));
                     enemy3STRBuff += 2;
                     enemy3PermSTRBuff += 2;
@@ -1307,6 +1336,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy1Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy1StatusEffectText, "STR +"));
                     enemy1STRBuff += 2;
                     enemy1PermSTRBuff += 2;
@@ -1328,6 +1358,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy2Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy2StatusEffectText, "STR +"));
                     enemy2STRBuff += 2;
                     enemy2PermSTRBuff += 2;
@@ -1349,6 +1380,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy3Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy3StatusEffectText, "STR +"));
                     enemy3STRBuff += 2;
                     enemy3PermSTRBuff += 2;
@@ -2205,6 +2237,13 @@ public class ActionPhase : MonoBehaviour
             yield return new WaitForSeconds(1);
             dP.ally1Anim.SetBool("CharacterAttacks", false);
         }
+
+        else if (Animation == "Buffed")
+        {
+            dP.ally1Anim.SetBool("CharacterBuffed", true);
+            yield return new WaitForSeconds(1);
+            dP.ally1Anim.SetBool("CharacterBuffed", false);
+        }
     }
 
     IEnumerator DoAlly2Animation(string Animation) //Is called when Ally2 needs to play an animation.
@@ -2228,6 +2267,13 @@ public class ActionPhase : MonoBehaviour
             dP.ally2Anim.SetBool("CharacterAttacks", true);
             yield return new WaitForSeconds(1);
             dP.ally2Anim.SetBool("CharacterAttacks", false);
+        }
+
+        else if (Animation == "Buffed")
+        {
+            dP.ally2Anim.SetBool("CharacterBuffed", true);
+            yield return new WaitForSeconds(1);
+            dP.ally2Anim.SetBool("CharacterBuffed", false);
         }
     }
 
@@ -2253,6 +2299,13 @@ public class ActionPhase : MonoBehaviour
             yield return new WaitForSeconds(1);
             dP.ally3Anim.SetBool("CharacterAttacks", false);
         }
+
+        else if (Animation == "Buffed")
+        {
+            dP.ally3Anim.SetBool("CharacterBuffed", true);
+            yield return new WaitForSeconds(1);
+            dP.ally3Anim.SetBool("CharacterBuffed", false);
+        }
     }
 
     IEnumerator DoEnemy1Animation(string Animation) //Is called when Enemy1 needs to play an animation.
@@ -2276,6 +2329,13 @@ public class ActionPhase : MonoBehaviour
             dP.enemy1Anim.SetBool("CharacterAttacks", true);
             yield return new WaitForSeconds(1);
             dP.enemy1Anim.SetBool("CharacterAttacks", false);
+        }
+
+        else if (Animation == "Buffed")
+        {
+            dP.enemy1Anim.SetBool("CharacterBuffed", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy1Anim.SetBool("CharacterBuffed", false);
         }
     }
 
@@ -2301,6 +2361,13 @@ public class ActionPhase : MonoBehaviour
             yield return new WaitForSeconds(1);
             dP.enemy2Anim.SetBool("CharacterAttacks", false);
         }
+
+        else if (Animation == "Buffed")
+        {
+            dP.enemy2Anim.SetBool("CharacterBuffed", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy2Anim.SetBool("CharacterBuffed", false);
+        }
     }
 
     IEnumerator DoEnemy3Animation(string Animation) //Is called when Enemy3 needs to play an animation.
@@ -2324,6 +2391,13 @@ public class ActionPhase : MonoBehaviour
             dP.enemy3Anim.SetBool("CharacterAttacks", true);
             yield return new WaitForSeconds(1);
             dP.enemy3Anim.SetBool("CharacterAttacks", false);
+        }
+
+        else if (Animation == "Buffed")
+        {
+            dP.enemy3Anim.SetBool("CharacterBuffed", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy3Anim.SetBool("CharacterBuffed", false);
         }
     }
 }
