@@ -31,12 +31,8 @@ public class ActionPhase : MonoBehaviour
     public TextMeshProUGUI enemy3MissText;
     public TextMeshProUGUI enemy3StatusEffectText;
 
-    private int ally1STRBuff = 0;
-    private int ally2STRBuff = 0;
-    private int ally3STRBuff = 0;
-    private int enemy1STRBuff = 0;
-    private int enemy2STRBuff = 0;
-    private int enemy3STRBuff = 0;
+    [HideInInspector]
+    public int ally1STRBuff = 0, ally2STRBuff = 0, ally3STRBuff = 0, enemy1STRBuff = 0, enemy2STRBuff = 0, enemy3STRBuff = 0;
 
     [HideInInspector]
     public int ally1PermSTRBuff, ally2PermSTRBuff, ally3PermSTRBuff, enemy1PermSTRBuff, enemy2PermSTRBuff, enemy3PermSTRBuff;
@@ -50,6 +46,9 @@ public class ActionPhase : MonoBehaviour
     private int enemy1DEFBuff = 0;
     private int enemy2DEFBuff = 0;
     private int enemy3DEFBuff = 0;
+
+    [HideInInspector]
+    public int giveAlly1BuffNextTurn = 0, giveAlly2BuffNextTurn = 0, giveAlly3BuffNextTurn = 0, giveEnemy1BuffNextTurn = 0, giveEnemy2BuffNextTurn = 0, giveEnemy3BuffNextTurn = 0;
 
     [HideInInspector]
     public bool ally1IsCharging = false, ally2IsCharging = false, ally3IsCharging = false, enemy1IsCharging = false, enemy2IsCharging = false, enemy3IsCharging = false;
@@ -120,6 +119,11 @@ public class ActionPhase : MonoBehaviour
                 Bleed();
             }
         }
+
+        /*if (Input.GetKeyDown(KeyCode.Space))
+        {
+
+        }*/
     }
 
 
@@ -131,6 +135,11 @@ public class ActionPhase : MonoBehaviour
             //If HeroProtagonist is ally1...
             if (dP.ally1Name == "HeroProtagonist")
             {
+                if (dP.ally1TargetSelected == dP.ally1Name && dP.ally1MoveSelected == "War Cry")
+                {
+                    giveAlly1BuffNextTurn += 5;
+                }
+
                 HeroProtagonistDefensiveAllyBranching(dP.ally1MoveSelected, dP.ally1TargetSelected);
 
                 if (dP.ally1MoveSelected == "Defend")
@@ -143,6 +152,7 @@ public class ActionPhase : MonoBehaviour
                 }
                 if (dP.ally1MoveSelected == "War Cry" || dP.ally1MoveSelected == "Bandage-Up" || dP.ally1MoveSelected == "Defend")
                 {
+                    StartCoroutine(DoAlly1Animation("BuffOrHealGiven"));
                     dP.ally1MoveSelected = "";
                     dP.ally1TargetSelected = "";
                 }
@@ -151,6 +161,11 @@ public class ActionPhase : MonoBehaviour
             //If HeroProtagonist is ally2...
             if (dP.ally2Name == "HeroProtagonist")
             {
+                if (dP.ally2TargetSelected == dP.ally2Name && dP.ally2MoveSelected == "War Cry")
+                {
+                    giveAlly2BuffNextTurn += 5;
+                }
+
                 HeroProtagonistDefensiveAllyBranching(dP.ally2MoveSelected, dP.ally2TargetSelected);
 
                 if (dP.ally2MoveSelected == "Defend")
@@ -163,6 +178,7 @@ public class ActionPhase : MonoBehaviour
                 }
                 if (dP.ally2MoveSelected == "War Cry" || dP.ally2MoveSelected == "Bandage-Up" || dP.ally2MoveSelected == "Defend")
                 {
+                    StartCoroutine(DoAlly2Animation("BuffOrHealGiven"));
                     dP.ally2MoveSelected = "";
                     dP.ally2TargetSelected = "";
                 }
@@ -171,6 +187,11 @@ public class ActionPhase : MonoBehaviour
             //If HeroProtagonist is ally3...
             if (dP.ally3Name == "HeroProtagonist")
             {
+                if (dP.ally3TargetSelected == dP.ally3Name && dP.ally3MoveSelected == "War Cry")
+                {
+                    giveAlly3BuffNextTurn += 5;
+                }
+
                 HeroProtagonistDefensiveAllyBranching(dP.ally3MoveSelected, dP.ally3TargetSelected);
 
                 if (dP.ally3MoveSelected == "Defend")
@@ -183,6 +204,7 @@ public class ActionPhase : MonoBehaviour
                 }
                 if (dP.ally3MoveSelected == "War Cry" || dP.ally3MoveSelected == "Bandage-Up" || dP.ally3MoveSelected == "Defend")
                 {
+                    StartCoroutine(DoAlly3Animation("BuffOrHealGiven"));
                     dP.ally3MoveSelected = "";
                     dP.ally3TargetSelected = "";
                 }
@@ -241,19 +263,19 @@ public class ActionPhase : MonoBehaviour
             if (TargetSelected == dP.ally1Name) //If the target selected is ally1...
             {
                 StartCoroutine(DoAlly1Animation("Buffed"));
-                ally1STRBuff = 5;
+                ally1STRBuff += 5;
                 StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "STR +"));
             }
             else if (TargetSelected == dP.ally2Name) //If the target selected is ally2...
             {
                 StartCoroutine(DoAlly2Animation("Buffed"));
-                ally2STRBuff = 5;
+                ally2STRBuff += 5;
                 StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "STR +"));
             }
             else if (TargetSelected == dP.ally3Name) //If the target selected is ally3...
             {
                 StartCoroutine(DoAlly3Animation("Buffed"));
-                ally3STRBuff = 5;
+                ally3STRBuff += 5;
                 StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "STR +"));
             }
         }
@@ -286,36 +308,36 @@ public class ActionPhase : MonoBehaviour
         {
             accuracy = Random.Range(1, 101);
 
-            if (TargetSelected == dP.enemy1Name && accuracy <= 80) //If the target selected is enemy1 and the accuracy is 80 or below...
+            if (TargetSelected == dP.enemy1Name && accuracy <= 85) //If the target selected is enemy1 and the accuracy is 80 or below...
             {
                 StartCoroutine(DoEnemy1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("SwordHit");
                 dP.enemy1Health -= DealDamage((10 + STRbuff) - enemy1DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((10 + STRbuff) - enemy1DEFBuff)));
             }
-            else if (TargetSelected == dP.enemy1Name && accuracy > 80) //If the target selected is enemy1 but the attack misses...
+            else if (TargetSelected == dP.enemy1Name && accuracy > 85) //If the target selected is enemy1 but the attack misses...
             {
                 StartCoroutine(ShowMiss(enemy1MissText));
             }
-            else if (TargetSelected == dP.enemy2Name && accuracy <= 80) //If the target selected is enemy2 and the accuracy is 80 or below...
+            else if (TargetSelected == dP.enemy2Name && accuracy <= 85) //If the target selected is enemy2 and the accuracy is 80 or below...
             {
                 StartCoroutine(DoEnemy2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("SwordHit");
                 dP.enemy2Health -= DealDamage((10 + STRbuff) - enemy2DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((10 + STRbuff) - enemy2DEFBuff)));
             }
-            else if (TargetSelected == dP.enemy2Name && accuracy > 80) //If the target selected is enemy2 but the attack misses...
+            else if (TargetSelected == dP.enemy2Name && accuracy > 85) //If the target selected is enemy2 but the attack misses...
             {
                 StartCoroutine(ShowMiss(enemy2MissText));
             }
-            else if (TargetSelected == dP.enemy3Name && accuracy <= 80) //If the target selected is enemy3 and the accuracy is 80 or below...
+            else if (TargetSelected == dP.enemy3Name && accuracy <= 85) //If the target selected is enemy3 and the accuracy is 80 or below...
             {
                 StartCoroutine(DoEnemy3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("SwordHit");
                 dP.enemy3Health -= DealDamage((10 + STRbuff) - enemy3DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((10 + STRbuff) - enemy3DEFBuff)));
             }
-            else if (TargetSelected == dP.enemy3Name && accuracy > 80) //If the target selected is enemy3 but the attack misses...
+            else if (TargetSelected == dP.enemy3Name && accuracy > 85) //If the target selected is enemy3 but the attack misses...
             {
                 StartCoroutine(ShowMiss(enemy3MissText));
             }
@@ -327,14 +349,14 @@ public class ActionPhase : MonoBehaviour
             accuracy = Random.Range(1, 101);
             if (dP.enemy1Dead != true)
             {
-                if (accuracy <= 80)
+                if (accuracy <= 85)
                 {
                     StartCoroutine(DoEnemy1Animation("Injured"));
                     FindObjectOfType<AudioManager>().Play("SwordHit");
                     dP.enemy1Health -= DealDamage((5 + STRbuff) - enemy1DEFBuff);
                     StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((5 + STRbuff) - enemy1DEFBuff)));
                 }
-                else if (accuracy > 80)
+                else if (accuracy > 85)
                 {
                     StartCoroutine(ShowMiss(enemy1MissText));
                 }
@@ -346,14 +368,14 @@ public class ActionPhase : MonoBehaviour
             accuracy = Random.Range(1, 101);
             if (dP.enemy2Dead != true)
             {
-                if (accuracy <= 80)
+                if (accuracy <= 85)
                 {
                     StartCoroutine(DoEnemy2Animation("Injured"));
                     FindObjectOfType<AudioManager>().Play("SwordHit");
                     dP.enemy2Health -= DealDamage((5 + STRbuff) - enemy2DEFBuff);
                     StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((5 + STRbuff) - enemy2DEFBuff)));
                 }
-                else if (accuracy > 80)
+                else if (accuracy > 85)
                 {
                     StartCoroutine(ShowMiss(enemy2MissText));
                 }
@@ -365,14 +387,14 @@ public class ActionPhase : MonoBehaviour
             accuracy = Random.Range(1, 101);
             if (dP.enemy3Dead != true)
             {
-                if (accuracy <= 80)
+                if (accuracy <= 85)
                 {
                     StartCoroutine(DoEnemy3Animation("Injured"));
                     FindObjectOfType<AudioManager>().Play("SwordHit");
                     dP.enemy3Health -= DealDamage((5 + STRbuff) - enemy3DEFBuff);
                     StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((5 + STRbuff) - enemy3DEFBuff)));
                 }
-                else if (accuracy > 80)
+                else if (accuracy > 85)
                 {
                     StartCoroutine(ShowMiss(enemy3MissText));
                 }
@@ -398,6 +420,7 @@ public class ActionPhase : MonoBehaviour
                 }
                 if (dP.ally1MoveSelected == "Smoke Bomb" || dP.ally1MoveSelected == "Defend")
                 {
+                    StartCoroutine(DoAlly1Animation("BuffOrHealGiven"));
                     dP.ally1MoveSelected = "";
                     dP.ally1TargetSelected = "";
                 }
@@ -417,6 +440,7 @@ public class ActionPhase : MonoBehaviour
                 }
                 if (dP.ally2MoveSelected == "Smoke Bomb" || dP.ally2MoveSelected == "Defend")
                 {
+                    StartCoroutine(DoAlly2Animation("BuffOrHealGiven"));
                     dP.ally2MoveSelected = "";
                     dP.ally2TargetSelected = "";
                 }
@@ -435,6 +459,7 @@ public class ActionPhase : MonoBehaviour
                 }
                 if (dP.ally3MoveSelected == "Smoke Bomb" || dP.ally3MoveSelected == "Defend")
                 {
+                    StartCoroutine(DoAlly3Animation("BuffOrHealGiven"));
                     dP.ally3MoveSelected = "";
                     dP.ally3TargetSelected = "";
                 }
@@ -541,14 +566,14 @@ public class ActionPhase : MonoBehaviour
             accuracy = Random.Range(1, 101);
             bleedChance = Random.Range(1, 101);
 
-            if (TargetSelected == dP.enemy1Name && accuracy <= 70 && bleedChance > 30) //If the target selected is enemy1 and the accuracy is 70 or below...
+            if (TargetSelected == dP.enemy1Name && accuracy <= 75 && bleedChance > 30) //If the target selected is enemy1 and the accuracy is 70 or below...
             {
                 StartCoroutine(DoEnemy1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy1Health -= DealDamage((15 + STRbuff) - enemy1DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy1HealthChangeText, ((15 + STRbuff) - enemy1DEFBuff)));
             }
-            else if (TargetSelected == dP.enemy1Name && accuracy <= 70 && bleedChance <= 30) //If the target selected is enemy1 and the accuracy is 70 or below and the bleedChance is 30 or below...
+            else if (TargetSelected == dP.enemy1Name && accuracy <= 75 && bleedChance <= 30) //If the target selected is enemy1 and the accuracy is 70 or below and the bleedChance is 30 or below...
             {
                 StartCoroutine(DoEnemy1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
@@ -557,18 +582,18 @@ public class ActionPhase : MonoBehaviour
                 enemy1IsBleeding = 1;
                 StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "BLEEDING"));
             }
-            else if (TargetSelected == dP.enemy1Name && accuracy > 70) //If the target selected is enemy1 but it misses...
+            else if (TargetSelected == dP.enemy1Name && accuracy > 75) //If the target selected is enemy1 but it misses...
             {
                 StartCoroutine(ShowMiss(enemy1MissText));
             }
-            else if (TargetSelected == dP.enemy2Name && accuracy <= 70 && bleedChance > 30) //If the target selected is enemy2 and the accuracy is 70 or below...
+            else if (TargetSelected == dP.enemy2Name && accuracy <= 75 && bleedChance > 30) //If the target selected is enemy2 and the accuracy is 70 or below...
             {
                 StartCoroutine(DoEnemy2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy2Health -= DealDamage((15 + STRbuff) - enemy2DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy2HealthChangeText, ((15 + STRbuff) - enemy2DEFBuff)));
             }
-            else if (TargetSelected == dP.enemy2Name && accuracy <= 70 && bleedChance <= 30) //If the target selected is enemy2 and the accuracy is 70 or below and the bleedChance is 30 or below...
+            else if (TargetSelected == dP.enemy2Name && accuracy <= 75 && bleedChance <= 30) //If the target selected is enemy2 and the accuracy is 70 or below and the bleedChance is 30 or below...
             {
                 StartCoroutine(DoEnemy2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
@@ -577,18 +602,18 @@ public class ActionPhase : MonoBehaviour
                 enemy2IsBleeding = 1;
                 StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "BLEEDING"));
             }
-            else if (TargetSelected == dP.enemy2Name && accuracy > 70) //If the target selected is enemy2 but it misses...
+            else if (TargetSelected == dP.enemy2Name && accuracy > 75) //If the target selected is enemy2 but it misses...
             {
                 StartCoroutine(ShowMiss(enemy2MissText));
             }
-            else if (TargetSelected == dP.enemy3Name && accuracy <= 70 && bleedChance > 30) //If the target selected is enemy3 and the accuracy is 70 or below...
+            else if (TargetSelected == dP.enemy3Name && accuracy <= 75 && bleedChance > 30) //If the target selected is enemy3 and the accuracy is 70 or below...
             {
                 StartCoroutine(DoEnemy3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
                 dP.enemy3Health -= DealDamage((15 + STRbuff) - enemy3DEFBuff);
                 StartCoroutine(ShowDamageDealt(enemy3HealthChangeText, ((15 + STRbuff) - enemy3DEFBuff)));
             }
-            else if (TargetSelected == dP.enemy3Name && accuracy <= 70 && bleedChance <= 30) //If the target selected is enemy3 and the accuracy is 70 or below and the bleedChance is 30 or below...
+            else if (TargetSelected == dP.enemy3Name && accuracy <= 75 && bleedChance <= 30) //If the target selected is enemy3 and the accuracy is 70 or below and the bleedChance is 30 or below...
             {
                 StartCoroutine(DoEnemy3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
@@ -597,7 +622,7 @@ public class ActionPhase : MonoBehaviour
                 enemy3IsBleeding = 1;
                 StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "BLEEDING"));
             }
-            else if (TargetSelected == dP.enemy3Name && accuracy > 70) //If the target selected is enemy3 but it misses...
+            else if (TargetSelected == dP.enemy3Name && accuracy > 75) //If the target selected is enemy3 but it misses...
             {
                 StartCoroutine(ShowMiss(enemy3MissText));
             }
@@ -611,7 +636,7 @@ public class ActionPhase : MonoBehaviour
 
             if (dP.enemy1Dead != true)
             {
-                if (accuracy <= 70) //If the accuracy is 70 or lower it hits
+                if (accuracy <= 75) //If the accuracy is 70 or lower it hits
                 {
                     StartCoroutine(DoEnemy1Animation("Injured"));
                     FindObjectOfType<AudioManager>().Play("Cannon");
@@ -623,7 +648,7 @@ public class ActionPhase : MonoBehaviour
                         StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "BLEEDING"));
                     }
                 }
-                else if (accuracy > 70) //If the accuracy is 70 or lower it misses
+                else if (accuracy > 75) //If the accuracy is 70 or lower it misses
                 {
                     StartCoroutine(ShowMiss(enemy1MissText));
                 }
@@ -636,7 +661,7 @@ public class ActionPhase : MonoBehaviour
 
             if (dP.enemy2Dead != true)
             {
-                if (accuracy <= 70) //If the accuracy is 70 or lower it hits
+                if (accuracy <= 75) //If the accuracy is 70 or lower it hits
                 {
                     StartCoroutine(DoEnemy2Animation("Injured"));
                     FindObjectOfType<AudioManager>().Play("Cannon");
@@ -648,7 +673,7 @@ public class ActionPhase : MonoBehaviour
                         StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "BLEEDING"));
                     }
                 }
-                else if (accuracy > 70) //If the accuracy is 70 or lower it misses
+                else if (accuracy > 75) //If the accuracy is 70 or lower it misses
                 {
                     StartCoroutine(ShowMiss(enemy2MissText));
                 }
@@ -661,7 +686,7 @@ public class ActionPhase : MonoBehaviour
 
             if (dP.enemy3Dead != true)
             {
-                if (accuracy <= 70) //If the accuracy is 70 or lower it hits
+                if (accuracy <= 75) //If the accuracy is 70 or lower it hits
                 {
                     StartCoroutine(DoEnemy3Animation("Injured"));
                     FindObjectOfType<AudioManager>().Play("Cannon");
@@ -673,7 +698,7 @@ public class ActionPhase : MonoBehaviour
                         StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "BLEEDING"));
                     }
                 }
-                else if (accuracy > 70) //If the accuracy is 70 or lower it misses
+                else if (accuracy > 75) //If the accuracy is 70 or lower it misses
                 {
                     StartCoroutine(ShowMiss(enemy3MissText));
                 }
@@ -688,12 +713,13 @@ public class ActionPhase : MonoBehaviour
             //If GlassCannon is Ally1 and hasn't charged yet...
             if (AllyPlacement == "Ally1" && ally1IsCharging == false)
             {
+                StartCoroutine(DoAlly1Animation("BuffOrHealGiven"));
                 StartCoroutine(DoAlly1Animation("Buffed"));
                 ally1IsCharging = true;
                 StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "Charging"));
             }
             //Else if GlassCannon is Ally1 but has already charged...
-            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy1Name && accuracy <= 70) //If the target selected is enemy1 and it hits...
+            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy1Name && accuracy <= 75) //If the target selected is enemy1 and it hits...
             {
                 StartCoroutine(DoEnemy1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
@@ -708,14 +734,14 @@ public class ActionPhase : MonoBehaviour
                     StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "BLEEDING"));
                 }
             }
-            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy1Name && accuracy > 70) //If the target selected is enemy1 and it misses...
+            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy1Name && accuracy > 75) //If the target selected is enemy1 and it misses...
             {
                 StartCoroutine(ShowMiss(enemy1MissText));
                 dP.ally1MoveSelected = "";
                 dP.ally1TargetSelected = "";
                 ally1IsCharging = false;
             }
-            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy2Name && accuracy <= 70) //If the target selected is enemy2 and it hits...
+            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy2Name && accuracy <= 75) //If the target selected is enemy2 and it hits...
             {
                 StartCoroutine(DoEnemy2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
@@ -730,14 +756,14 @@ public class ActionPhase : MonoBehaviour
                     StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "BLEEDING"));
                 }
             }
-            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy2Name && accuracy > 70) //If the target selected is enemy2 and it misses...
+            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy2Name && accuracy > 75) //If the target selected is enemy2 and it misses...
             {
                 StartCoroutine(ShowMiss(enemy2MissText));
                 dP.ally1MoveSelected = "";
                 dP.ally1TargetSelected = "";
                 ally1IsCharging = false;
             }
-            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy3Name && accuracy <= 70) //If the target selected is enemy3 and it hits...
+            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy3Name && accuracy <= 75) //If the target selected is enemy3 and it hits...
             {
                 StartCoroutine(DoEnemy3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
@@ -752,7 +778,7 @@ public class ActionPhase : MonoBehaviour
                     StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "BLEEDING"));
                 }
             }
-            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy3Name && accuracy > 70) //If the target selected is enemy3 and it misses...
+            else if (AllyPlacement == "Ally1" && ally1IsCharging == true && TargetSelected == dP.enemy3Name && accuracy > 75) //If the target selected is enemy3 and it misses...
             {
                 StartCoroutine(ShowMiss(enemy3MissText));
                 dP.ally1MoveSelected = "";
@@ -764,12 +790,13 @@ public class ActionPhase : MonoBehaviour
             //If GlassCannon is Ally2 and hasn't charged yet...
             if (AllyPlacement == "Ally2" && ally2IsCharging == false)
             {
+                StartCoroutine(DoAlly2Animation("BuffOrHealGiven"));
                 StartCoroutine(DoAlly2Animation("Buffed"));
                 ally2IsCharging = true;
                 StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "Charging"));
             }
             //Else if GlassCannon is Ally2 but has already charged...
-            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy1Name && accuracy <= 70) //If the target selected is enemy1 and it hits...
+            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy1Name && accuracy <= 75) //If the target selected is enemy1 and it hits...
             {
                 StartCoroutine(DoEnemy1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
@@ -784,14 +811,14 @@ public class ActionPhase : MonoBehaviour
                     StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "BLEEDING"));
                 }
             }
-            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy1Name && accuracy > 70) //If the target selected is enemy1 and it misses...
+            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy1Name && accuracy > 75) //If the target selected is enemy1 and it misses...
             {
                 StartCoroutine(ShowMiss(enemy1MissText));
                 dP.ally2MoveSelected = "";
                 dP.ally2TargetSelected = "";
                 ally2IsCharging = false;
             }
-            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy2Name && accuracy <= 70) //If the target selected is enemy2 and it hits...
+            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy2Name && accuracy <= 75) //If the target selected is enemy2 and it hits...
             {
                 StartCoroutine(DoEnemy2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
@@ -806,14 +833,14 @@ public class ActionPhase : MonoBehaviour
                     StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "BLEEDING"));
                 }
             }
-            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy2Name && accuracy > 70) //If the target selected is enemy2 and it misses...
+            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy2Name && accuracy > 75) //If the target selected is enemy2 and it misses...
             {
                 StartCoroutine(ShowMiss(enemy2MissText));
                 dP.ally2MoveSelected = "";
                 dP.ally2TargetSelected = "";
                 ally2IsCharging = false;
             }
-            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy3Name && accuracy <= 70) //If the target selected is enemy3 and it hits...
+            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy3Name && accuracy <= 75) //If the target selected is enemy3 and it hits...
             {
                 StartCoroutine(DoEnemy3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
@@ -828,7 +855,7 @@ public class ActionPhase : MonoBehaviour
                     StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "BLEEDING"));
                 }
             }
-            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy3Name && accuracy > 70) //If the target selected is enemy3 and it misses...
+            else if (AllyPlacement == "Ally2" && ally2IsCharging == true && TargetSelected == dP.enemy3Name && accuracy > 75) //If the target selected is enemy3 and it misses...
             {
                 StartCoroutine(ShowMiss(enemy3MissText));
                 dP.ally2MoveSelected = "";
@@ -840,12 +867,13 @@ public class ActionPhase : MonoBehaviour
             //If GlassCannon is Ally3 and hasn't charged yet...
             if (AllyPlacement == "Ally3" && ally3IsCharging == false)
             {
+                StartCoroutine(DoAlly3Animation("BuffOrHealGiven"));
                 StartCoroutine(DoAlly3Animation("Buffed"));
                 ally3IsCharging = true;
                 StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "Charging"));
             }
             //Else if GlassCannon is Ally3 but has already charged...
-            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy1Name && accuracy <= 70) //If the target selected is enemy1 and it hits...
+            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy1Name && accuracy <= 75) //If the target selected is enemy1 and it hits...
             {
                 StartCoroutine(DoEnemy1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
@@ -860,14 +888,14 @@ public class ActionPhase : MonoBehaviour
                     StartCoroutine(ShowNegativeStatusEffect(enemy1StatusEffectText, "BLEEDING"));
                 }
             }
-            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy1Name && accuracy > 70) //If the target selected is enemy1 and it misses...
+            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy1Name && accuracy > 75) //If the target selected is enemy1 and it misses...
             {
                 StartCoroutine(ShowMiss(enemy1MissText));
                 dP.ally3MoveSelected = "";
                 dP.ally3TargetSelected = "";
                 ally3IsCharging = false;
             }
-            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy2Name && accuracy <= 70) //If the target selected is enemy2 and it hits...
+            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy2Name && accuracy <= 75) //If the target selected is enemy2 and it hits...
             {
                 StartCoroutine(DoEnemy2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
@@ -882,14 +910,14 @@ public class ActionPhase : MonoBehaviour
                     StartCoroutine(ShowNegativeStatusEffect(enemy2StatusEffectText, "BLEEDING"));
                 }
             }
-            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy2Name && accuracy > 70) //If the target selected is enemy2 and it misses...
+            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy2Name && accuracy > 75) //If the target selected is enemy2 and it misses...
             {
                 StartCoroutine(ShowMiss(enemy2MissText));
                 dP.ally3MoveSelected = "";
                 dP.ally3TargetSelected = "";
                 ally3IsCharging = false;
             }
-            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy3Name && accuracy <= 70) //If the target selected is enemy3 and it hits...
+            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy3Name && accuracy <= 75) //If the target selected is enemy3 and it hits...
             {
                 StartCoroutine(DoEnemy3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Cannon");
@@ -904,7 +932,7 @@ public class ActionPhase : MonoBehaviour
                     StartCoroutine(ShowNegativeStatusEffect(enemy3StatusEffectText, "BLEEDING"));
                 }
             }
-            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy3Name && accuracy > 70) //If the target selected is enemy3 and it misses...
+            else if (AllyPlacement == "Ally3" && ally3IsCharging == true && TargetSelected == dP.enemy3Name && accuracy > 75) //If the target selected is enemy3 and it misses...
             {
                 StartCoroutine(ShowMiss(enemy3MissText));
                 dP.ally3MoveSelected = "";
@@ -927,6 +955,7 @@ public class ActionPhase : MonoBehaviour
                 if (dP.ally1MoveSelected == "Defend")
                 {
                     {
+                        StartCoroutine(DoAlly1Animation("BuffOrHealGiven"));
                         StartCoroutine(DoAlly1Animation("Buffed"));
                         ally1DEFBuff += 5;
                         StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "DEF +"));
@@ -934,6 +963,7 @@ public class ActionPhase : MonoBehaviour
                 }
                 if (dP.ally1MoveSelected == "Mend" || dP.ally1MoveSelected == "Buckle Down" || dP.ally1MoveSelected == "Mend-All" || dP.ally1MoveSelected == "Defend")
                 {
+                    StartCoroutine(DoAlly1Animation("BuffOrHealGiven"));
                     dP.ally1MoveSelected = "";
                     dP.ally1TargetSelected = "";
                 }
@@ -947,6 +977,7 @@ public class ActionPhase : MonoBehaviour
                 if (dP.ally2MoveSelected == "Defend")
                 {
                     {
+                        StartCoroutine(DoAlly2Animation("BuffOrHealGiven"));
                         StartCoroutine(DoAlly2Animation("Buffed"));
                         ally2DEFBuff += 5;
                         StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "DEF +"));
@@ -954,6 +985,7 @@ public class ActionPhase : MonoBehaviour
                 }
                 if (dP.ally2MoveSelected == "Mend" || dP.ally2MoveSelected == "Buckle Down" || dP.ally2MoveSelected == "Mend-All" || dP.ally2MoveSelected == "Defend")
                 {
+                    StartCoroutine(DoAlly2Animation("BuffOrHealGiven"));
                     dP.ally2MoveSelected = "";
                     dP.ally2TargetSelected = "";
                 }
@@ -967,6 +999,7 @@ public class ActionPhase : MonoBehaviour
                 if (dP.ally3MoveSelected == "Defend")
                 {
                     {
+                        StartCoroutine(DoAlly3Animation("BuffOrHealGiven"));
                         StartCoroutine(DoAlly3Animation("Buffed"));
                         ally3DEFBuff += 5;
                         StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "DEF +"));
@@ -974,6 +1007,7 @@ public class ActionPhase : MonoBehaviour
                 }
                 if (dP.ally3MoveSelected == "Mend" || dP.ally3MoveSelected == "Buckle Down" || dP.ally3MoveSelected == "Mend-All" || dP.ally3MoveSelected == "Defend")
                 {
+                    StartCoroutine(DoAlly3Animation("BuffOrHealGiven"));
                     dP.ally3MoveSelected = "";
                     dP.ally3TargetSelected = "";
                 }
@@ -1086,7 +1120,7 @@ public class ActionPhase : MonoBehaviour
         {
             accuracy = Random.Range(1, 101);
 
-            if (TargetSelected == dP.enemy1Name && accuracy <= 85) //If the target selected is enemy1 and the accuracy is 80 or below...
+            if (TargetSelected == dP.enemy1Name && accuracy <= 90) //If the target selected is enemy1 and the accuracy is 80 or below...
             {
                 StartCoroutine(DoEnemy1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Spell");
@@ -1112,12 +1146,12 @@ public class ActionPhase : MonoBehaviour
                     StartCoroutine(ShowHealingDealt(ally3HealthChangeText, ((8 + STRbuff) - enemy1DEFBuff) / 2));
                 }
             }
-            else if (TargetSelected == dP.enemy1Name && accuracy > 85) //If the target selected is enemy1 but the attack misses...
+            else if (TargetSelected == dP.enemy1Name && accuracy > 90) //If the target selected is enemy1 but the attack misses...
             {
                 StartCoroutine(ShowMiss(enemy1MissText));
             }
 
-            else if (TargetSelected == dP.enemy2Name && accuracy <= 85) //If the target selected is enemy2 and the accuracy is 80 or below...
+            else if (TargetSelected == dP.enemy2Name && accuracy <= 90) //If the target selected is enemy2 and the accuracy is 80 or below...
             {
                 StartCoroutine(DoEnemy2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Spell");
@@ -1143,13 +1177,13 @@ public class ActionPhase : MonoBehaviour
                     StartCoroutine(ShowHealingDealt(ally3HealthChangeText, ((8 + STRbuff) - enemy2DEFBuff) / 2));
                 }
             }
-            else if (TargetSelected == dP.enemy2Name && accuracy > 85) //If the target selected is enemy2 but the attack misses...
+            else if (TargetSelected == dP.enemy2Name && accuracy > 90) //If the target selected is enemy2 but the attack misses...
             {
                 StartCoroutine(ShowMiss(enemy2MissText));
             }
 
 
-            else if (TargetSelected == dP.enemy3Name && accuracy <= 85) //If the target selected is enemy3 and the accuracy is 80 or below...
+            else if (TargetSelected == dP.enemy3Name && accuracy <= 90) //If the target selected is enemy3 and the accuracy is 80 or below...
             {
                 StartCoroutine(DoEnemy3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Spell");
@@ -1175,7 +1209,7 @@ public class ActionPhase : MonoBehaviour
                     StartCoroutine(ShowHealingDealt(ally3HealthChangeText, ((8 + STRbuff) - enemy3DEFBuff) / 2));
                 }
             }
-            else if (TargetSelected == dP.enemy3Name && accuracy > 85) //If the target selected is enemy3 but the attack misses...
+            else if (TargetSelected == dP.enemy3Name && accuracy > 90) //If the target selected is enemy3 but the attack misses...
             {
                 StartCoroutine(ShowMiss(enemy3MissText));
             }
@@ -1192,6 +1226,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy1Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy1Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy1StatusEffectText, "STR +"));
                     enemy1STRBuff += 2;
@@ -1214,6 +1249,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy2Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy2Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy2StatusEffectText, "STR +"));
                     enemy2STRBuff += 2;
@@ -1236,6 +1272,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy3Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy3Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy3StatusEffectText, "STR +"));
                     enemy3STRBuff += 2;
@@ -1264,6 +1301,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy1Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy1Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy1StatusEffectText, "STR +"));
                     enemy1STRBuff += 2;
@@ -1286,6 +1324,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy2Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy2Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy2StatusEffectText, "STR +"));
                     enemy2STRBuff += 2;
@@ -1308,6 +1347,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy3Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy3Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy3StatusEffectText, "STR +"));
                     enemy3STRBuff += 2;
@@ -1336,6 +1376,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy1Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy1Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy1StatusEffectText, "STR +"));
                     enemy1STRBuff += 2;
@@ -1358,6 +1399,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy2Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy2Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy2StatusEffectText, "STR +"));
                     enemy2STRBuff += 2;
@@ -1380,6 +1422,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
                 {
+                    StartCoroutine(DoEnemy3Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy3Animation("Buffed"));
                     StartCoroutine(ShowPositiveStatusEffect(enemy3StatusEffectText, "STR +"));
                     enemy3STRBuff += 2;
@@ -1537,36 +1580,36 @@ public class ActionPhase : MonoBehaviour
                 accuracy = Random.Range(1, 121);
             }
 
-            if (TargetSelected == dP.ally1Name && accuracy <= 70) //If the target selected is ally1 and the accuracy is 70 or below... 
+            if (TargetSelected == dP.ally1Name && accuracy <= 75) //If the target selected is ally1 and the accuracy is 70 or below... 
             {
                 StartCoroutine(DoAlly1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Squish");
                 dP.ally1Health -= DealDamage((5 + STRbuff) - ally1DEFBuff);
                 StartCoroutine(ShowDamageDealt(ally1HealthChangeText, ((5 + STRbuff) - ally1DEFBuff)));
             }
-            else if (TargetSelected == dP.ally1Name && accuracy > 70) //If the target selected is ally1 and the accuracy is above 70... 
+            else if (TargetSelected == dP.ally1Name && accuracy > 75) //If the target selected is ally1 and the accuracy is above 70... 
             {
                 StartCoroutine(ShowMiss(ally1MissText));
             }
-            else if (TargetSelected == dP.ally2Name && accuracy <= 70) //If the target selected is ally2 and the accuracy is 70 or below... 
+            else if (TargetSelected == dP.ally2Name && accuracy <= 75) //If the target selected is ally2 and the accuracy is 70 or below... 
             {
                 StartCoroutine(DoAlly2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Squish");
                 dP.ally2Health -= DealDamage((5 + STRbuff) - ally2DEFBuff);
                 StartCoroutine(ShowDamageDealt(ally2HealthChangeText, ((5 + STRbuff) - ally2DEFBuff)));
             }
-            else if (TargetSelected == dP.ally2Name && accuracy > 70) //If the target selected is ally2 and the accuracy is above 70... 
+            else if (TargetSelected == dP.ally2Name && accuracy > 75) //If the target selected is ally2 and the accuracy is above 70... 
             {
                 StartCoroutine(ShowMiss(ally2MissText));
             }
-            else if (TargetSelected == dP.ally3Name && accuracy <= 70) //If the target selected is ally3 and the accuracy is 70 or below... 
+            else if (TargetSelected == dP.ally3Name && accuracy <= 75) //If the target selected is ally3 and the accuracy is 70 or below... 
             {
                 StartCoroutine(DoAlly3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Squish");
                 dP.ally3Health -= DealDamage((5 + STRbuff) - ally3DEFBuff);
                 StartCoroutine(ShowDamageDealt(ally3HealthChangeText, ((5 + STRbuff) - ally3DEFBuff)));
             }
-            else if (TargetSelected == dP.ally3Name && accuracy > 70) //If the target selected is ally3 and the accuracy is above 70... 
+            else if (TargetSelected == dP.ally3Name && accuracy > 75) //If the target selected is ally3 and the accuracy is above 70... 
             {
                 StartCoroutine(ShowMiss(ally3MissText));
             }
@@ -2244,6 +2287,13 @@ public class ActionPhase : MonoBehaviour
             yield return new WaitForSeconds(1);
             dP.ally1Anim.SetBool("CharacterBuffed", false);
         }
+
+        else if (Animation == "BuffOrHealGiven")
+        {
+            dP.ally1Anim.SetBool("CharacterGiveBuffOrHeal", true);
+            yield return new WaitForSeconds(1);
+            dP.ally1Anim.SetBool("CharacterGiveBuffOrHeal", false);
+        }
     }
 
     IEnumerator DoAlly2Animation(string Animation) //Is called when Ally2 needs to play an animation.
@@ -2274,6 +2324,13 @@ public class ActionPhase : MonoBehaviour
             dP.ally2Anim.SetBool("CharacterBuffed", true);
             yield return new WaitForSeconds(1);
             dP.ally2Anim.SetBool("CharacterBuffed", false);
+        }
+
+        else if (Animation == "BuffOrHealGiven")
+        {
+            dP.ally2Anim.SetBool("CharacterGiveBuffOrHeal", true);
+            yield return new WaitForSeconds(1);
+            dP.ally2Anim.SetBool("CharacterGiveBuffOrHeal", false);
         }
     }
 
@@ -2306,6 +2363,13 @@ public class ActionPhase : MonoBehaviour
             yield return new WaitForSeconds(1);
             dP.ally3Anim.SetBool("CharacterBuffed", false);
         }
+
+        else if (Animation == "BuffOrHealGiven")
+        {
+            dP.ally3Anim.SetBool("CharacterGiveBuffOrHeal", true);
+            yield return new WaitForSeconds(1);
+            dP.ally3Anim.SetBool("CharacterGiveBuffOrHeal", false);
+        }
     }
 
     IEnumerator DoEnemy1Animation(string Animation) //Is called when Enemy1 needs to play an animation.
@@ -2336,6 +2400,13 @@ public class ActionPhase : MonoBehaviour
             dP.enemy1Anim.SetBool("CharacterBuffed", true);
             yield return new WaitForSeconds(1);
             dP.enemy1Anim.SetBool("CharacterBuffed", false);
+        }
+
+        else if (Animation == "BuffOrHealGiven")
+        {
+            dP.enemy1Anim.SetBool("CharacterGiveBuffOrHeal", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy1Anim.SetBool("CharacterGiveBuffOrHeal", false);
         }
     }
 
@@ -2368,6 +2439,13 @@ public class ActionPhase : MonoBehaviour
             yield return new WaitForSeconds(1);
             dP.enemy2Anim.SetBool("CharacterBuffed", false);
         }
+
+        else if (Animation == "BuffOrHealGiven")
+        {
+            dP.enemy2Anim.SetBool("CharacterGiveBuffOrHeal", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy2Anim.SetBool("CharacterGiveBuffOrHeal", false);
+        }
     }
 
     IEnumerator DoEnemy3Animation(string Animation) //Is called when Enemy3 needs to play an animation.
@@ -2398,6 +2476,13 @@ public class ActionPhase : MonoBehaviour
             dP.enemy3Anim.SetBool("CharacterBuffed", true);
             yield return new WaitForSeconds(1);
             dP.enemy3Anim.SetBool("CharacterBuffed", false);
+        }
+
+        else if (Animation == "BuffOrHealGiven")
+        {
+            dP.enemy3Anim.SetBool("CharacterGiveBuffOrHeal", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy3Anim.SetBool("CharacterGiveBuffOrHeal", false);
         }
     }
 }

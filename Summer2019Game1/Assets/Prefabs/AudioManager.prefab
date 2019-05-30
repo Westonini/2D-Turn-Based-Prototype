@@ -82,10 +82,10 @@ MonoBehaviour:
     mixerGroup: {fileID: 0}
     source: {fileID: 0}
   - name: Spell
-    clip: {fileID: 8300000, guid: e8a9c266b378f7345857b25de5c290aa, type: 3}
-    volume: 0.75
+    clip: {fileID: 8300000, guid: df2dc1a893e72aa4b875ab3042594eee, type: 3}
+    volume: 0.5
     volumeVariance: 0
-    pitch: 1
+    pitch: 0.75
     pitchVariance: 0
     loop: 0
     mixerGroup: {fileID: 0}

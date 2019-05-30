@@ -920,6 +920,7 @@ public class DecisionPhase : MonoBehaviour
             {
                 enemy3TargetSelected = EnemyTargetSelect(enemy3MoveSelected, enemy3Name);
             }
+            GiveBuffFromLastTurn();
             characterTurn = "";
             actionPhase = true; //After the last character chooses their move, set the actionPhase bool to true which starts the Action Phase.
             aP.defensivePhase = true;
@@ -927,6 +928,7 @@ public class DecisionPhase : MonoBehaviour
         }
         else if (characterTurn == enemy3Name && enemy3Dead == true)
         {
+            GiveBuffFromLastTurn();
             characterTurn = "";
             actionPhase = true; //After the last character chooses their move, set the actionPhase bool to true which starts the Action Phase.
             aP.defensivePhase = true;
@@ -1081,6 +1083,45 @@ public class DecisionPhase : MonoBehaviour
             {
                 Ally3MoveChosen();
             }
+        }
+    }
+
+    void GiveBuffFromLastTurn()
+    {
+        if (aP.giveAlly1BuffNextTurn != 0)
+        {
+            aP.ally1STRBuff += aP.giveAlly1BuffNextTurn;
+            aP.giveAlly1BuffNextTurn = 0;
+        }
+
+        if (aP.giveAlly2BuffNextTurn != 0)
+        {
+            aP.ally2STRBuff += aP.giveAlly2BuffNextTurn;
+            aP.giveAlly2BuffNextTurn = 0;
+        }
+
+        if (aP.giveAlly3BuffNextTurn != 0)
+        {
+            aP.ally3STRBuff += aP.giveAlly3BuffNextTurn;
+            aP.giveAlly3BuffNextTurn = 0;
+        }
+
+        if (aP.giveEnemy1BuffNextTurn != 0)
+        {
+            aP.enemy1STRBuff += aP.giveEnemy1BuffNextTurn;
+            aP.giveEnemy1BuffNextTurn = 0;
+        }
+
+        if (aP.giveEnemy2BuffNextTurn != 0)
+        {
+            aP.enemy2STRBuff += aP.giveEnemy2BuffNextTurn;
+            aP.giveEnemy2BuffNextTurn = 0;
+        }
+
+        if (aP.giveEnemy3BuffNextTurn != 0)
+        {
+            aP.enemy3STRBuff += aP.giveEnemy3BuffNextTurn;
+            aP.giveEnemy3BuffNextTurn = 0;
         }
     }
 }
