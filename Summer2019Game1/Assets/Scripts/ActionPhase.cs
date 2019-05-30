@@ -197,6 +197,7 @@ public class ActionPhase : MonoBehaviour
             //If HeroProtagonist is ally1...
             if (dP.ally1Name == "HeroProtagonist" && dP.ally1MoveSelected != "")
             {
+                StartCoroutine(DoAlly1Animation("Attack"));
                 HeroProtagonistOffensiveAllyBranching(dP.ally1MoveSelected, dP.ally1TargetSelected, ally1STRBuff);
                 dP.ally1MoveSelected = "";
                 dP.ally1TargetSelected = "";
@@ -206,6 +207,7 @@ public class ActionPhase : MonoBehaviour
             //If HeroProtagonist is ally2...
             else if (dP.ally2Name == "HeroProtagonist" && dP.ally2MoveSelected != "")
             {
+                StartCoroutine(DoAlly2Animation("Attack"));
                 HeroProtagonistOffensiveAllyBranching(dP.ally2MoveSelected, dP.ally2TargetSelected, ally2STRBuff);
                 dP.ally2MoveSelected = "";
                 dP.ally2TargetSelected = "";
@@ -215,6 +217,7 @@ public class ActionPhase : MonoBehaviour
             //If HeroProtagonist is ally3...
             else if (dP.ally3Name == "HeroProtagonist" && dP.ally3MoveSelected != "")
             {
+                StartCoroutine(DoAlly3Animation("Attack"));
                 HeroProtagonistOffensiveAllyBranching(dP.ally3MoveSelected, dP.ally3TargetSelected, ally3STRBuff);
                 dP.ally3MoveSelected = "";
                 dP.ally3TargetSelected = "";
@@ -439,7 +442,13 @@ public class ActionPhase : MonoBehaviour
             //If GlassCannon is ally1...
             if (dP.ally1Name == "GlassCannon" && dP.ally1MoveSelected != "")
             {
+                if ((dP.ally1MoveSelected == "Focus Shot" && ally1IsCharging != false) || dP.ally1MoveSelected == "Shard Shot" || dP.ally1MoveSelected == "Shatter")
+                {
+                    StartCoroutine(DoAlly1Animation("Attack"));
+                }
+
                 GlassCannonOffensiveAllyBranching(dP.ally1MoveSelected, dP.ally1TargetSelected, ally1STRBuff, "Ally1");
+
                 if (dP.ally1MoveSelected != "Focus Shot")
                 {
                     dP.ally1MoveSelected = "";
@@ -451,7 +460,13 @@ public class ActionPhase : MonoBehaviour
             //If GlassCannon is ally2...
             else if (dP.ally2Name == "GlassCannon" && dP.ally2MoveSelected != "")
             {
+                if ((dP.ally2MoveSelected == "Focus Shot" && ally2IsCharging != false) || dP.ally2MoveSelected == "Shard Shot" || dP.ally2MoveSelected == "Shatter")
+                {
+                    StartCoroutine(DoAlly2Animation("Attack"));
+                }
+
                 GlassCannonOffensiveAllyBranching(dP.ally2MoveSelected, dP.ally2TargetSelected, ally2STRBuff, "Ally2");
+
                 if (dP.ally2MoveSelected != "Focus Shot")
                 {
                     dP.ally2MoveSelected = "";
@@ -463,7 +478,13 @@ public class ActionPhase : MonoBehaviour
             //If GlassCannon is ally3...
             else if (dP.ally3Name == "GlassCannon" && dP.ally3MoveSelected != "")
             {
+                if ((dP.ally3MoveSelected == "Focus Shot" && ally3IsCharging != false) || dP.ally3MoveSelected == "Shard Shot" || dP.ally3MoveSelected == "Shatter")
+                {
+                    StartCoroutine(DoAlly3Animation("Attack"));
+                }
+
                 GlassCannonOffensiveAllyBranching(dP.ally3MoveSelected, dP.ally3TargetSelected, ally3STRBuff, "Ally3");
+
                 if (dP.ally3MoveSelected != "Focus Shot")
                 {
                     dP.ally3MoveSelected = "";
@@ -648,7 +669,7 @@ public class ActionPhase : MonoBehaviour
         }
 
         else if (MoveSelected == "Focus Shot") //If the move selected is Focus Shot...
-        {
+        {          
             accuracy = Random.Range(1, 101);
             bleedChance = Random.Range(1, 101);
 
@@ -952,6 +973,7 @@ public class ActionPhase : MonoBehaviour
             //If SupportMain is ally1...
             if (dP.ally1Name == "SupportMain" && dP.ally1MoveSelected != "")
             {
+                StartCoroutine(DoAlly1Animation("Attack"));
                 SupportMainOffensiveAllyBranching(dP.ally1MoveSelected, dP.ally1TargetSelected, ally1STRBuff, "Ally1");
                 dP.ally1MoveSelected = "";
                 dP.ally1TargetSelected = "";
@@ -961,6 +983,7 @@ public class ActionPhase : MonoBehaviour
             //If SupportMain is ally2...
             else if (dP.ally2Name == "SupportMain" && dP.ally2MoveSelected != "")
             {
+                StartCoroutine(DoAlly2Animation("Attack"));
                 SupportMainOffensiveAllyBranching(dP.ally2MoveSelected, dP.ally2TargetSelected, ally2STRBuff, "Ally2");
                 dP.ally2MoveSelected = "";
                 dP.ally2TargetSelected = "";
@@ -970,6 +993,7 @@ public class ActionPhase : MonoBehaviour
             //If SupportMain is ally3...
             else if (dP.ally3Name == "SupportMain" && dP.ally3MoveSelected != "")
             {
+                StartCoroutine(DoAlly3Animation("Attack"));
                 SupportMainOffensiveAllyBranching(dP.ally3MoveSelected, dP.ally3TargetSelected, ally3STRBuff, "Ally3");
                 dP.ally3MoveSelected = "";
                 dP.ally3TargetSelected = "";
@@ -1354,6 +1378,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime1 is enemy1...
             if (dP.enemy1Name == "Slime1" && dP.enemy1MoveSelected != "")
             {
+                StartCoroutine(DoEnemy1Animation("Attack"));
                 SlimeOffensiveEnemyBranching(dP.enemy1MoveSelected, dP.enemy1TargetSelected, enemy1STRBuff);
                 dP.enemy1MoveSelected = "";
                 dP.enemy1TargetSelected = "";
@@ -1363,6 +1388,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime1 is enemy2...
             if (dP.enemy2Name == "Slime1" && dP.enemy2MoveSelected != "")
             {
+                StartCoroutine(DoEnemy2Animation("Attack"));
                 SlimeOffensiveEnemyBranching(dP.enemy2MoveSelected, dP.enemy2TargetSelected, enemy2STRBuff);
                 dP.enemy2MoveSelected = "";
                 dP.enemy2TargetSelected = "";
@@ -1372,6 +1398,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime1 is enemy3...
             if (dP.enemy3Name == "Slime1" && dP.enemy3MoveSelected != "")
             {
+                StartCoroutine(DoEnemy3Animation("Attack"));
                 SlimeOffensiveEnemyBranching(dP.enemy3MoveSelected, dP.enemy3TargetSelected, enemy3STRBuff);
                 dP.enemy3MoveSelected = "";
                 dP.enemy3TargetSelected = "";
@@ -1389,6 +1416,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime2 is enemy1...
             if (dP.enemy1Name == "Slime2" && dP.enemy1MoveSelected != "")
             {
+                StartCoroutine(DoEnemy1Animation("Attack"));
                 SlimeOffensiveEnemyBranching(dP.enemy1MoveSelected, dP.enemy1TargetSelected, enemy1STRBuff);
                 dP.enemy1MoveSelected = "";
                 dP.enemy1TargetSelected = "";
@@ -1398,6 +1426,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime2 is enemy2...
             if (dP.enemy2Name == "Slime2" && dP.enemy2MoveSelected != "")
             {
+                StartCoroutine(DoEnemy2Animation("Attack"));
                 SlimeOffensiveEnemyBranching(dP.enemy2MoveSelected, dP.enemy2TargetSelected, enemy2STRBuff);
                 dP.enemy2MoveSelected = "";
                 dP.enemy2TargetSelected = "";
@@ -1407,6 +1436,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime2 is enemy3...
             if (dP.enemy3Name == "Slime2" && dP.enemy3MoveSelected != "")
             {
+                StartCoroutine(DoEnemy3Animation("Attack"));
                 SlimeOffensiveEnemyBranching(dP.enemy3MoveSelected, dP.enemy3TargetSelected, enemy3STRBuff);
                 dP.enemy3MoveSelected = "";
                 dP.enemy3TargetSelected = "";
@@ -1424,6 +1454,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime3 is enemy1...
             if (dP.enemy1Name == "Slime3" && dP.enemy1MoveSelected != "")
             {
+                StartCoroutine(DoEnemy1Animation("Attack"));
                 SlimeOffensiveEnemyBranching(dP.enemy1MoveSelected, dP.enemy1TargetSelected, enemy1STRBuff);
                 dP.enemy1MoveSelected = "";
                 dP.enemy1TargetSelected = "";
@@ -1433,6 +1464,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime3 is enemy2...
             if (dP.enemy2Name == "Slime3" && dP.enemy2MoveSelected != "")
             {
+                StartCoroutine(DoEnemy2Animation("Attack"));
                 SlimeOffensiveEnemyBranching(dP.enemy2MoveSelected, dP.enemy2TargetSelected, enemy2STRBuff);
                 dP.enemy2MoveSelected = "";
                 dP.enemy2TargetSelected = "";
@@ -1442,6 +1474,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime3 is enemy3...
             if (dP.enemy3Name == "Slime3" && dP.enemy3MoveSelected != "")
             {
+                StartCoroutine(DoEnemy3Animation("Attack"));
                 SlimeOffensiveEnemyBranching(dP.enemy3MoveSelected, dP.enemy3TargetSelected, enemy3STRBuff);
                 dP.enemy3MoveSelected = "";
                 dP.enemy3TargetSelected = "";
@@ -2165,6 +2198,13 @@ public class ActionPhase : MonoBehaviour
             yield return new WaitForSeconds(1);
             dP.ally1Anim.SetBool("CharacterHealed", false);
         }
+
+        else if (Animation == "Attack")
+        {
+            dP.ally1Anim.SetBool("CharacterAttacks", true);
+            yield return new WaitForSeconds(1);
+            dP.ally1Anim.SetBool("CharacterAttacks", false);
+        }
     }
 
     IEnumerator DoAlly2Animation(string Animation) //Is called when Ally2 needs to play an animation.
@@ -2181,6 +2221,13 @@ public class ActionPhase : MonoBehaviour
             dP.ally2Anim.SetBool("CharacterHealed", true);
             yield return new WaitForSeconds(1);
             dP.ally2Anim.SetBool("CharacterHealed", false);
+        }
+
+        else if (Animation == "Attack")
+        {
+            dP.ally2Anim.SetBool("CharacterAttacks", true);
+            yield return new WaitForSeconds(1);
+            dP.ally2Anim.SetBool("CharacterAttacks", false);
         }
     }
 
@@ -2199,6 +2246,13 @@ public class ActionPhase : MonoBehaviour
             yield return new WaitForSeconds(1);
             dP.ally3Anim.SetBool("CharacterHealed", false);
         }
+
+        else if (Animation == "Attack")
+        {
+            dP.ally3Anim.SetBool("CharacterAttacks", true);
+            yield return new WaitForSeconds(1);
+            dP.ally3Anim.SetBool("CharacterAttacks", false);
+        }
     }
 
     IEnumerator DoEnemy1Animation(string Animation) //Is called when Enemy1 needs to play an animation.
@@ -2215,6 +2269,13 @@ public class ActionPhase : MonoBehaviour
             dP.enemy1Anim.SetBool("CharacterHealed", true);
             yield return new WaitForSeconds(1);
             dP.enemy1Anim.SetBool("CharacterHealed", false);
+        }
+
+        else if (Animation == "Attack")
+        {
+            dP.enemy1Anim.SetBool("CharacterAttacks", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy1Anim.SetBool("CharacterAttacks", false);
         }
     }
 
@@ -2233,6 +2294,13 @@ public class ActionPhase : MonoBehaviour
             yield return new WaitForSeconds(1);
             dP.enemy2Anim.SetBool("CharacterHealed", false);
         }
+
+        else if (Animation == "Attack")
+        {
+            dP.enemy2Anim.SetBool("CharacterAttacks", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy2Anim.SetBool("CharacterAttacks", false);
+        }
     }
 
     IEnumerator DoEnemy3Animation(string Animation) //Is called when Enemy3 needs to play an animation.
@@ -2249,6 +2317,13 @@ public class ActionPhase : MonoBehaviour
             dP.enemy3Anim.SetBool("CharacterHealed", true);
             yield return new WaitForSeconds(1);
             dP.enemy3Anim.SetBool("CharacterHealed", false);
+        }
+
+        else if (Animation == "Attack")
+        {
+            dP.enemy3Anim.SetBool("CharacterAttacks", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy3Anim.SetBool("CharacterAttacks", false);
         }
     }
 }
