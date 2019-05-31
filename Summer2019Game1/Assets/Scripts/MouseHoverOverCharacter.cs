@@ -177,4 +177,16 @@ public class MouseHoverOverCharacter : MonoBehaviour
         cMRightSpriteAnim.SetBool("RSGlassCannon", false);
         cMRightSpriteAnim.SetBool("RSSupportMain", false);
     }
+
+    private void OnMouseEnter() //Used to make a sound when the mouse goes over a character.
+    {
+        if ((enemy1 == true || enemy2 == true || enemy3 == true) && dP.selectAnEnemy == true)
+        {
+            FindObjectOfType<AudioManager>().Play("HighlightedLower");
+        }
+        if ((ally1 == true || ally2 == true || ally3 == true) && dP.selectAnAlly == true)
+        {
+            FindObjectOfType<AudioManager>().Play("HighlightedLower");
+        }
+    }
 }

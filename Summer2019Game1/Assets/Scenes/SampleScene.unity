@@ -2836,6 +2836,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2851,6 +2852,18 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273fdb492871deb449b84fa081a20ace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -3573,7 +3586,7 @@ GameObject:
   - component: {fileID: 660104129}
   - component: {fileID: 660104128}
   m_Layer: 5
-  m_Name: QUIT
+  m_Name: MAIN MENU
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7002,6 +7015,12 @@ MonoBehaviour:
   enemy1: {fileID: 261603456}
   enemy2: {fileID: 785607017}
   enemy3: {fileID: 378680672}
+  ally1Sprite: {fileID: 0}
+  ally2Sprite: {fileID: 0}
+  ally3Sprite: {fileID: 0}
+  enemy1Sprite: {fileID: 0}
+  enemy2Sprite: {fileID: 0}
+  enemy3Sprite: {fileID: 0}
   ally1Anim: {fileID: 1822733967}
   ally2Anim: {fileID: 1797711743}
   ally3Anim: {fileID: 1113930260}
@@ -7112,6 +7131,12 @@ MonoBehaviour:
   enemy3HealthChangeText: {fileID: 529734093}
   enemy3MissText: {fileID: 1629323936}
   enemy3StatusEffectText: {fileID: 60006053}
+  ally1STRBuff: 0
+  ally2STRBuff: 0
+  ally3STRBuff: 0
+  enemy1STRBuff: 0
+  enemy2STRBuff: 0
+  enemy3STRBuff: 0
   ally1PermSTRBuff: 0
   ally2PermSTRBuff: 0
   ally3PermSTRBuff: 0
@@ -7124,6 +7149,12 @@ MonoBehaviour:
   enemy1PermDEFBuff: 0
   enemy2PermDEFBuff: 0
   enemy3PermDEFBuff: 0
+  giveAlly1BuffNextTurn: 0
+  giveAlly2BuffNextTurn: 0
+  giveAlly3BuffNextTurn: 0
+  giveEnemy1BuffNextTurn: 0
+  giveEnemy2BuffNextTurn: 0
+  giveEnemy3BuffNextTurn: 0
   ally1IsCharging: 0
   ally2IsCharging: 0
   ally3IsCharging: 0
@@ -10539,9 +10570,9 @@ GameObject:
   - component: {fileID: 2029648059}
   - component: {fileID: 2029648058}
   - component: {fileID: 2029648057}
-  - component: {fileID: 2029648060}
+  - component: {fileID: 2029648061}
   m_Layer: 5
-  m_Name: QuitButton
+  m_Name: MainMenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10610,7 +10641,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2029648060}
+      - m_Target: {fileID: 519420030}
         m_MethodName: MainMenuButton
         m_Mode: 1
         m_Arguments:
@@ -10660,7 +10691,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2029648055}
   m_CullTransparentMesh: 0
---- !u!114 &2029648060
+--- !u!114 &2029648061
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10669,9 +10700,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 2029648055}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 273fdb492871deb449b84fa081a20ace, type: 3}
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 519420030}
+          m_MethodName: OnMouseEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &2030835650
 GameObject:
   m_ObjectHideFlags: 0

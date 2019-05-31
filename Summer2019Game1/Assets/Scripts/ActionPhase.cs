@@ -137,7 +137,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.ally1TargetSelected == dP.ally1Name && dP.ally1MoveSelected == "War Cry")
                 {
-                    giveAlly1BuffNextTurn += 5;
+                    giveAlly1BuffNextTurn += 7;
                 }
 
                 HeroProtagonistDefensiveAllyBranching(dP.ally1MoveSelected, dP.ally1TargetSelected);
@@ -163,7 +163,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.ally2TargetSelected == dP.ally2Name && dP.ally2MoveSelected == "War Cry")
                 {
-                    giveAlly2BuffNextTurn += 5;
+                    giveAlly2BuffNextTurn += 7;
                 }
 
                 HeroProtagonistDefensiveAllyBranching(dP.ally2MoveSelected, dP.ally2TargetSelected);
@@ -189,7 +189,7 @@ public class ActionPhase : MonoBehaviour
             {
                 if (dP.ally3TargetSelected == dP.ally3Name && dP.ally3MoveSelected == "War Cry")
                 {
-                    giveAlly3BuffNextTurn += 5;
+                    giveAlly3BuffNextTurn += 7;
                 }
 
                 HeroProtagonistDefensiveAllyBranching(dP.ally3MoveSelected, dP.ally3TargetSelected);
@@ -263,19 +263,19 @@ public class ActionPhase : MonoBehaviour
             if (TargetSelected == dP.ally1Name) //If the target selected is ally1...
             {
                 StartCoroutine(DoAlly1Animation("Buffed"));
-                ally1STRBuff += 5;
+                ally1STRBuff += 7;
                 StartCoroutine(ShowPositiveStatusEffect(ally1StatusEffectText, "STR +"));
             }
             else if (TargetSelected == dP.ally2Name) //If the target selected is ally2...
             {
                 StartCoroutine(DoAlly2Animation("Buffed"));
-                ally2STRBuff += 5;
+                ally2STRBuff += 7;
                 StartCoroutine(ShowPositiveStatusEffect(ally2StatusEffectText, "STR +"));
             }
             else if (TargetSelected == dP.ally3Name) //If the target selected is ally3...
             {
                 StartCoroutine(DoAlly3Animation("Buffed"));
-                ally3STRBuff += 5;
+                ally3STRBuff += 7;
                 StartCoroutine(ShowPositiveStatusEffect(ally3StatusEffectText, "STR +"));
             }
         }
@@ -1584,8 +1584,8 @@ public class ActionPhase : MonoBehaviour
             {
                 StartCoroutine(DoAlly1Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Squish");
-                dP.ally1Health -= DealDamage((5 + STRbuff) - ally1DEFBuff);
-                StartCoroutine(ShowDamageDealt(ally1HealthChangeText, ((5 + STRbuff) - ally1DEFBuff)));
+                dP.ally1Health -= DealDamage((6 + STRbuff) - ally1DEFBuff);
+                StartCoroutine(ShowDamageDealt(ally1HealthChangeText, ((6 + STRbuff) - ally1DEFBuff)));
             }
             else if (TargetSelected == dP.ally1Name && accuracy > 75) //If the target selected is ally1 and the accuracy is above 70... 
             {
@@ -1595,8 +1595,8 @@ public class ActionPhase : MonoBehaviour
             {
                 StartCoroutine(DoAlly2Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Squish");
-                dP.ally2Health -= DealDamage((5 + STRbuff) - ally2DEFBuff);
-                StartCoroutine(ShowDamageDealt(ally2HealthChangeText, ((5 + STRbuff) - ally2DEFBuff)));
+                dP.ally2Health -= DealDamage((6 + STRbuff) - ally2DEFBuff);
+                StartCoroutine(ShowDamageDealt(ally2HealthChangeText, ((6 + STRbuff) - ally2DEFBuff)));
             }
             else if (TargetSelected == dP.ally2Name && accuracy > 75) //If the target selected is ally2 and the accuracy is above 70... 
             {
@@ -1606,8 +1606,8 @@ public class ActionPhase : MonoBehaviour
             {
                 StartCoroutine(DoAlly3Animation("Injured"));
                 FindObjectOfType<AudioManager>().Play("Squish");
-                dP.ally3Health -= DealDamage((5 + STRbuff) - ally3DEFBuff);
-                StartCoroutine(ShowDamageDealt(ally3HealthChangeText, ((5 + STRbuff) - ally3DEFBuff)));
+                dP.ally3Health -= DealDamage((6 + STRbuff) - ally3DEFBuff);
+                StartCoroutine(ShowDamageDealt(ally3HealthChangeText, ((6 + STRbuff) - ally3DEFBuff)));
             }
             else if (TargetSelected == dP.ally3Name && accuracy > 75) //If the target selected is ally3 and the accuracy is above 70... 
             {
@@ -2258,7 +2258,7 @@ public class ActionPhase : MonoBehaviour
         CharacterMissText.text = "";
     }
 
-    IEnumerator DoAlly1Animation(string Animation) //Is called when Ally1 needs to play an animation.
+    public IEnumerator DoAlly1Animation(string Animation) //Is called when Ally1 needs to play an animation.
     {
         if (Animation == "Injured")
         {
@@ -2294,9 +2294,17 @@ public class ActionPhase : MonoBehaviour
             yield return new WaitForSeconds(1);
             dP.ally1Anim.SetBool("CharacterGiveBuffOrHeal", false);
         }
+
+        else if (Animation == "Death")
+        {
+            dP.ally1Anim.SetBool("CharacterKilled", true);
+            yield return new WaitForSeconds(1);
+            dP.ally1Sprite.sprite = null;
+            dP.ally1Anim.SetBool("CharacterKilled", false);
+        }
     }
 
-    IEnumerator DoAlly2Animation(string Animation) //Is called when Ally2 needs to play an animation.
+    public IEnumerator DoAlly2Animation(string Animation) //Is called when Ally2 needs to play an animation.
     {
         if (Animation == "Injured")
         {
@@ -2332,9 +2340,17 @@ public class ActionPhase : MonoBehaviour
             yield return new WaitForSeconds(1);
             dP.ally2Anim.SetBool("CharacterGiveBuffOrHeal", false);
         }
+
+        else if (Animation == "Death")
+        {
+            dP.ally2Anim.SetBool("CharacterKilled", true);
+            yield return new WaitForSeconds(1);
+            dP.ally2Sprite.sprite = null;
+            dP.ally2Anim.SetBool("CharacterKilled", false);
+        }
     }
 
-    IEnumerator DoAlly3Animation(string Animation) //Is called when Ally3 needs to play an animation.
+    public IEnumerator DoAlly3Animation(string Animation) //Is called when Ally3 needs to play an animation.
     {
         if (Animation == "Injured")
         {
@@ -2370,9 +2386,17 @@ public class ActionPhase : MonoBehaviour
             yield return new WaitForSeconds(1);
             dP.ally3Anim.SetBool("CharacterGiveBuffOrHeal", false);
         }
+
+        else if (Animation == "Death")
+        {
+            dP.ally3Anim.SetBool("CharacterKilled", true);
+            yield return new WaitForSeconds(1);
+            dP.ally3Sprite.sprite = null;
+            dP.ally3Anim.SetBool("CharacterKilled", false);
+        }
     }
 
-    IEnumerator DoEnemy1Animation(string Animation) //Is called when Enemy1 needs to play an animation.
+    public IEnumerator DoEnemy1Animation(string Animation) //Is called when Enemy1 needs to play an animation.
     {
         if (Animation == "Injured")
         {
@@ -2408,9 +2432,17 @@ public class ActionPhase : MonoBehaviour
             yield return new WaitForSeconds(1);
             dP.enemy1Anim.SetBool("CharacterGiveBuffOrHeal", false);
         }
+
+        else if (Animation == "Death")
+        {
+            dP.enemy1Anim.SetBool("CharacterKilled", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy1Sprite.sprite = null;
+            dP.enemy1Anim.SetBool("CharacterKilled", false);
+        }
     }
 
-    IEnumerator DoEnemy2Animation(string Animation) //Is called when Enemy2 needs to play an animation.
+    public IEnumerator DoEnemy2Animation(string Animation) //Is called when Enemy2 needs to play an animation.
     {
         if (Animation == "Injured")
         {
@@ -2446,9 +2478,17 @@ public class ActionPhase : MonoBehaviour
             yield return new WaitForSeconds(1);
             dP.enemy2Anim.SetBool("CharacterGiveBuffOrHeal", false);
         }
+
+        else if (Animation == "Death")
+        {
+            dP.enemy2Anim.SetBool("CharacterKilled", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy2Sprite.sprite = null;
+            dP.enemy2Anim.SetBool("CharacterKilled", false);
+        }
     }
 
-    IEnumerator DoEnemy3Animation(string Animation) //Is called when Enemy3 needs to play an animation.
+    public IEnumerator DoEnemy3Animation(string Animation) //Is called when Enemy3 needs to play an animation.
     {
         if (Animation == "Injured")
         {
@@ -2483,6 +2523,14 @@ public class ActionPhase : MonoBehaviour
             dP.enemy3Anim.SetBool("CharacterGiveBuffOrHeal", true);
             yield return new WaitForSeconds(1);
             dP.enemy3Anim.SetBool("CharacterGiveBuffOrHeal", false);
+        }
+
+        else if (Animation == "Death")
+        {
+            dP.enemy3Anim.SetBool("CharacterKilled", true);
+            yield return new WaitForSeconds(1);
+            dP.enemy3Sprite.sprite = null;
+            dP.enemy3Anim.SetBool("CharacterKilled", false);
         }
     }
 }

@@ -37,17 +37,23 @@ public class DecisionPhase : MonoBehaviour
     public GameObject enemy2;
     public GameObject enemy3;
 
-    private SpriteRenderer ally1Sprite;
+    [HideInInspector]
+    public SpriteRenderer ally1Sprite;
     private Collider2D ally1Collider;
-    private SpriteRenderer ally2Sprite;
+    [HideInInspector]
+    public SpriteRenderer ally2Sprite;
     private Collider2D ally2Collider;
-    private SpriteRenderer ally3Sprite;
+    [HideInInspector]
+    public SpriteRenderer ally3Sprite;
     private Collider2D ally3Collider;
-    private SpriteRenderer enemy1Sprite;
+    [HideInInspector]
+    public SpriteRenderer enemy1Sprite;
     private Collider2D enemy1Collider;
-    private SpriteRenderer enemy2Sprite;
+    [HideInInspector]
+    public SpriteRenderer enemy2Sprite;
     private Collider2D enemy2Collider;
-    private SpriteRenderer enemy3Sprite;
+    [HideInInspector]
+    public SpriteRenderer enemy3Sprite;
     private Collider2D enemy3Collider;
 
     [Space]
@@ -97,6 +103,7 @@ public class DecisionPhase : MonoBehaviour
 
     [HideInInspector]
     public bool ally1Dead = false, ally2Dead = false, ally3Dead = false, enemy1Dead = false, enemy2Dead = false, enemy3Dead = false;
+    private bool ally1DeathPlayed = false, ally2DeathPlayed = false, ally3DeathPlayed = false, enemy1DeathPlayed = false, enemy2DeathPlayed = false, enemy3DeathPlayed = false;
 
     [HideInInspector] 
     public string ally1MoveSelected = "", ally2MoveSelected = "", ally3MoveSelected = "", enemy1MoveSelected = "", enemy2MoveSelected = "", enemy3MoveSelected = "";
@@ -803,81 +810,93 @@ public class DecisionPhase : MonoBehaviour
     {       
         if (ally1Health <= 0)
         {
+            if (ally1DeathPlayed == false)
+            {
+                StartCoroutine(aP.DoAlly1Animation("Death"));
+                FindObjectOfType<AudioManager>().Play("Killed");
+                ally1DeathPlayed = true;
+            }
             ally1Dead = true;
             ally1HealthText.text = "";
-            ally1Sprite.sprite = null;
             ally1Collider.enabled = false;
             ally1Health = 0;
             aP.ally1IsBleeding = 0;
             aP.ally1PermSTRBuff = 0;
-            /*aP.ally1IsCharging = false;
-            ally1TargetSelected = "";
-            ally1MoveSelected = "";*/
         }
         if (ally2Health <= 0)
         {
+            if (ally2DeathPlayed == false)
+            {
+                StartCoroutine(aP.DoAlly2Animation("Death"));
+                FindObjectOfType<AudioManager>().Play("Killed");
+                ally2DeathPlayed = true;
+            }
             ally2Dead = true;
             ally2HealthText.text = "";
-            ally2Sprite.sprite = null;
             ally2Collider.enabled = false;
             ally2Health = 0;
             aP.ally2IsBleeding = 0;
             aP.ally2PermSTRBuff = 0;
-            /*aP.ally2IsCharging = false;
-            ally2TargetSelected = "";
-            ally2MoveSelected = "";*/
         }
         if (ally3Health <= 0)
         {
+            if (ally3DeathPlayed == false)
+            {
+                StartCoroutine(aP.DoAlly3Animation("Death"));
+                FindObjectOfType<AudioManager>().Play("Killed");
+                ally3DeathPlayed = true;
+            }
             ally3Dead = true;
             ally3HealthText.text = "";
-            ally3Sprite.sprite = null;
             ally3Collider.enabled = false;
             ally3Health = 0;
             aP.ally3IsBleeding = 0;
             aP.ally3PermSTRBuff = 0;
-            /*aP.ally3IsCharging = false;
-            ally3TargetSelected = "";
-            ally3MoveSelected = "";*/
         }
         if (enemy1Health <= 0)
         {
+            if (enemy1DeathPlayed == false)
+            {
+                StartCoroutine(aP.DoEnemy1Animation("Death"));
+                FindObjectOfType<AudioManager>().Play("Killed");
+                enemy1DeathPlayed = true;
+            }
             enemy1Dead = true;
             enemy1HealthText.text = "";
-            enemy1Sprite.sprite = null;
             enemy1Collider.enabled = false;
             enemy1Health = 0;
             aP.enemy1IsBleeding = 0;
             aP.enemy1PermSTRBuff = 0;
-            /*aP.enemy1IsCharging = false;
-            enemy1TargetSelected = "";
-            enemy1MoveSelected = "";*/
         }
         if (enemy2Health <= 0)
         {
+            if (enemy2DeathPlayed == false)
+            {
+                StartCoroutine(aP.DoEnemy2Animation("Death"));
+                FindObjectOfType<AudioManager>().Play("Killed");
+                enemy2DeathPlayed = true;
+            }
             enemy2Dead = true;
             enemy2HealthText.text = "";
-            enemy2Sprite.sprite = null;
             enemy2Collider.enabled = false;
             enemy2Health = 0;
             aP.enemy2IsBleeding = 0;
             aP.enemy2PermSTRBuff = 0;
-            /*aP.enemy2IsCharging = false;
-            enemy2TargetSelected = "";
-            enemy2MoveSelected = "";*/
         }
         if (enemy3Health <= 0)
         {
+            if (enemy3DeathPlayed == false)
+            {
+                StartCoroutine(aP.DoEnemy3Animation("Death"));
+                FindObjectOfType<AudioManager>().Play("Killed");
+                enemy3DeathPlayed = true;
+            }
             enemy3Dead = true;
             enemy3HealthText.text = "";
-            enemy3Sprite.sprite = null;
             enemy3Collider.enabled = false;
             enemy3Health = 0;
             aP.enemy3IsBleeding = 0;
             aP.enemy3PermSTRBuff = 0;
-            /*aP.enemy3IsCharging = false;
-            enemy3TargetSelected = "";
-            enemy3MoveSelected = "";*/
         }
     }
 

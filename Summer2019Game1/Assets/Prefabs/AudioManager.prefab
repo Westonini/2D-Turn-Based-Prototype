@@ -83,7 +83,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Spell
     clip: {fileID: 8300000, guid: df2dc1a893e72aa4b875ab3042594eee, type: 3}
-    volume: 0.5
+    volume: 0.4
     volumeVariance: 0
     pitch: 0.75
     pitchVariance: 0
@@ -160,5 +160,32 @@ MonoBehaviour:
     pitch: 1
     pitchVariance: 0
     loop: 1
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Highlighted
+    clip: {fileID: 8300000, guid: cb39f451f7473874583d989221efc015, type: 3}
+    volume: 0.15
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: HighlightedLower
+    clip: {fileID: 8300000, guid: cb39f451f7473874583d989221efc015, type: 3}
+    volume: 0.25
+    volumeVariance: 0
+    pitch: 0.5
+    pitchVariance: 1
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Killed
+    clip: {fileID: 8300000, guid: efc07719a5b0c474b97e040432bdd576, type: 3}
+    volume: 0.35
+    volumeVariance: 0
+    pitch: 0.7
+    pitchVariance: 0
+    loop: 0
     mixerGroup: {fileID: 0}
     source: {fileID: 0}

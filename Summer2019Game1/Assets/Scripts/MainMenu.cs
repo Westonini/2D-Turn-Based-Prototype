@@ -27,4 +27,18 @@ public class MainMenu : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("ButtonClick");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
+
+    public void OnMouseEnter()
+    {
+        {
+            FindObjectOfType<AudioManager>().Play("Highlighted");
+        }
+    }
+
+    public void OnMouseEnter2()
+    {
+        {
+            FindObjectOfType<AudioManager>().Play("HighlightedLower");
+        }
+    }
 }
