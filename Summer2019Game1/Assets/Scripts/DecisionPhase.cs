@@ -955,7 +955,7 @@ public class DecisionPhase : MonoBehaviour
         }
     }
 
-    private string EnemyMoves() //Called to choose which moves the enemies make.
+    public string EnemyMoves() //Called to choose which moves the enemies make.
     {
         if (characterTurn == "Slime1" || characterTurn == "Slime2" || characterTurn == "Slime3") //If it's a Slime enemy's turn...
         {
@@ -968,6 +968,23 @@ public class DecisionPhase : MonoBehaviour
             else
             {
                 return "Power-Up";
+            }
+        }
+        if (characterTurn == "SlimeKing") //If it's a SlimeKing enemy's turn...
+        {
+            enemyMoveSelectNumber = Random.Range(1, 5); //Choose a random number between 1-4.
+
+            if (enemyMoveSelectNumber == 1 || enemyMoveSelectNumber == 2)
+            {
+                return "Attack";
+            }
+            else if (enemyMoveSelectNumber == 3)
+            {
+                return "Attack-All";
+            }
+            else
+            {
+                return "Regenerate";
             }
         }
         else //If the correct characterTurn name wasn't found, return "Error".

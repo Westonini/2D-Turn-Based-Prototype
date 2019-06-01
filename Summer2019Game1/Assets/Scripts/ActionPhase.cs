@@ -106,6 +106,7 @@ public class ActionPhase : MonoBehaviour
                 GlassCannonDefensive();
                 SupportMainDefensive();
                 SlimeDefensive();
+                SlimeKingDefensive();
             }
             else if (defensivePhase != true) //If it's the OffensivePhase
             {
@@ -115,6 +116,7 @@ public class ActionPhase : MonoBehaviour
                 GlassCannonOffensive();
                 SupportMainOffensive();
                 SlimeOffensive();
+                SlimeKingOffensive();
 
                 Bleed();
             }
@@ -1224,7 +1226,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime1 is enemy1...
             if (dP.enemy1Name == "Slime1")
             {
-                if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
+                if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has less than 6 PERM STR...
                 {
                     StartCoroutine(DoEnemy1Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy1Animation("Buffed"));
@@ -1247,7 +1249,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime1 is enemy2...
             else if (dP.enemy2Name == "Slime1")
             {
-                if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
+                if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has less than 6 PERM STR...
                 {
                     StartCoroutine(DoEnemy2Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy2Animation("Buffed"));
@@ -1270,7 +1272,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime1 is enemy3...
             if (dP.enemy3Name == "Slime1") 
             {
-                if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
+                if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has less than 6 PERM STR...
                 {
                     StartCoroutine(DoEnemy3Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy3Animation("Buffed"));
@@ -1299,7 +1301,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime2 is enemy1...
             if (dP.enemy1Name == "Slime2")
             {
-                if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
+                if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has less than 6 PERM STR...
                 {
                     StartCoroutine(DoEnemy1Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy1Animation("Buffed"));
@@ -1322,7 +1324,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime2 is enemy2...
             else if (dP.enemy2Name == "Slime2")
             {
-                if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
+                if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has less than 6 PERM STR...
                 {
                     StartCoroutine(DoEnemy2Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy2Animation("Buffed"));
@@ -1345,7 +1347,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime2 is enemy3...
             if (dP.enemy3Name == "Slime2")
             {
-                if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
+                if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has less than 6 PERM STR...
                 {
                     StartCoroutine(DoEnemy3Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy3Animation("Buffed"));
@@ -1374,7 +1376,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime3 is enemy1...
             if (dP.enemy1Name == "Slime3")
             {
-                if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
+                if (dP.enemy1MoveSelected == "Power-Up" && enemy1PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has less than 6 PERM STR...
                 {
                     StartCoroutine(DoEnemy1Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy1Animation("Buffed"));
@@ -1397,7 +1399,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime3 is enemy2...
             else if (dP.enemy2Name == "Slime3")
             {
-                if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
+                if (dP.enemy2MoveSelected == "Power-Up" && enemy2PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has less than 6 PERM STR...
                 {
                     StartCoroutine(DoEnemy2Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy2Animation("Buffed"));
@@ -1420,7 +1422,7 @@ public class ActionPhase : MonoBehaviour
             //If Slime3 is enemy3...
             if (dP.enemy3Name == "Slime3")
             {
-                if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has 6 or less PERM STR...
+                if (dP.enemy3MoveSelected == "Power-Up" && enemy3PermSTRBuff < 6) //If the move selected is Power-Up and the character currently has less than 6 PERM STR...
                 {
                     StartCoroutine(DoEnemy3Animation("BuffOrHealGiven"));
                     StartCoroutine(DoEnemy3Animation("Buffed"));
@@ -1565,7 +1567,7 @@ public class ActionPhase : MonoBehaviour
 
     void SlimeDefensiveEnemyBranching(string MoveSelected, string TargetSelected) //Used for ally branching in the SlimeDefensive function.
     {
-
+        //Currently not needed
     }
 
     void SlimeOffensiveEnemyBranching(string MoveSelected, string TargetSelected, int STRbuff) //Used for ally branching in the SlimeOffensive function.
@@ -1616,7 +1618,274 @@ public class ActionPhase : MonoBehaviour
         }
     }
 
+    //Called when the characterTurn == "SlimeKing" and the move chosen was an defensive-type move.
+    void SlimeKingDefensive()
+    {
+        if (characterTurn == "SlimeKing")
+        {
+            //If SlimeKing is Enemy1...
+            if (dP.enemy1Name == "SlimeKing" && enemy1PermSTRBuff < 8) 
+            {
+                if (dP.enemy1MoveSelected == "Regenerate") //If the move selected is Regenerate and the character currently has less than 8 PERM STR...
+                {
+                    StartCoroutine(DoEnemy1Animation("Buffed"));
+                    StartCoroutine(DoEnemy1Animation("BuffOrHealGiven"));
+                    enemy1STRBuff += 2;
+                    enemy1PermSTRBuff += 2;
+                    dP.enemy1Health += HealHealth(10);
+                    StartCoroutine(ShowPositiveStatusEffect(enemy1StatusEffectText, "STR +"));
+                    StartCoroutine(ShowHealingDealt(enemy1HealthChangeText, 10));
+                    dP.enemy1MoveSelected = "";
+                    dP.enemy1TargetSelected = "";
+                }
+            }
+            else if (dP.enemy1Name == "SlimeKing" && enemy1PermSTRBuff >= 8) //If the move selected is Regenerate and the character currently has 8 or more PERM STR...
+            {
+                dP.enemy1TargetSelected = "";
+                while (dP.enemy1MoveSelected == "Regenerate")
+                {
+                    dP.enemy1MoveSelected = dP.EnemyMoves();
+                }
+                while ((dP.enemy1TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy1TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy1TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy1TargetSelected == "")
+                {
+                    dP.enemy1TargetSelected = dP.EnemyTargetSelect(dP.enemy1MoveSelected, dP.enemy1Name);
+                }
+            }
 
+            //If SlimeKing is Enemy2...
+            if (dP.enemy2Name == "SlimeKing")
+            {
+                if (dP.enemy2MoveSelected == "Regenerate" && enemy2PermSTRBuff < 8) //If the move selected is Regenerate and the character currently has less than 8 PERM STR...
+                {
+                    StartCoroutine(DoEnemy2Animation("Buffed"));
+                    StartCoroutine(DoEnemy2Animation("BuffOrHealGiven"));
+                    enemy2STRBuff += 2;
+                    enemy2PermSTRBuff += 2;
+                    dP.enemy2Health += HealHealth(10);
+                    StartCoroutine(ShowPositiveStatusEffect(enemy2StatusEffectText, "STR +"));
+                    StartCoroutine(ShowHealingDealt(enemy2HealthChangeText, 10));
+                    dP.enemy2MoveSelected = "";
+                    dP.enemy2TargetSelected = "";
+                }
+                else if (dP.enemy2Name == "SlimeKing" && enemy2PermSTRBuff >= 8) //If the move selected is Regenerate and the character currently has 8 or more PERM STR...
+                {
+                    dP.enemy2TargetSelected = "";
+                    while (dP.enemy2MoveSelected == "Regenerate")
+                    {
+                        dP.enemy2MoveSelected = dP.EnemyMoves();
+                    }
+                    while ((dP.enemy2TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy2TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy2TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy2TargetSelected == "")
+                    {
+                        dP.enemy2TargetSelected = dP.EnemyTargetSelect(dP.enemy2MoveSelected, dP.enemy2Name);
+                    }
+                }
+            }
+
+            //If SlimeKing is Enemy3...
+            if (dP.enemy3Name == "SlimeKing")
+            {
+                if (dP.enemy3MoveSelected == "Regenerate" && enemy3PermSTRBuff < 8) //If the move selected is Regenerate and the character currently has less than 8 PERM STR...
+                {
+                    StartCoroutine(DoEnemy3Animation("Buffed"));
+                    StartCoroutine(DoEnemy3Animation("BuffOrHealGiven"));
+                    enemy3STRBuff += 2;
+                    enemy3PermSTRBuff += 2;
+                    dP.enemy3Health += HealHealth(10);
+                    StartCoroutine(ShowPositiveStatusEffect(enemy3StatusEffectText, "STR +"));
+                    StartCoroutine(ShowHealingDealt(enemy3HealthChangeText, 10));
+                    dP.enemy3MoveSelected = "";
+                    dP.enemy3TargetSelected = "";
+                }
+                else if (dP.enemy3Name == "SlimeKing" && enemy3PermSTRBuff >= 8) //If the move selected is Regenerate and the character currently has 8 or more PERM STR...
+                {
+                    dP.enemy3TargetSelected = "";
+                    while (dP.enemy3MoveSelected == "Regenerate")
+                    {
+                        dP.enemy3MoveSelected = dP.EnemyMoves();
+                    }
+                    while ((dP.enemy3TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy3TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy3TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy3TargetSelected == "")
+                    {
+                        dP.enemy3TargetSelected = dP.EnemyTargetSelect(dP.enemy3MoveSelected, dP.enemy3Name);
+                    }
+                }
+            }
+
+            ChangeCharacterTurnDefensivePhase(); //If the characterTurn was "SlimeKing", call the function.
+        }
+    }
+    //Called when the characterTurn == "SlimeKing" and the move chosen was an defensive-type move.
+    void SlimeKingOffensive()
+    {
+        if (characterTurn == "SlimeKing")
+        {
+            //If SlimeKing is enemy1...
+            if (dP.enemy1Name == "SlimeKing" && dP.enemy1MoveSelected != "")
+            {
+                StartCoroutine(DoEnemy1Animation("Attack"));
+                SlimeKingOffensiveEnemyBranching(dP.enemy1MoveSelected, dP.enemy1TargetSelected, enemy1STRBuff);
+                dP.enemy1MoveSelected = "";
+                dP.enemy1TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase();
+            }
+
+            //If SlimeKing is enemy2...
+            else if (dP.enemy2Name == "SlimeKing" && dP.enemy2MoveSelected != "")
+            {
+                StartCoroutine(DoEnemy2Animation("Attack"));
+                SlimeKingOffensiveEnemyBranching(dP.enemy2MoveSelected, dP.enemy2TargetSelected, enemy2STRBuff);
+                dP.enemy2MoveSelected = "";
+                dP.enemy2TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase();
+            }
+
+            //If SlimeKing is enemy3...
+            else if (dP.enemy3Name == "SlimeKing" && dP.enemy3MoveSelected != "")
+            {
+                StartCoroutine(DoEnemy3Animation("Attack"));
+                SlimeKingOffensiveEnemyBranching(dP.enemy3MoveSelected, dP.enemy3TargetSelected, enemy3STRBuff);
+                dP.enemy3MoveSelected = "";
+                dP.enemy3TargetSelected = "";
+                ChangeCharacterTurnOffensivePhase();
+            }
+
+            else
+            {
+                ChangeCharacterTurnOffensivePhase(true);
+            }
+        }
+    }
+
+    void SlimeKingDefensiveEnemyBranching(string MoveSelected, string TargetSelected) //Used for enemy branching in the SlimeKingDefensive function.
+    {
+        //Currently not needed.
+    }
+
+    void SlimeKingOffensiveEnemyBranching(string MoveSelected, string TargetSelected, int STRbuff) //Used for enemy branching in the SlimeKingOffensive function.
+    {
+        if (MoveSelected == "Attack") //If the move selected is Attack...
+        {
+            accuracy = Random.Range(1, 101);
+
+            //If the target selected has a smoke bomb effect on them, up the max accuracy range to decrease the accuracy.
+            if (TargetSelected == dP.ally1Name && ally1HasSmokeBomb == true || TargetSelected == dP.ally2Name && ally2HasSmokeBomb == true || TargetSelected == dP.ally3Name && ally3HasSmokeBomb == true)
+            {
+                accuracy = Random.Range(1, 121);
+            }
+
+            if (TargetSelected == dP.ally1Name && accuracy <= 80) //If the target selected is ally1 and the accuracy is 80 or below...
+            {
+                StartCoroutine(DoAlly1Animation("Injured"));
+                FindObjectOfType<AudioManager>().Play("Squish");
+                dP.ally1Health -= DealDamage((11 + STRbuff) - ally1DEFBuff);
+                StartCoroutine(ShowDamageDealt(ally1HealthChangeText, ((11 + STRbuff) - ally1DEFBuff)));
+            }
+            else if (TargetSelected == dP.ally1Name && accuracy > 80) //If the target selected is ally1 but the attack misses...
+            {
+                StartCoroutine(ShowMiss(ally1MissText));
+            }
+            else if (TargetSelected == dP.ally2Name && accuracy <= 80) //If the target selected is ally2 and the accuracy is 80 or below...
+            {
+                StartCoroutine(DoAlly2Animation("Injured"));
+                FindObjectOfType<AudioManager>().Play("Squish");
+                dP.ally2Health -= DealDamage((11 + STRbuff) - ally2DEFBuff);
+                StartCoroutine(ShowDamageDealt(ally2HealthChangeText, ((11 + STRbuff) - ally2DEFBuff)));
+            }
+            else if (TargetSelected == dP.ally2Name && accuracy > 80) //If the target selected is ally2 but the attack misses...
+            {
+                StartCoroutine(ShowMiss(ally2MissText));
+            }
+            else if (TargetSelected == dP.ally3Name && accuracy <= 80) //If the target selected is ally3 and the accuracy is 80 or below...
+            {
+                StartCoroutine(DoAlly3Animation("Injured"));
+                FindObjectOfType<AudioManager>().Play("Squish");
+                dP.ally3Health -= DealDamage((11 + STRbuff) - ally3DEFBuff);
+                StartCoroutine(ShowDamageDealt(ally3HealthChangeText, ((11 + STRbuff) - ally3DEFBuff)));
+            }
+            else if (TargetSelected == dP.ally3Name && accuracy > 80) //If the target selected is ally3 but the attack misses...
+            {
+                StartCoroutine(ShowMiss(ally3MissText));
+            }
+        }
+
+        else if (MoveSelected == "Attack-All") //If the move selected is Attack-All...
+        {
+            //Ally1
+            accuracy = Random.Range(1, 101);
+
+            //If the target selected has a smoke bomb effect on them, up the max accuracy range to decrease the accuracy.
+            if (TargetSelected == dP.ally1Name && ally1HasSmokeBomb == true || TargetSelected == dP.ally2Name && ally2HasSmokeBomb == true || TargetSelected == dP.ally3Name && ally3HasSmokeBomb == true)
+            {
+                accuracy = Random.Range(1, 121);
+            }
+
+            if (dP.ally1Dead != true)
+            {
+                if (accuracy <= 80)
+                {
+                    StartCoroutine(DoAlly1Animation("Injured"));
+                    FindObjectOfType<AudioManager>().Play("Squish");
+                    dP.ally1Health -= DealDamage((6 + STRbuff) - ally1DEFBuff);
+                    StartCoroutine(ShowDamageDealt(ally1HealthChangeText, ((6 + STRbuff) - ally1DEFBuff)));
+                }
+                else if (accuracy > 80)
+                {
+                    StartCoroutine(ShowMiss(ally1MissText));
+                }
+            }
+
+
+
+            //Ally2
+            accuracy = Random.Range(1, 101);
+
+            //If the target selected has a smoke bomb effect on them, up the max accuracy range to decrease the accuracy.
+            if (TargetSelected == dP.ally1Name && ally1HasSmokeBomb == true || TargetSelected == dP.ally2Name && ally2HasSmokeBomb == true || TargetSelected == dP.ally3Name && ally3HasSmokeBomb == true)
+            {
+                accuracy = Random.Range(1, 121);
+            }
+
+            if (dP.enemy2Dead != true)
+            {
+                if (accuracy <= 80)
+                {
+                    StartCoroutine(DoAlly2Animation("Injured"));
+                    FindObjectOfType<AudioManager>().Play("Squish");
+                    dP.ally2Health -= DealDamage((6 + STRbuff) - ally2DEFBuff);
+                    StartCoroutine(ShowDamageDealt(ally2HealthChangeText, ((6 + STRbuff) - ally2DEFBuff)));
+                }
+                else if (accuracy > 80)
+                {
+                    StartCoroutine(ShowMiss(ally2MissText));
+                }
+            }
+
+
+
+            //Ally3
+            accuracy = Random.Range(1, 101);
+
+            //If the target selected has a smoke bomb effect on them, up the max accuracy range to decrease the accuracy.
+            if (TargetSelected == dP.ally1Name && ally1HasSmokeBomb == true || TargetSelected == dP.ally2Name && ally2HasSmokeBomb == true || TargetSelected == dP.ally3Name && ally3HasSmokeBomb == true)
+            {
+                accuracy = Random.Range(1, 121);
+            }
+
+            if (dP.ally3Dead != true)
+            {
+                if (accuracy <= 80)
+                {
+                    StartCoroutine(DoAlly3Animation("Injured"));
+                    FindObjectOfType<AudioManager>().Play("Squish");
+                    dP.ally3Health -= DealDamage((6 + STRbuff) - ally3DEFBuff);
+                    StartCoroutine(ShowDamageDealt(ally3HealthChangeText, ((6 + STRbuff) - ally3DEFBuff)));
+                }
+                else if (accuracy > 80)
+                {
+                    StartCoroutine(ShowMiss(ally3MissText));
+                }
+            }
+        }
+    }
 
     void Bleed() //Called in Update() if someone is bleeding; causes character to bleed for 2 rounds if active.
     {

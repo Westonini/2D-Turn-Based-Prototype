@@ -146,6 +146,7 @@ public class MouseHoverOverCharacter : MonoBehaviour
             cMRightSpriteAnim.SetBool("RSHeroProtagonist", false);
             cMRightSpriteAnim.SetBool("RSGlassCannon", false);
             cMRightSpriteAnim.SetBool("RSSupportMain", false);
+            cMRightSpriteAnim.SetBool("RSSlimeKing", false);
         }
         else if (name == "HeroProtagonist")
         {
@@ -153,6 +154,7 @@ public class MouseHoverOverCharacter : MonoBehaviour
             cMRightSpriteAnim.SetBool("RSHeroProtagonist", true);
             cMRightSpriteAnim.SetBool("RSGlassCannon", false);
             cMRightSpriteAnim.SetBool("RSSupportMain", false);
+            cMRightSpriteAnim.SetBool("RSSlimeKing", false);
         }
         else if (name == "GlassCannon")
         {
@@ -160,6 +162,7 @@ public class MouseHoverOverCharacter : MonoBehaviour
             cMRightSpriteAnim.SetBool("RSHeroProtagonist", false);
             cMRightSpriteAnim.SetBool("RSGlassCannon", true);
             cMRightSpriteAnim.SetBool("RSSupportMain", false);
+            cMRightSpriteAnim.SetBool("RSSlimeKing", false);
         }
         else if (name == "SupportMain")
         {
@@ -167,6 +170,16 @@ public class MouseHoverOverCharacter : MonoBehaviour
             cMRightSpriteAnim.SetBool("RSHeroProtagonist", false);
             cMRightSpriteAnim.SetBool("RSGlassCannon", false);
             cMRightSpriteAnim.SetBool("RSSupportMain", true);
+            cMRightSpriteAnim.SetBool("RSSlimeKing", false);
+        }
+
+        else if (name == "SlimeKing")
+        {
+            cMRightSpriteAnim.SetBool("RSSlime", false);
+            cMRightSpriteAnim.SetBool("RSHeroProtagonist", false);
+            cMRightSpriteAnim.SetBool("RSGlassCannon", false);
+            cMRightSpriteAnim.SetBool("RSSupportMain", false);
+            cMRightSpriteAnim.SetBool("RSSlimeKing", true);
         }
     }
 
@@ -176,6 +189,7 @@ public class MouseHoverOverCharacter : MonoBehaviour
         cMRightSpriteAnim.SetBool("RSHeroProtagonist", false);
         cMRightSpriteAnim.SetBool("RSGlassCannon", false);
         cMRightSpriteAnim.SetBool("RSSupportMain", false);
+        cMRightSpriteAnim.SetBool("RSSlimeKing", false);
     }
 
     private void OnMouseEnter() //Used to make a sound when the mouse goes over a character.
