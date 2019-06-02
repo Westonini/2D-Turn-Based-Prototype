@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public bool isMainMenu = false;
     private Transition transition;
 
     void Awake()
@@ -15,7 +16,10 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         StartCoroutine(transition.TransitionFromPreviousLevel());
-        FindObjectOfType<AudioManager>().Play("Music");
+        if (isMainMenu == true)
+        {
+            FindObjectOfType<AudioManager>().Play("Music");
+        }       
     }
 
     public void PlayGame() //Goes to next scene
