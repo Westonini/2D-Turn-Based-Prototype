@@ -1639,16 +1639,26 @@ public class ActionPhase : MonoBehaviour
                     dP.enemy1TargetSelected = "";
                 }
             }
-            else if (dP.enemy1Name == "SlimeKing" && enemy1PermSTRBuff >= 8) //If the move selected is Regenerate and the character currently has 8 or more PERM STR...
+            else if (dP.enemy1MoveSelected == "Regenerate" && enemy1PermSTRBuff >= 8) //If the move selected is Regenerate and the character currently has 8 or more PERM STR...
             {
                 dP.enemy1TargetSelected = "";
                 while (dP.enemy1MoveSelected == "Regenerate")
                 {
-                    dP.enemy1MoveSelected = dP.EnemyMoves();
-                }
-                while ((dP.enemy1TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy1TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy1TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy1TargetSelected == "")
-                {
-                    dP.enemy1TargetSelected = dP.EnemyTargetSelect(dP.enemy1MoveSelected, dP.enemy1Name);
+                    dP.enemyMoveSelectNumber = Random.Range(1, 4); //Choose a random number between 1-3.
+
+                    if (dP.enemyMoveSelectNumber == 1 || dP.enemyMoveSelectNumber == 2)
+                    {
+                        dP.enemy1MoveSelected = "Attack-All";
+                    }
+                    else if (dP.enemyMoveSelectNumber == 3)
+                    {
+                        dP.enemy1MoveSelected = "Attack";
+                    }
+
+                    while ((dP.enemy1TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy1TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy1TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy1TargetSelected == "")
+                    {
+                        dP.enemy1TargetSelected = dP.EnemyTargetSelect(dP.enemy1MoveSelected, dP.enemy1Name);
+                    }
                 }
             }
 
@@ -1667,16 +1677,26 @@ public class ActionPhase : MonoBehaviour
                     dP.enemy2MoveSelected = "";
                     dP.enemy2TargetSelected = "";
                 }
-                else if (dP.enemy2Name == "SlimeKing" && enemy2PermSTRBuff >= 8) //If the move selected is Regenerate and the character currently has 8 or more PERM STR...
+                else if (dP.enemy2MoveSelected == "Regenerate" && enemy2PermSTRBuff >= 8) //If the move selected is Regenerate and the character currently has 8 or more PERM STR...
                 {
                     dP.enemy2TargetSelected = "";
                     while (dP.enemy2MoveSelected == "Regenerate")
                     {
-                        dP.enemy2MoveSelected = dP.EnemyMoves();
-                    }
-                    while ((dP.enemy2TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy2TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy2TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy2TargetSelected == "")
-                    {
-                        dP.enemy2TargetSelected = dP.EnemyTargetSelect(dP.enemy2MoveSelected, dP.enemy2Name);
+                        dP.enemyMoveSelectNumber = Random.Range(1, 4); //Choose a random number between 1-3.
+
+                        if (dP.enemyMoveSelectNumber == 1 || dP.enemyMoveSelectNumber == 2)
+                        {
+                            dP.enemy2MoveSelected = "Attack-All";
+                        }
+                        else if (dP.enemyMoveSelectNumber == 3)
+                        {
+                            dP.enemy2MoveSelected = "Attack";
+                        }
+
+                        while ((dP.enemy2TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy2TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy2TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy2TargetSelected == "")
+                        {
+                            dP.enemy2TargetSelected = dP.EnemyTargetSelect(dP.enemy2MoveSelected, dP.enemy2Name);
+                        }
                     }
                 }
             }
@@ -1696,16 +1716,26 @@ public class ActionPhase : MonoBehaviour
                     dP.enemy3MoveSelected = "";
                     dP.enemy3TargetSelected = "";
                 }
-                else if (dP.enemy3Name == "SlimeKing" && enemy3PermSTRBuff >= 8) //If the move selected is Regenerate and the character currently has 8 or more PERM STR...
+                else if (dP.enemy3MoveSelected == "Regenerate" && enemy3PermSTRBuff >= 8) //If the move selected is Regenerate and the character currently has 8 or more PERM STR...
                 {
                     dP.enemy3TargetSelected = "";
                     while (dP.enemy3MoveSelected == "Regenerate")
                     {
-                        dP.enemy3MoveSelected = dP.EnemyMoves();
-                    }
-                    while ((dP.enemy3TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy3TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy3TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy3TargetSelected == "")
-                    {
-                        dP.enemy3TargetSelected = dP.EnemyTargetSelect(dP.enemy3MoveSelected, dP.enemy3Name);
+                        dP.enemyMoveSelectNumber = Random.Range(1, 4); //Choose a random number between 1-3.
+
+                        if (dP.enemyMoveSelectNumber == 1 || dP.enemyMoveSelectNumber == 2)
+                        {
+                            dP.enemy3MoveSelected = "Attack-All";
+                        }
+                        else if (dP.enemyMoveSelectNumber == 3)
+                        {
+                            dP.enemy3MoveSelected = "Attack";
+                        }
+
+                        while ((dP.enemy3TargetSelected == dP.ally1Name && dP.ally1Dead == true) || (dP.enemy3TargetSelected == dP.ally2Name && dP.ally2Dead == true) || (dP.enemy3TargetSelected == dP.ally3Name && dP.ally3Dead == true) || dP.enemy3TargetSelected == "")
+                        {
+                            dP.enemy3TargetSelected = dP.EnemyTargetSelect(dP.enemy3MoveSelected, dP.enemy3Name);
+                        }
                     }
                 }
             }
@@ -1713,6 +1743,7 @@ public class ActionPhase : MonoBehaviour
             ChangeCharacterTurnDefensivePhase(); //If the characterTurn was "SlimeKing", call the function.
         }
     }
+
     //Called when the characterTurn == "SlimeKing" and the move chosen was an defensive-type move.
     void SlimeKingOffensive()
     {

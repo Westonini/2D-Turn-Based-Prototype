@@ -107,7 +107,8 @@ public class DecisionPhase : MonoBehaviour
 
     [HideInInspector] 
     public string ally1MoveSelected = "", ally2MoveSelected = "", ally3MoveSelected = "", enemy1MoveSelected = "", enemy2MoveSelected = "", enemy3MoveSelected = "";
-    private int enemyMoveSelectNumber;
+    [HideInInspector]
+    public int enemyMoveSelectNumber;
 
     [HideInInspector]
     public bool selectAnEnemy = false;
@@ -976,11 +977,11 @@ public class DecisionPhase : MonoBehaviour
 
             if (enemyMoveSelectNumber == 1 || enemyMoveSelectNumber == 2)
             {
-                return "Attack";
+                return "Attack-All";
             }
             else if (enemyMoveSelectNumber == 3)
             {
-                return "Attack-All";
+                return "Attack";
             }
             else
             {
@@ -1006,6 +1007,10 @@ public class DecisionPhase : MonoBehaviour
             return "All Enemy's Allies";
         }
         else if (enemyMoveSelected == "Power-Up")
+        {
+            return enemyName;
+        }
+        else if (enemyMoveSelected == "Regenerate")
         {
             return enemyName;
         }

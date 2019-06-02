@@ -7337,6 +7337,7 @@ MonoBehaviour:
   enemy1MoveSelected: 
   enemy2MoveSelected: 
   enemy3MoveSelected: 
+  enemyMoveSelectNumber: 0
   selectAnEnemy: 0
   selectAnAlly: 0
   selectAllTargets: 0
