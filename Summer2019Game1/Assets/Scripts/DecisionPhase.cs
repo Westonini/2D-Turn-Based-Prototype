@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class DecisionPhase : MonoBehaviour
 {
+    [Header("Wave Number")]
+    public bool wave1 = false;
+    public bool wave2 = false;
+
     [Header("Text Objects")]
     public TextMeshProUGUI ally1HealthText;
     public TextMeshProUGUI ally2HealthText;
@@ -130,8 +134,21 @@ public class DecisionPhase : MonoBehaviour
 
     private bool waveEndSoundPlayed = false;
 
+    private Transition transition;
+
+    private Animator confetti;
+
     void Awake()
     {
+        try
+        {
+            confetti = GameObject.FindWithTag("Confetti").GetComponent<Animator>();
+        }
+        catch
+        {
+            confetti = null;
+        }
+
         ally1Sprite = ally1.GetComponent<SpriteRenderer>();
         ally2Sprite = ally2.GetComponent<SpriteRenderer>();
         ally3Sprite = ally3.GetComponent<SpriteRenderer>();
@@ -147,6 +164,7 @@ public class DecisionPhase : MonoBehaviour
         enemy3Collider = enemy3.GetComponent<Collider2D>();
 
         aP = GameObject.FindWithTag("CombatControl").GetComponent<ActionPhase>();
+        transition = GameObject.FindWithTag("MainCamera").GetComponent<Transition>();
 
         cMLeftSpriteAnim = cMLeftSprite.GetComponent<Animator>();
     }
@@ -1032,55 +1050,89 @@ public class DecisionPhase : MonoBehaviour
     {
         if (ally1Dead && ally2Dead && ally3Dead) //If all allies are killed...
         {
-            yield return new WaitForSeconds(2.5f);
-
-            if (waveEndSoundPlayed == false)
+            if (wave1 == true || wave2 == true)
             {
-                FindObjectOfType<AudioManager>().Play("Lose");
-                waveEndSoundPlayed = true;
-            }
-            
-            winText.text = "Wave Failed";
-            phaseText.text = "";
-            phaseTextObject.SetActive(false);
-            Move1Button.SetActive(false);
-            Move2Button.SetActive(false);
-            Move3Button.SetActive(false);
-            Move4Button.SetActive(false);
-            DefendButton.SetActive(false);
-            charactersTurnText.text = "";
-            cMMoveInfo.text = "";
-            characterTurn = "";
-            actionPhase = false;
+                yield return new WaitForSeconds(2.5f);
 
-            yield return new WaitForSeconds(5);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+                if (waveEndSoundPlayed == false)
+                {
+                    FindObjectOfType<AudioManager>().Play("Lose");
+                    waveEndSoundPlayed = true;
+                }
+
+                winText.text = "Wave Failed";
+                phaseText.text = "";
+                phaseTextObject.SetActive(false);
+                Move1Button.SetActive(false);
+                Move2Button.SetActive(false);
+                Move3Button.SetActive(false);
+                Move4Button.SetActive(false);
+                DefendButton.SetActive(false);
+                charactersTurnText.text = "";
+                cMMoveInfo.text = "";
+                characterTurn = "";
+                actionPhase = false;
+
+                yield return new WaitForSeconds(5);
+                StartCoroutine(transition.TransitionToLevelRestart());
+            }
         }
+
         else if (enemy1Dead && enemy2Dead && enemy3Dead) //If all enemies are killed...
         {
-            yield return new WaitForSeconds(2.5f);
-
-            if (waveEndSoundPlayed == false)
+            if (wave1 == true)
             {
-                FindObjectOfType<AudioManager>().Play("Win");
-                waveEndSoundPlayed = true;
-            }
-           
-            winText.text = "Wave Completed";
-            phaseText.text = "";
-            phaseTextObject.SetActive(false);
-            Move1Button.SetActive(false);
-            Move2Button.SetActive(false);
-            Move3Button.SetActive(false);
-            Move4Button.SetActive(false);
-            DefendButton.SetActive(false);
-            charactersTurnText.text = "";
-            cMMoveInfo.text = "";
-            characterTurn = "";
-            actionPhase = false;
+                yield return new WaitForSeconds(2.5f);
 
-            yield return new WaitForSeconds(5);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+                if (waveEndSoundPlayed == false)
+                {
+                    FindObjectOfType<AudioManager>().Play("Win");
+                    waveEndSoundPlayed = true;
+                }
+
+                winText.text = "Wave Completed";
+                phaseText.text = "";
+                phaseTextObject.SetActive(false);
+                Move1Button.SetActive(false);
+                Move2Button.SetActive(false);
+                Move3Button.SetActive(false);
+                Move4Button.SetActive(false);
+                DefendButton.SetActive(false);
+                charactersTurnText.text = "";
+                cMMoveInfo.text = "";
+                characterTurn = "";
+                actionPhase = false;
+
+                yield return new WaitForSeconds(5);
+                StartCoroutine(transition.TransitionToNextLevel());
+            }
+            else if (wave2 == true)
+            {
+                yield return new WaitForSeconds(2.5f);
+
+                if (waveEndSoundPlayed == false)
+                {
+                    confetti.SetBool("ConfettiFall", true);
+                    FindObjectOfType<AudioManager>().Play("Win");
+                    waveEndSoundPlayed = true;
+                }
+
+                winText.text = "Wave Completed";
+                phaseText.text = "";
+                phaseTextObject.SetActive(false);
+                Move1Button.SetActive(false);
+                Move2Button.SetActive(false);
+                Move3Button.SetActive(false);
+                Move4Button.SetActive(false);
+                DefendButton.SetActive(false);
+                charactersTurnText.text = "";
+                cMMoveInfo.text = "";
+                characterTurn = "";
+                actionPhase = false;
+
+                yield return new WaitForSeconds(5);
+                StartCoroutine(transition.TransitionToMainMenu());
+            }
         }
     }
 

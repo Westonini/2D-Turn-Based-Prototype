@@ -1875,7 +1875,7 @@ public class ActionPhase : MonoBehaviour
                 accuracy = Random.Range(1, 121);
             }
 
-            if (dP.enemy2Dead != true)
+            if (dP.ally2Dead != true)
             {
                 if (accuracy <= 80)
                 {
